@@ -1,0 +1,10 @@
+{
+    "name": "SmartEat",
+    "require": {
+        "symfony/yaml": "^3.2",
+        "twig/twig": "~2.0",
+    },
+    "autoload": {
+        "psr-4": { "": "." }
+    }
+}

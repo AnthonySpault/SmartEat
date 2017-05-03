@@ -1,0 +1,15 @@
+routes:
+    home: 'Default:home'
+    login: 'Security:login'
+    logout: 'Security:logout'
+    register: 'Security:register'
+    registeraddress: 'Security:registeraddress'
+    profile: 'Security:profile'
+
+defaut_route: 'home'
+
+db_config:
+    name: 'smarteat'
+    host: 'localhost'
+    user: 'smarteat'
+    pass: 'smarteat'
