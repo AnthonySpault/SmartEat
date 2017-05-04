@@ -1,0 +1,132 @@
+#form {
+    font-family: 'Open Sans Condensed', arial, sans-serif;
+    width: 500px;
+    padding: 30px;
+    background: #FFFFFF;
+    color: #000000;
+    margin: 150px auto;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.22); }
+
+#form label {
+    padding: 2%; }
+
+#form h2 {
+    background: #4D4D4D;
+    text-transform: uppercase;
+    font-family: 'Open Sans Condensed',sans-serif;
+    color: #797979;
+    font-size: 18px;
+    font-weight: 100;
+    padding: 20px;
+    margin: -30px -30px 30px -30px; }
+
+#form input[type="text"],
+#form input[type="password"] {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    outline: none;
+    display: block;
+    width: 100%;
+    padding: 7px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    background: transparent;
+    margin-bottom: 10px;
+    font: 16px Arial, Helvetica, sans-serif;
+    height: 45px; }
+
+#form input[type="checkbox"] {
+    padding: 2%;
+    margin-bottom: 2%; }
+
+#form input[type="radio"] {
+    padding: 2%;
+    margin-bottom: 2%; }
+
+#form input[type="submit"] {
+    border: 1px solid #27A0A0;
+    display: inline-block;
+    cursor: pointer;
+    background: #2CBBBB;
+    color: #FFFFFF;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 14px;
+    padding: 8px 18px;
+    text-decoration: none;
+    text-transform: uppercase; }
+
+#form input[type="submit"]:hover {
+    background-color: #34CACA; }
+
+#result {
+    margin-top: 5%;
+    width: 300px;
+    padding: 5%; }
+
+.errorBlock {
+    color: #FF0000;
+    font-weight: bold; }
+
+#form a {
+    position: relative;
+    text-decoration: none;
+    color: #2CBBBB; }
+#form span{
+    margin-left: 1%;
+}
+
+.none{
+    display: none;
+}
+.info{
+    margin-bottom : 50px;
+}
+/*# sourceMappingURL=style.css.map */
+.align{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: stretch;
+}
+
+.parameter{
+    width: 5%;
+    margin-bottom : 3%;
+    padding-bottom: 2%;
+}
+
+#firstnameForm{
+    display: none;
+}
+
+#lastnameForm{
+    display: none;
+}
+#emailForm{
+    display: none;
+}
+#phoneForm{
+    display: none;
+}
+#profile{
+
+    font-family: 'Open Sans Condensed', arial, sans-serif;
+    width: 500px;
+    padding: 30px;
+    background: #FFFFFF;
+    color: #000000;
+    margin: 150px auto;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.22); }
+
+#imgProfile{
+    width: 20%;
+    margin-left: 70%;
+
+}
+.infoUser{
+    padding: 2%;
+    margin-bottom: 5%;
+}

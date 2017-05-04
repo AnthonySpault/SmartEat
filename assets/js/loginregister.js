@@ -59,6 +59,18 @@ function geolocate() {
         });
     }
 }
+
+    $('#registeremail').keyup(function () {
+        if (emailValidation(this.value) === false) {
+            $(this).css({
+                borderColor: 'red'
+            });
+        } else {
+            $(this).css({
+                borderColor: 'green'
+            });
+        }
+    });
 var displayadresse = false;
 $('form[name=registerform]').submit(function() {
     var firstname = $('#firstname').val(),

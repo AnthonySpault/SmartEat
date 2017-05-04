@@ -149,8 +149,7 @@ class UserManager
         $update['user_id'] = $_SESSION['user_id'];
         $query = $this->DBManager->findOneSecure("UPDATE users SET `firstname`= :firstnameEditing WHERE `id` = :user_id", $update);
         $write = $this->writeLog('access.log', ' => function : firstnameEdition || User ' . $_SESSION['user_id'] . ' just updated his name to ' . $update['firstnameEditing'] . '.' . "\n");
-        echo json_encode(array('success'=>true));
-        exit(0);
+       return true;
     }
 
     public function lastnameEdition($data)
@@ -159,8 +158,7 @@ class UserManager
         $update['user_id'] = $_SESSION['user_id'];
         $query = $this->DBManager->findOneSecure("UPDATE users SET `lastname`= :lastnameEditing WHERE `id` = :user_id", $update);
         $write = $this->writeLog('access.log', ' => function : lastnameEdition || User ' . $_SESSION['user_id'] . ' just updated his lastname to ' . $update['lastnameEditing'] . '.' . "\n");
-        echo json_encode(array('success'=>true));
-        exit(0);
+        return true;
     }
 
     public function emailEdition($data)
@@ -169,8 +167,7 @@ class UserManager
         $update['user_id'] = $_SESSION['user_id'];
         $query = $this->DBManager->findOneSecure("UPDATE users SET `email`= :emailEditing WHERE `id` = :user_id", $update);
         $write = $this->writeLog('access.log', ' => function : emailEdition || User ' . $_SESSION['user_id'] . ' just updated his email to ' . $update['emailEditing'] . '.' . "\n");
-        echo json_encode(array('success'=>true));
-        exit(0);
+        return true;
     }
     public function phoneEdition($data)
     {
@@ -178,92 +175,51 @@ class UserManager
         $update['user_id'] = $_SESSION['user_id'];
         $query = $this->DBManager->findOneSecure("UPDATE users SET `email`= :emailEditing WHERE `id` = :user_id", $update);
         $write = $this->writeLog('access.log', ' => function : emailEdition || User ' . $_SESSION['user_id'] . ' just updated his phone to ' . $update['phoneEditing'] . '.' . "\n");
-        echo json_encode(array('success'=>true));
-        exit(0);
+        return true;
     }
 
     public function userCheckFirstname($data)
     {
-        $valid = true;
-        $errors = array();
+
         if (empty($data['firstnameEditing'])){
-            $valid = false;
-            $errors['fields'] = 'Fields missing';
+            return  'Fields missing';
         }
         if(strlen($data['firstnameEditing']) < 4){
-            $valid = false;
-            $errors['fields'] = 'Prénom trop court';
+            return'Prénom trop court';
         }
-        if($valid === false){
-            echo json_encode(array('success'=>false, 'errors'=>$errors));
-            exit(0);
-        }
-        else{
+
             return true;
-        }
+
 
     }
 
     public function userCheckLastname($data)
     {
-        $valid = true;
-        $errors = array();
+
         if (empty($data['lastnameEditing'])){
-            $valid = false;
-            $errors['fields'] = 'Fields missing';
+            return  'Fields missing';
         }
         if(strlen($data['lastnameEditing']) < 4){
-            $valid = false;
-            $errors['fields'] = 'Nom de famille trop court';
-        }
-        if($valid === false){
-            echo json_encode(array('success'=>false, 'errors'=>$errors));
-            exit(0);
-        }
-        else{
-            return true;
+            return  'Nom de famille trop court';
         }
 
+            return true;
     }
 
-    public function userCheckUsername($data)
-    {
-        $valid = true;
-        $errors = array();
-        if (empty($data['usernameEditing'])){
-            $valid = false;
-            $errors['fields'] = 'Fields missing';
-        }
-        if(strlen($data['usernameEditing']) < 4){
-            $valid = false;
-            $errors['fields'] = 'Pseudo trop court';
-        }
-        if(!$valid){
-            echo json_encode(array('success'=>false, 'errors'=>$errors));
-            exit(0);
-        }else{
-            return true;
-        }
-    }
+
 
     public function userCheckEmail($data){
-        $valid = true;
-        $errors = array();
-        if (empty($data['emailEditing'])){
-            $valid = false;
-            $errors['fields'] = 'Fields missing';
-        }
-        $testEmail = $this->getEmailByUserId($data['emailEditing']);
-        if (!$testEmail){
-            $valid = false;
-            $errors['email'] = 'Email déjà utilisé';
-        }
-        if(!$valid){
-            echo json_encode(array('success'=>false, 'errors'=>$errors));
-            exit(0);
-        }else{
+
+        $testEmail = $this->getEmailByUserId($_SESSION['user_id']);
+        if (empty($data['emailEditing']))
+            return  'Fields missing';
+
+        if ($testEmail === $data['emailEditing'])
+            return 'Email déjà utilisé';
+
+
             return true;
-        }
+
     }
 
 
