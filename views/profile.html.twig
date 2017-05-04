@@ -2,4 +2,50 @@
 
 {% block content %}
 <h1>YOLOW</h1>
+    <div class="align">
+        <div class="infoUser"> Prénom: </div> <img id="parameterFirstname" class="parameter" src="assets/image/parametre.png">
+        <div id="firstnameForm">
+            <form action="?action=profile" method="POST" name="infoFirstname" id="infoFirstname">
+                <input type="text" name="firstnameEditing" id="firstnameEditing"><br>  <span id="errorFirstname" class="errorBlock"></span><br>
+                <input type="submit" value="valider" name="infoFirstname">
+            </form>
+        </div>
+    </div>
+
+    <div class="align">
+        <div class="infoUser"> Nom: </div><img class="parameter" id="parameterLastname" src="assets/image/parametre.png">
+        <div id="lastnameForm" class="none">
+            <form action="?action=profile" method="POST" name="infoLastname" id="infoLarstname">
+                <input type="text" name="lastnameEditing" id="lastnameEditing"><br>  <span id="errorLastname" class="errorBlock"></span><br>
+                <input type="submit" value="valider" name="infoLastname">
+            </form>
+        </div>
+    </div>
+    <div class="align">
+        <div class="infoUser"> Email: </div><img id="parameterEmail" class="parameter" src="assets/image/parametre.png">
+        <div id="emailForm">
+            <form action="?action=profile" method="POST" name="infoEmail" id="infoEmail">
+                <input type="text" name="emailEditing" id="emailEditing"><br>  <span id="errorEmail" class="errorBlock"></span><br>
+                <input type="submit" value="valider" name="infoEmail">
+            </form>
+        </div>
+    </div>
+    <div class="align">
+        <div class="infoUser"> Téléphone: </div><img class="parameter" id="parameterPhone" src="assets/image/parametre.png">
+        <div id="phoneForm">
+            <form action="?action=profile" method="POST" name="infoPhone" id="infoPhone">
+                <input type="text" name="phoneEditing" id="phoneEditing"><br>  <span id="errorPhone" class="errorBlock"></span><br>
+                <input type="submit" value="valider" name="infoPhone">
+            </form>
+        </div>
+    </div>
+    <div class="align">
+        <div class="infoUser"> Vos points:</div>
+    </div>
+    </div>
+    </fieldset>
+
+
+
+    <a href="?action=logout">Logout</a>
 {% endblock %}

@@ -40,6 +40,13 @@ class UserManager
         return $data;
     }
 
+    public function getEmailByUserId($user_id)
+    {
+        $data = $this->DBManager->findOneSecure("SELECT email FROM users WHERE id = :user_id",
+            ['user_id' => $user_id]);
+        return $data;
+    }
+
     public function userCheckRegister($data)
     {
         if (empty($data['firstname']) OR empty($data['lastname']) OR empty($data['email']) OR empty($data['password']) OR empty($data['passwordconfirm']) OR empty($data['phone']))
@@ -64,24 +71,30 @@ class UserManager
     }
 
     public function userCheckAddress($data) {
-        if (empty($data['streetNumber']) OR empty($data['route']) OR empty($data['city']) OR empty($data['postalCode']))
+        if (empty($data['streetNumber']) OR empty($data['route']) OR empty($data['city']) OR empty($data['postalCode'])){
             return "Des champs obligatoire ne sont pas remplis";
-        if ($data['city'] !== "Paris")
+        }
+
+        if ($data['city'] !== "Paris"){
             return "SmartEat est disponible uniquement sur Paris pour le moment.";
+        }
+
         return true;
     }
 
     public function userAddressInsert($data) {
         $user = $this->getUserByEmail($data['email']);
         $insert['userid'] = $user['id'];
-        $insert['name'] = "Adresse par défaut";
+        $insert['name'] = $data['addressName'];
         $insert['streetNumber'] = $data['streetNumber'];
         $insert['street'] = $data['route'];
         $insert['zipcode'] = $data['postalCode'];
         $insert['city'] = $data['city'];
         $insert['firstname'] = $data['firstname'];
         $insert['lastname'] = $data['lastname'];
+        $insert['phone'] = $data['phone'];
         $this->DBManager->insert('addresses', $insert);
+        $write = $this->writeLog('access.log', ' => function : userInsertAdress || User ' . $user['id'] . ' enter the adress : ' .$insert['name'] . "\n");
     }
 
     private function userHash($pass)
@@ -100,20 +113,26 @@ class UserManager
         $user['password'] = $this->userHash($data['password']);
         $user['points'] = "10";
         $this->DBManager->insert('users', $user);
+        $write = $this->writeLog('access.log', ' => function : userRegister || User ' . $user['lastname'] . ' ' .$user['firstname'] .' just register.' . "\n");
         return true;
     }
 
     public function userCheckLogin($data)
     {
+
         if (empty($data['email']) OR empty($data['password']))
-            return false;
+            return 'Champ(s) manquants';
+
+
         $user = $this->getUserByEmail($data['email']);
         if ($user === false)
-            return false;
-        if (!password_verify($user['password'], $user['password']))
-            return false;
+            return 'Utilisateur non trouvé';
+
+        if (!password_verify($data['password'], $user['password']))
+            return 'Le mot de passe ne correspond pas à votre email';
         return true;
     }
+
 
     public function userLogin($email)
     {
@@ -121,6 +140,146 @@ class UserManager
         if ($data === false)
             return false;
         $_SESSION['user_id'] = $data['id'];
+     return true;
+    }
+
+    public function firstnameEdition($data)
+    {
+        $update['firstnameEditing'] = $data['firstnameEditing'];
+        $update['user_id'] = $_SESSION['user_id'];
+        $query = $this->DBManager->findOneSecure("UPDATE users SET `firstname`= :firstnameEditing WHERE `id` = :user_id", $update);
+        $write = $this->writeLog('access.log', ' => function : firstnameEdition || User ' . $_SESSION['user_id'] . ' just updated his name to ' . $update['firstnameEditing'] . '.' . "\n");
+        echo json_encode(array('success'=>true));
+        exit(0);
+    }
+
+    public function lastnameEdition($data)
+    {
+        $update['lastnameEditing'] = $data['lastnameEditing'];
+        $update['user_id'] = $_SESSION['user_id'];
+        $query = $this->DBManager->findOneSecure("UPDATE users SET `lastname`= :lastnameEditing WHERE `id` = :user_id", $update);
+        $write = $this->writeLog('access.log', ' => function : lastnameEdition || User ' . $_SESSION['user_id'] . ' just updated his lastname to ' . $update['lastnameEditing'] . '.' . "\n");
+        echo json_encode(array('success'=>true));
+        exit(0);
+    }
+
+    public function emailEdition($data)
+    {
+        $update['emailEditing'] = $data['emailEditing'];
+        $update['user_id'] = $_SESSION['user_id'];
+        $query = $this->DBManager->findOneSecure("UPDATE users SET `email`= :emailEditing WHERE `id` = :user_id", $update);
+        $write = $this->writeLog('access.log', ' => function : emailEdition || User ' . $_SESSION['user_id'] . ' just updated his email to ' . $update['emailEditing'] . '.' . "\n");
+        echo json_encode(array('success'=>true));
+        exit(0);
+    }
+    public function phoneEdition($data)
+    {
+        $update['phoneEditing'] = $data['phoneEditing'];
+        $update['user_id'] = $_SESSION['user_id'];
+        $query = $this->DBManager->findOneSecure("UPDATE users SET `email`= :emailEditing WHERE `id` = :user_id", $update);
+        $write = $this->writeLog('access.log', ' => function : emailEdition || User ' . $_SESSION['user_id'] . ' just updated his phone to ' . $update['phoneEditing'] . '.' . "\n");
+        echo json_encode(array('success'=>true));
+        exit(0);
+    }
+
+    public function userCheckFirstname($data)
+    {
+        $valid = true;
+        $errors = array();
+        if (empty($data['firstnameEditing'])){
+            $valid = false;
+            $errors['fields'] = 'Fields missing';
+        }
+        if(strlen($data['firstnameEditing']) < 4){
+            $valid = false;
+            $errors['fields'] = 'Prénom trop court';
+        }
+        if($valid === false){
+            echo json_encode(array('success'=>false, 'errors'=>$errors));
+            exit(0);
+        }
+        else{
+            return true;
+        }
+
+    }
+
+    public function userCheckLastname($data)
+    {
+        $valid = true;
+        $errors = array();
+        if (empty($data['lastnameEditing'])){
+            $valid = false;
+            $errors['fields'] = 'Fields missing';
+        }
+        if(strlen($data['lastnameEditing']) < 4){
+            $valid = false;
+            $errors['fields'] = 'Nom de famille trop court';
+        }
+        if($valid === false){
+            echo json_encode(array('success'=>false, 'errors'=>$errors));
+            exit(0);
+        }
+        else{
+            return true;
+        }
+
+    }
+
+    public function userCheckUsername($data)
+    {
+        $valid = true;
+        $errors = array();
+        if (empty($data['usernameEditing'])){
+            $valid = false;
+            $errors['fields'] = 'Fields missing';
+        }
+        if(strlen($data['usernameEditing']) < 4){
+            $valid = false;
+            $errors['fields'] = 'Pseudo trop court';
+        }
+        if(!$valid){
+            echo json_encode(array('success'=>false, 'errors'=>$errors));
+            exit(0);
+        }else{
+            return true;
+        }
+    }
+
+    public function userCheckEmail($data){
+        $valid = true;
+        $errors = array();
+        if (empty($data['emailEditing'])){
+            $valid = false;
+            $errors['fields'] = 'Fields missing';
+        }
+        $testEmail = $this->getEmailByUserId($data['emailEditing']);
+        if (!$testEmail){
+            $valid = false;
+            $errors['email'] = 'Email déjà utilisé';
+        }
+        if(!$valid){
+            echo json_encode(array('success'=>false, 'errors'=>$errors));
+            exit(0);
+        }else{
+            return true;
+        }
+    }
+
+
+    public function giveDate()
+    {
+        $date = date("Y-m-d");
+        $hours = date("H:i");
+        return $date." ".$hours;
+    }
+
+    public function writeLog($file, $text){
+        $date = $this->giveDate();
+        $file_log = fopen('logs/' . $file, 'a');
+        $log_info = $date . $text;
+        fwrite($file_log, $log_info);
+        fclose($file_log);
         return true;
     }
 }

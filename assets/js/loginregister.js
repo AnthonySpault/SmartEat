@@ -1,3 +1,19 @@
+
+    function emailValidation(email) {
+        var emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return emailRegExp.test(email);
+    }
+    function nameValidation(name) {
+
+        var nameRegExp = /^[a-zA-ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]+$/;
+        return nameRegExp.test(name);
+    }
+    function phoneValidation(phone) {
+        var phoneRegExp = /^0\d(\s|-)?(\d{2}(\s|-)?){4}$/;
+        return phoneRegExp.test(phone);
+    }
+
+
 var placeSearch, autocomplete;
 var componentForm = {
     street_number: 'short_name',
@@ -15,7 +31,6 @@ function initAutocomplete() {
 }
 function fillInAddress() {
     var place = autocomplete.getPlace();
-
     for (var component in componentForm) {
         document.getElementById(component).value = '';
         document.getElementById(component).disabled = false;
@@ -55,7 +70,38 @@ $('form[name=registerform]').submit(function() {
         streetNumber = $('#street_number').val(),
         route = $('#route').val(),
         city = $('#locality').val(),
-        postalCode = $('#postal_code').val();
+        postalCode = $('#postal_code').val(),
+        formValid = true;
+
+        if(!emailValidation(email)){
+            formValid = false;
+            vNotify.error({text:'Email non conforme.', title:'Erreur !'});
+        }
+    if (!nameValidation(firstname) ) {
+        formValid = false;
+        vNotify.error({text:'Nom non conforme.', title:'Erreur !'});
+
+    }
+    if(!nameValidation(lastname)){
+        formValid = false;
+        vNotify.error({text:'Prénom non conforme.', title:'Erreur !'});
+    }
+    if (!phoneValidation(phone)) {
+        formValid = false;
+        vNotify.error({text:'Téléphone non conforme.', title:'Erreur !'});
+    }
+    if (password.length < 8) {
+        formValid = false;
+        vNotify.error({text:'Mot de passe non conforme.', title:'Erreur !'});
+    }
+    if (passwordconfirm != password) {
+        formValid = false;
+        vNotify.error({text:'Entrez le même mot de passe', title:'Erreur !'});
+    }
+
+    if(formValid){
+
+
     $.ajax({
         type: 'post',
         url: '?action=register',
@@ -69,10 +115,11 @@ $('form[name=registerform]').submit(function() {
             streetNumber:streetNumber,
             route:route,
             city:city,
-            postalCode:postalCode
+            postalCode:postalCode,
+            addressName: 'Adresse par défaut'
         },
         success:function(response) {
-            if (response != "true") {
+            if (response !== "true") {
                 vNotify.error({text:response, title:'Erreur !'});
             }
             else {
@@ -82,5 +129,51 @@ $('form[name=registerform]').submit(function() {
             }
         }
     });
+    }
+
     return false;
+
 });
+
+    $('form[name=loginform]').submit(function() {
+        var $this = $('this');
+        var  email = $('#loginemail').val(),
+            password = $('#loginpassword').val(),
+            formValid = true;
+
+        if(!emailValidation(email)){
+            formValid = false;
+            vNotify.error({text:'Email non conforme.', title:'Erreur !'});
+        }
+
+        if (password.length < 8) {
+            formValid = false;
+            vNotify.error({text:'Mot de passe non conforme.', title:'Erreur !'});
+        }
+
+        if(formValid){
+
+
+            $.ajax({
+                type: 'post',
+                url: '?action=login',
+                data: {
+                    email:email,
+                    password:password
+                },
+                success:function(response) {
+                    if (response != "true") {
+                        vNotify.error({text: response, title: 'Erreur !'});
+
+                    }
+
+                    else{
+                        window.location.href='?action=profile';
+                    }
+                }
+            });
+        }
+
+        return false;
+
+    });

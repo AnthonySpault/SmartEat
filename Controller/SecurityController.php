@@ -12,28 +12,26 @@ class SecurityController extends BaseController
         {
             if (empty($_SESSION['user_id'])) {
                 $manager = UserManager::getInstance();
-                if ($manager->userCheckLogin($_POST))
-                {
-                    $manager->userLogin($_POST['email']);
-                    $this->redirect('profile');
-                }
+                $check = $manager->userCheckLogin($_POST);
+                    if ($check === true)
+                    {
+                        $manager->userLogin($_POST['email']);
+                        echo 'true';
+                    }
                 else {
                     echo "Votre email et/ou votre mot de passe sont incorrects";
                 }
             }
             else {
-                $this->redirect('profile');
+               $this->redirect('profile');
             }
-        }
-        else {
-            $this->redirect('profile');
         }
     }
 
     public function logoutAction()
     {
         session_destroy();
-        echo $this->redirect('login');
+         $this->redirect('profile');
     }
 
     public function registerAction()
@@ -47,8 +45,8 @@ class SecurityController extends BaseController
                 {
                     $check = $manager->userCheckAddress($_POST);
                     if ($check === true) {
-                        //$manager->userRegister($_POST);
-                        //$manager->userAddressInsert($_POST);
+                        $manager->userRegister($_POST);
+                        $manager->userAddressInsert($_POST);
                         echo "true";
                         exit(0);
                     }
@@ -70,6 +68,7 @@ class SecurityController extends BaseController
             $this->redirect('profile');
         }
     }
+
 
     public function profileAction() {
         if (empty($_SESSION['user_id'])) {
