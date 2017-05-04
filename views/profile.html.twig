@@ -2,6 +2,18 @@
 
 {% block content %}
 <h1>Bonjour {{ user.firstname }}</h1>
+
+
+    <div class="contentAdress">
+        {% for key in allAddress %}
+        <div class="commentary">
+            {% set address = listAddress[key['id']] %}
+
+
+            <div class="listAddress">{{ address }}</div>
+            {% endfor %}
+    </div>
+
     <div id="form">
         <fieldset>
     <div class="infoToEdit">

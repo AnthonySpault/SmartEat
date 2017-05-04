@@ -40,10 +40,15 @@ class UserManager
         return $data;
     }
 
-    public function getEmailByUserId($user_id)
+    public function getEmail()
     {
-        $data = $this->DBManager->findOneSecure("SELECT email FROM users WHERE id = :user_id",
-            ['user_id' => $user_id]);
+        $data = $this->DBManager->findAllSecure('SELECT email FROM users');
+        return $data;
+    }
+
+    public function getAddressByUserId(){
+
+        $data = $this->DBManager->findAllSecure("SELECT * FROM addresses WHERE userid= :user_id",['user_id' => $_SESSION['user_id']]);
         return $data;
     }
 
@@ -173,8 +178,8 @@ class UserManager
     {
         $update['phoneEditing'] = $data['phoneEditing'];
         $update['user_id'] = $_SESSION['user_id'];
-        $query = $this->DBManager->findOneSecure("UPDATE users SET `email`= :emailEditing WHERE `id` = :user_id", $update);
-        $write = $this->writeLog('access.log', ' => function : emailEdition || User ' . $_SESSION['user_id'] . ' just updated his phone to ' . $update['phoneEditing'] . '.' . "\n");
+        $query = $this->DBManager->findOneSecure("UPDATE users SET `phone`= :phoneEditing WHERE `id` = :user_id", $update);
+        $write = $this->writeLog('access.log', ' => function : phoneEdition || User ' . $_SESSION['user_id'] . ' just updated his phone to ' . $update['phoneEditing'] . '.' . "\n");
         return true;
     }
 
@@ -182,7 +187,7 @@ class UserManager
     {
 
         if (empty($data['firstnameEditing'])){
-            return  'Fields missing';
+            return  'Contenu manquant';
         }
         if(strlen($data['firstnameEditing']) < 4){
             return'Prénom trop court';
@@ -197,7 +202,7 @@ class UserManager
     {
 
         if (empty($data['lastnameEditing'])){
-            return  'Fields missing';
+            return  'Contenu manquant';
         }
         if(strlen($data['lastnameEditing']) < 4){
             return  'Nom de famille trop court';
@@ -206,17 +211,34 @@ class UserManager
             return true;
     }
 
+    public function userCheckPhone($data)
+    {
+
+        if (empty($data['phoneEditing'])){
+            return  'Contenu manquant';
+        }
+        $phoneRegExp = '/(0|(\+33)|(0033))[1-9][0-9]{8}/';
+        if (!preg_match($phoneRegExp, $data['phoneEditing']))
+            return "Votre numéro de téléphone ne semble pas valide.";
+
+        return true;
+    }
+
 
 
     public function userCheckEmail($data){
 
-        $testEmail = $this->getEmailByUserId($_SESSION['user_id']);
+        $testEmail = $this->getEmail();
         if (empty($data['emailEditing']))
-            return  'Fields missing';
+            return  'Contenu manquant';
+        foreach($testEmail as $Key){
+            if ($Key === $data['emailEditing'])
+                return 'Email déjà utilisé';
+        }
 
-        if ($testEmail === $data['emailEditing'])
-            return 'Email déjà utilisé';
-
+        $emailRegExp = '/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
+        if (!preg_match($emailRegExp, $data['emailEditing']))
+            return "Votre email ne semble pas valide.";
 
             return true;
 

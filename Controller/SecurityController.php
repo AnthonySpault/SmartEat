@@ -74,6 +74,11 @@ class SecurityController extends BaseController
         if (isset($_SESSION['user_id'])) {
             $manager = UserManager::getInstance();
             $user = $manager->getUserById($_SESSION['user_id']);
+            $allAddress = $manager->getAddressByUserId();
+            foreach($allAddress as $key) {
+                $listAddress[$key['id']] = $key['streetNumber'].' '.$key['street'].' '.$key['zipcode'].' '.$key['city'].' '.$key['firstname'].' '.$key['lastname'].' '.$key['phone'];
+            }
+
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if(isset($_POST['firstnameEditing'])){
                     $check  = $manager->userCheckFirstname($_POST);
@@ -86,9 +91,15 @@ class SecurityController extends BaseController
                         exit(0);
                     }
                 }
-                if(isset($_POST['usernameEditing'])) {
-                    if ($manager->userCheckUsername($_POST)) {
-                        $manager->usernameEdition($_POST);
+                if(isset($_POST['phoneEditing'])) {
+                    $check = $manager->userCheckPhone($_POST);
+                    if ($check === true) {
+                        $manager->phoneEdition($_POST);
+                        echo 'true';
+                        exit(0);
+                    }else{
+                        echo $check;
+                        exit(0);
                     }
                 }
                 if(isset($_POST['lastnameEditing'])){
@@ -117,7 +128,7 @@ class SecurityController extends BaseController
 
                 }
             }
-                echo $this->renderView('profile.html.twig',['user'=> $user]);
+                echo $this->renderView('profile.html.twig',['user'=> $user,'allAddress'=> $allAddress,'listAddress'=>$listAddress]);
         }
         else {
             echo $this->renderView('loginregister.html.twig');

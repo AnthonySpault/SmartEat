@@ -9,6 +9,11 @@ $(function(){
         var nameRegExp = /^[a-zA-ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]+$/;
         return nameRegExp.test(name);
     }
+
+    function phoneValidation(phone) {
+        var phoneRegExp = /^0\d(\s|-)?(\d{2}(\s|-)?){4}$/;
+        return phoneRegExp.test(phone);
+    }
     var parameterFirstname = $('#parameterFirstname');
     var parameterLastname = $('#parameterLastname');
     var parameterEmail = $('#parameterEmail');
@@ -56,7 +61,7 @@ $(function(){
                     if (response !== "true") {
                         vNotify.error({text:response, title:'Erreur !'});
                     }else{
-                        vNotify.success({text :'Votre email à bien été modifié', title:'Bien vu bro'});
+                        vNotify.success({text :'Votre email à bien été modifié', title:'Félicitation'});
                         $('#emailRecap').html('Email : ' + $email);
                         $('#emailEditing').val('');
                         emailForm.css('display','none');
@@ -67,37 +72,7 @@ $(function(){
         return false;
     });
 
-    firstnameForm.submit(function(){
-        errorFirstname.html('');
-        var formValid = true;
-        var $this = $(this);
 
-        var $firstname = $('#firstnameEditing').val();
-        if (!nameValidation($firstname) ) {
-            formValid = false;
-            vNotify.error({text:'Veuillez saisir un prénom valide.', title:'Erreur !'});
-        }
-        if (formValid) {
-            $.ajax({
-                url: $this.attr('action'),
-                type: $this.attr('method'),
-                data: $this.serialize(),
-                dataType: 'json',
-                success: function(data) {
-                    if(data.success === false) {
-                        errorFirstname.html(data.errors['fields']);
-                    }
-                    if(data.success === true){
-                        $('#firstnameRecap').html('Firstname : ' + $firstname);
-                        $('#firstnameEditing').val('');
-                        firstnameForm.css('display','none');
-                    }
-                }
-            });
-        }
-        return false;
-
-    });
 
     lastnameForm.submit(function(){
         var formValid = true;
@@ -116,7 +91,7 @@ $(function(){
                     if(data !== 'true'){
                         vNotify.error({text:data, title:'Erreur !'});
                     }else{
-                        vNotify.success({text :'Votre nom à bien été modifié', title:'Bien vu bro'});
+                        vNotify.success({text :'Votre nom à bien été modifié', title:'Félicitation'});
                         $('#lastnameRecap').html('Lastname : ' + $lastname);
                         $('#lastnameEditing').val('');
                         lastnameForm.css('display','none');
@@ -144,10 +119,37 @@ $(function(){
                     if(data !== 'true'){
                         vNotify.error({text:data, title:'Erreur !'});
                     }else{
-                        vNotify.success({text :'Votre prénom à bien été modifié', title:'Bien vu bro'});
+                        vNotify.success({text :'Votre prénom à bien été modifié', title:'Félicitation'});
                         $('#firstnameRecap').html('Prénom : ' + $firstname);
                         $('#firstnameEditing').val('');
                         firstnameForm.css('display','none');
+                    }
+                }
+            });
+        }
+        return false;
+    });
+    phoneForm.submit(function(){
+        var formValid = true;
+        var $this = $(this);
+        var $phone = $('#phoneEditing').val();
+        if(!phoneValidation($phone)){
+            formValid = false;
+            vNotify.error({text:'Veuillez saisir un téléphone valide.', title:'Erreur !'});
+        }
+        if (formValid) {
+            $.ajax({
+                url: $this.attr('action'),
+                type: $this.attr('method'),
+                data: $this.serialize(),
+                success: function(data) {
+                    if(data !== 'true'){
+                        vNotify.error({text:data, title:'Erreur !'});
+                    }else{
+                        vNotify.success({text :'Votre téléphone à bien été modifié', title:'Félicitation'});
+                        $('#phoneRecap').html('Phone: ' + $phone);
+                        $('#phoneEditing').val('');
+                        phoneForm.css('display','none');
                     }
                 }
             });
