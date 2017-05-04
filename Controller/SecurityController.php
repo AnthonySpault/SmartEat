@@ -75,10 +75,6 @@ class SecurityController extends BaseController
             $manager = UserManager::getInstance();
             $user = $manager->getUserById($_SESSION['user_id']);
             $allAddress = $manager->getAddressByUserId();
-            foreach($allAddress as $key) {
-                $listAddress[$key['id']] = $key['streetNumber'].' '.$key['street'].' '.$key['zipcode'].' '.$key['city'].' '.$key['firstname'].' '.$key['lastname'].' '.$key['phone'];
-            }
-
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if(isset($_POST['firstnameEditing'])){
                     $check  = $manager->userCheckFirstname($_POST);
@@ -127,8 +123,20 @@ class SecurityController extends BaseController
                    }
 
                 }
+                if(isset($_POST['autocomplete'])){
+                $check = $manager->userCheckAddress($_POST);
+                if ($check === true) {
+                    $manager->userAddressInsert($_POST);
+                    echo "true";
+                    exit(0);
+                }
+                else {
+                    echo $check;
+                    exit(0);
+                }
+                }
             }
-                echo $this->renderView('profile.html.twig',['user'=> $user,'allAddress'=> $allAddress,'listAddress'=>$listAddress]);
+                echo $this->renderView('profile.html.twig',['user'=> $user,'allAddress'=> $allAddress]);
         }
         else {
             echo $this->renderView('loginregister.html.twig');

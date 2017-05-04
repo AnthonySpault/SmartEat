@@ -45,7 +45,12 @@ class UserManager
         $data = $this->DBManager->findAllSecure('SELECT email FROM users');
         return $data;
     }
+    public function getNameById()
+    {
 
+        $data = $this->DBManager->findOneSecure("SELECT name FROM users WHERE id = ",['user_id'=>$_SESSION['user_id']]);
+        return $data;
+    }
     public function getAddressByUserId(){
 
         $data = $this->DBManager->findAllSecure("SELECT * FROM addresses WHERE userid= :user_id",['user_id' => $_SESSION['user_id']]);
@@ -95,8 +100,8 @@ class UserManager
         $insert['street'] = $data['route'];
         $insert['zipcode'] = $data['postalCode'];
         $insert['city'] = $data['city'];
-        $insert['firstname'] = $data['firstname'];
-        $insert['lastname'] = $data['lastname'];
+        $insert['firstname'] = $data['firstnameAddress'];
+        $insert['lastname'] = $data['lastnameAddress'];
         $insert['phone'] = $data['phone'];
         $this->DBManager->insert('addresses', $insert);
         $write = $this->writeLog('access.log', ' => function : userInsertAdress || User ' . $user['id'] . ' enter the adress : ' .$insert['name'] . "\n");

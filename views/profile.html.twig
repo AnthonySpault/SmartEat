@@ -6,15 +6,32 @@
 
     <div class="contentAdress">
         {% for key in allAddress %}
-        <div class="commentary">
-            {% set address = listAddress[key['id']] %}
 
 
-            <div class="listAddress">{{ address }}</div>
+          <div class="listAddress"> {{ key.name}} : {{ key.streetNumber}} {{ key.street}}   {{ key.zipcode}} {{ key.firstname}} {{ key.lastname}}</div>
             {% endfor %}
+
     </div>
 
     <div id="form">
+
+            <fieldset class="fieldsetSend">
+                <legend> Insérez votre adresse</legend>
+                <form action="?action=profile" method="POST" name="addressForm" id="addressForm">
+                    <label for="pseudo">Nom de l'adresse : </label>
+                    <input type="text" name="name" id="name"><br>
+                    <label for="autocomplete">Adresse</label>
+                    <input id="autocomplete" placeholder="Entrer votre adresse..." onFocus="geolocate()" type="text">
+                    <label for="firstname"> Votre prénom</label>
+                    <input type="text" name="firstnameAddress" id="firstnameAddress" value=" {{ user.firstname }}"><br>
+                    <label for="lastname"> Votre nom</label>
+                    <input type="text" name="lastnameAddress" id="lastnameAddresss" value=" {{ user.lastname}}"><br>
+                    <label for="phone">Téléphone: </label>
+                    <input type="text" name="phone" id="phone"><br>
+                    <input type="submit" name="submitAddress" value="Valider">
+                </form>
+            </fieldset>
+            <br><br>
         <fieldset>
     <div class="infoToEdit">
 
@@ -66,6 +83,9 @@
 
     <a href="?action=logout">Logout</a>
 
-    <script src="assets/js/profile.js"></script>
+
     <link rel="stylesheet" href="assets/css/profile.css">
+    <script src="assets/js/profile.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDugzDcYGo-62iMQ3aUepxGtqwyzz6ZC8M&libraries=places&callback=initAutocomplete" async defer></script>
+
 {% endblock %}
