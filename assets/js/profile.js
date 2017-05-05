@@ -201,7 +201,7 @@ phoneForm.submit(function () {
 addressForm.submit(function () {
     var formValid = true;
     var $this = $(this);
-
+    console.log('ok');
     var $firstnameAddress = $('#firstnameAddress').val(),
         $lastnameAddress = $('#lastnameAddress').val(),
         streetNumber = $('#street_number').val(),
@@ -209,7 +209,9 @@ addressForm.submit(function () {
         route = $('#route').val(),
         city = $('#locality').val(),
         postalCode = $('#postal_code').val(),
-        $name = $('#name ').val();
+       $name = $('#name ').val();
+    var content = $('.listAddress');
+
     if (!nameValidation($firstnameAddress)) {
         formValid = false;
         vNotify.error({text: 'Veuillez saisir un prénom valide.', title: 'Erreur !'});
@@ -226,21 +228,21 @@ addressForm.submit(function () {
             url: $this.attr('action'),
             type: $this.attr('method'),
             data: {
+                addressName: $name,
                 streetNumber: streetNumber,
                 route: route,
-                city: city,
                 postalCode: postalCode,
-                addressName: $name,
+                city: city,
+                firstname:$firstnameAddress,
                 lastname: $lastnameAddress,
-                phone: $phone,
-                firstname: $firstnameAddress,
+                phone: phone
             },
             success: function (data) {
                 if (data !== 'true') {
                     vNotify.error({text: data, title: 'Erreur !'});
                 } else {
                     vNotify.success({text: 'Adresses bien rentré', title: 'Félicitation'});
-                    $('.listAddress').append($name + '+' + $streetNumber + $street + $zipcode + $firstnameAddress + $lastnameAddress);
+                   content.text($name + '+' + streetNumber + route + postalCode + $firstnameAddress + $lastnameAddress);
                     addressForm.reset();
                 }
             }

@@ -93,15 +93,20 @@ class UserManager
     }
 
     public function userAddressInsert($data) {
-        $user = $this->getUserByEmail($data['email']);
+        if(!empty($_SESSION['email'])){
+            $user = $this->getUserByEmail($_SESSION['email']);
+        }else{
+            $user = $this->getUserByEmail($data['email']);
+        }
+
         $insert['userid'] = $user['id'];
         $insert['name'] = $data['addressName'];
         $insert['streetNumber'] = $data['streetNumber'];
         $insert['street'] = $data['route'];
         $insert['zipcode'] = $data['postalCode'];
         $insert['city'] = $data['city'];
-        $insert['firstname'] = $data['firstnameAddress'];
-        $insert['lastname'] = $data['lastnameAddress'];
+        $insert['firstname'] = $data['firstname'];
+        $insert['lastname'] = $data['lastname'];
         $insert['phone'] = $data['phone'];
         $this->DBManager->insert('addresses', $insert);
         $write = $this->writeLog('access.log', ' => function : userInsertAdress || User ' . $user['id'] . ' enter the adress : ' .$insert['name'] . "\n");
@@ -150,6 +155,7 @@ class UserManager
         if ($data === false)
             return false;
         $_SESSION['user_id'] = $data['id'];
+        $_SESSION['email'] = $data['email'];
      return true;
     }
 

@@ -123,7 +123,9 @@ class SecurityController extends BaseController
                    }
 
                 }
-                if(isset($_POST['autocomplete'])){
+
+
+
                 $check = $manager->userCheckAddress($_POST);
                 if ($check === true) {
                     $manager->userAddressInsert($_POST);
@@ -135,7 +137,7 @@ class SecurityController extends BaseController
                     exit(0);
                 }
                 }
-            }
+
                 echo $this->renderView('profile.html.twig',['user'=> $user,'allAddress'=> $allAddress]);
         }
         else {
