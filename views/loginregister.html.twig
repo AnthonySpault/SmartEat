@@ -4,10 +4,10 @@
 <form name="loginform" class="loginregister">
     <h2>Connexion</h2>
 
-    <label for="email">Email</label>
+    <label for="loginemail">Email</label>
     <input type="email" id="loginemail" name="loginemail">
 
-    <label for="password">Mot de passe</label>
+    <label for="loginpassword">Mot de passe</label>
     <input type="password" id="loginpassword">
 
     <input type="submit" class="btn" value="Se connecter">
@@ -21,7 +21,7 @@
     <label for="lastname">Nom</label>
     <input type="text" id="lastname">
 
-    <label for="email">Email</label>
+    <label for="registeremail">Email</label>
     <input type="email" id="registeremail">
 
     <label for="phone">Téléphone</label>
@@ -30,13 +30,18 @@
     <label for="autocomplete">Adresse</label>
     <input id="autocomplete" placeholder="Entrer votre adresse..." onFocus="geolocate()" type="text">
     
-    <label for="password">Mot de passe</label>
+    <label for="registerpassword">Mot de passe</label>
     <input type="password" id="registerpassword">
 
     <label for="passwordconfirm">Confirmation du mot de passe</label>
     <input type="password" id="passwordconfirm">
 
-
+    <input type="hidden" id="street_number">
+    <input type="hidden" id="route">
+    <input type="hidden" id="locality">
+    <input type="hidden" id="administrative_area_level_1">
+    <input type="hidden" id="country">
+    <input type="hidden" id="postal_code">
 
     <input type="submit" class="btn" value="S'inscrire">
 </form>

@@ -93,7 +93,7 @@ class UserManager
     }
 
     public function userAddressInsert($data) {
-        if(!empty($_SESSION['email'])){
+       if(isset($_SESSION['email'])){
             $user = $this->getUserByEmail($_SESSION['email']);
         }else{
             $user = $this->getUserByEmail($data['email']);

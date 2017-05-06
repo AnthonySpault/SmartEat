@@ -197,7 +197,7 @@ phoneForm.submit(function () {
     }
     return false;
 });
-
+var contentAddress = $('#contentAddress');
 addressForm.submit(function () {
     var formValid = true;
     var $this = $(this);
@@ -210,7 +210,7 @@ addressForm.submit(function () {
         city = $('#locality').val(),
         postalCode = $('#postal_code').val(),
        $name = $('#name ').val();
-    var content = $('.listAddress');
+
 
     if (!nameValidation($firstnameAddress)) {
         formValid = false;
@@ -242,7 +242,7 @@ addressForm.submit(function () {
                     vNotify.error({text: data, title: 'Erreur !'});
                 } else {
                     vNotify.success({text: 'Adresses bien rentré', title: 'Félicitation'});
-                   content.text($name + '+' + streetNumber + route + postalCode + $firstnameAddress + $lastnameAddress);
+                    contentAddress.append('<div class="listAddress"> + route + </div>');
                     addressForm.reset();
                 }
             }
