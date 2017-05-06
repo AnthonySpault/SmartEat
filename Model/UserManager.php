@@ -47,6 +47,12 @@ class UserManager
         return $data;
     }
 
+ public function getPlatesByName($name){
+     $data = $this->DBManager->findOneSecure("SELECT * FROM plates WHERE name = :name",
+         ['name' => $name]);
+     return $data;
+ }
+
     public function getNameById()
     {
 
@@ -152,18 +158,47 @@ class UserManager
         $write = $this->writeLog('access.log', ' => function : userRegister || User ' . $user['lastname'] . ' ' . $user['firstname'] . ' just register.' . "\n");
         return true;
     }
-    public function insertPlates($data)
+    public function userCheckPlates($data, $img)
     {
+        $valid = true;
+        $errors = array();
+        $extension= array();
+        $extension = ['.jpeg','.png','.jpg','.PNG','.JPG','.JPEG'];
 
-        $user['name'] = $data['name'];
-        $user['description'] = $data['lastname'];
+
+        $extFile = strrchr(basename($img['image']['name']), '.');
+        if (empty($data['name']) OR empty($img['description']['name']) OR empty($data['description']) OR empty($data['ingredients']) OR empty($data['trick']) OR empty($data['price']) OR empty($data['category'])){
+            return "Des champs obligatoire ne sont pas remplis";
+        }
+        if(!in_array($extFile,$extension)){
+            return "Seul les images sont autoriséses";
+        }
+        $testName = $this->getPlatesByName($data['name']);
+        if ($testName){
+            return "Nom déjà utilisé";
+        }
+
+            return true;
+
+    }
+
+    public function insertPlates($data,$img)
+    {
+        $filepath = "uploads/plates_img/" . $data['name'] . strrchr(basename($img['image']['name']), '.');
+        $user['name'] = $data['plateName'];
+        $user['description'] = $data['description'];
         $user['ingredients'] = $data['ingredients'];
-        $user['trick'] = $data['trick'];
+        $user['trick'] = $data['tricks'];
+        $user['image'] = $filepath;
         $user['price'] =  $data['price'];
         $user['category'] =  $data['category'];
-
-        $this->DBManager->insert('users', $user);
+        $this->DBManager->insert('plates', $user);
         $write = $this->writeLog('access.log', ' => function : userRegister || User ' . $user['lastname'] . ' ' . $user['firstname'] . ' just register.' . "\n");
+        $req = $this->getPlatesByName($data['name']);
+        $update['image'] = "uploads/plates_img/" . $req['id'] . strrchr(basename($img['image']['name']), '.');
+        $update['id']=$req['id'];
+        $query = $this->DBManager->findOneSecure("UPDATE plates SET `image`= :image  WHERE `id` = :id", $update);
+        move_uploaded_file($img['image']['tmp_name'], $update['image']);
         return true;
     }
 

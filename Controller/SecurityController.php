@@ -123,8 +123,20 @@ class SecurityController extends BaseController
                    }
 
                 }
-                if(isset($_POST['firstnameAddressEdition'])){
+                if(isset($_POST['plateName'])){
                     var_dump($_POST);
+                    $check =$manager->userCheckPlates($_POST, $_FILES);
+                    if ($check === true) {
+                        $manager->insertPlates($_POST, $_FILES);
+                        echo 'true';
+                        exit(0);
+                    }else{
+                        echo $check;
+                        exit(0);
+                    }
+                }
+
+                if(isset($_POST['firstnameAddressEdition'])){
                     $check = $manager->userCheckAddress($_POST);
                     if($check === true){
                         $manager->addressEdition($_POST);

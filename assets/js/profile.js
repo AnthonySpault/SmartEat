@@ -354,3 +354,52 @@ addressEdition.submit(function () {
     }
     return false;
 });
+
+var platesForm = $('#platesForm');
+platesForm.submit(function () {
+    var formValid = true;
+    var $this = $(this);
+    console.log('ok');
+    var $category =  $( "#category option:selected").val(),
+        $ingredients = $('#ingredients').val(),
+        $description = $('#description').val(),
+        $tricks = $('#tricks').val(),
+        $name = $( "#plateName").val(),
+        $price = $('#price').val(),
+        $image = $('#image').val();
+
+console.log($image);
+    if (!nameValidation($name)) {
+        formValid = false;
+        vNotify.error({text: 'Veuillez saisir un prénom valide.', title: 'Erreur !'});
+    }
+
+    if ($category === '' || $ingredients === '' || $tricks === '' || $price === '' || $description === '' || $image  === '') {
+        vNotify.error({text: 'Champ(s) manquant(s).', title: 'Erreur !'});
+    }
+
+    var formData = new FormData(this);
+    if (formValid) {
+        $.ajax({
+            url: $this.attr('action'),
+            type: $this.attr('method'),
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                if (data !== 'true') {
+                    vNotify.error({text: data, title: 'Erreur !'});
+                } else {
+                    vNotify.success({text: 'Plat bien rentré', title: 'Félicitation'});
+                    /*contentAddress.append('<div class="listAddress">' +$name + ': ' + streetNumber + ' ' +route + ' ' +
+                     postalCode+ ' ' + $firstnameAddress+ ' '+ $lastnameAddress+ ' '+ phone + ' </div>');*/
+                    platesForm[0].reset();
+                }
+            }
+        });
+    }
+    return false;
+});
+
+
+

@@ -8,4 +8,5 @@
 */.DS_Store
 .DS_Store
 /logs
-/uploads
+/plates_img
+!/plates_img.gitkeep

@@ -14,6 +14,49 @@
     </div>
 
     <div id="form">
+        {% if user.role == 'admin' %}
+        <div id="new_article" class="content">
+            <fieldset class="fieldsetSend">
+            <div class="insert_article">
+                <p>Insérer un nouveau plat</p>
+                </div>
+
+
+
+                    <form action="?action=profile" method="POST" enctype="multipart/form-data" id="platesForm">
+                        <label for="plateName">  Nom du plat :</label>
+                        <input type="text" name="plateName" id="plateName"><br>
+                        <label for="description">Description :</label>
+                        <textarea name="description" id="description"></textarea><br>
+                        <label for="ingredients">Ingrédient:</label>
+                        <textarea name="ingredients" id="ingredients"></textarea><br>
+                        <label for="tricks">Astuce:</label>
+                        <textarea name="tricks" id="tricks"></textarea><br>
+                        <label for="image">  Image :</label>
+                        <input type="file" name="image" id="image"><br><br>
+                        <label for="price">  Prix :</label>
+                        <input type="text" name="price" id="price"><br><br>
+                        <label for="category"> Catégorie</label>
+                        <select name="category" id="category">
+
+                                <option value="dish">Plat</option>
+                                <option value="dessert">Dessert</option>
+                                <option value="drink">Boisson</option>
+
+                        </select><br><br>
+
+                        <input class="custom-btn" type="submit">
+                        <br><br>
+                    </form>
+
+
+            </fieldset>
+            </div>
+        {%  endif %}
+
+
+
+
 
             <fieldset class="fieldsetSend">
                 <legend> Insérez votre adresse</legend>
