@@ -209,7 +209,7 @@ addressForm.submit(function () {
         route = $('#route').val(),
         city = $('#locality').val(),
         postalCode = $('#postal_code').val(),
-       $name = $('#name ').val();
+        $name = $('#name ').val();
 
 
     if (!nameValidation($firstnameAddress)) {
@@ -241,9 +241,11 @@ addressForm.submit(function () {
                 if (data !== 'true') {
                     vNotify.error({text: data, title: 'Erreur !'});
                 } else {
+                    console.log(route);
                     vNotify.success({text: 'Adresses bien rentré', title: 'Félicitation'});
-                    contentAddress.append('<div class="listAddress"> + route + </div>');
-                    addressForm.reset();
+                    contentAddress.append('<div class="listAddress">' +$name + ': ' + streetNumber + ' ' +route + ' ' +
+                        postalCode+ ' ' + $firstnameAddress+ ' '+ $lastnameAddress+ ' '+ phone + ' </div>');
+                    addressForm[0].reset();
                 }
             }
         });
