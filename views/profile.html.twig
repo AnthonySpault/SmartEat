@@ -40,7 +40,38 @@
                 </form>
             </fieldset>
             <br><br>
+        <form action="?action=profile" method="POST" name="addressEdition">
+            <fieldset class="fieldsetSend">
+                <legend> Editez votre adresse</legend>
+                <label for="addressName">Nom de l'adresse à modifier : </label>
+                <select name="addressName" id="addressName">
+                    {% for key in allAddress %}
+
+                        <option value="{{ key.id }}"> {{ key.name }}</option>
+
+                    {% endfor %}
+                </select><br><br>
+                <label for="autocompleteEdition">Adresse</label>
+                <input id="autocompleteEdition" placeholder="Entrer votre adresse..." onFocus="geolocateEdition()" type="text">
+                <label for="firstnameAddressEdition"> Votre prénom</label>
+                <input type="text" name="firstnameAddressEdition" id="firstnameAddressEdition" value="{{ user.firstname }}"><br>
+                <label for="lastnameAddressEdition"> Votre nom</label>
+                <input type="text" name="lastnameAddressEdition" id="lastnameAddressEdition" value="{{ user.lastname }}"><br>
+                <label for="phoneAddressEdition">Téléphone: </label>
+                <input type="text" name="phoneAddressEdition" id="phoneAddressEdition"><br>
+
+                <input type="hidden" id="street_numberEdition">
+                <input type="hidden" id="routeEdition">
+                <input type="hidden" id="localityEdition">
+                <input type="hidden" id="administrative_area_level_1Edition">
+                <input type="hidden" id="countryEdition">
+                <input type="hidden" id="postal_codeEdition">
+                <input type="submit" name="editingAddress" value="Valider">
+            </fieldset>
+        </form>
+        <br><br>
         <fieldset>
+
     <div class="infoToEdit">
 
         <div class="align">

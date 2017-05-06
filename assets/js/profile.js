@@ -1,3 +1,44 @@
+var placeSearchEdition, autocompleteEdition;
+var componentFormEdition = {
+    street_numberEdition: 'short_name',
+    routeEdition: 'long_name',
+    localityEdition: 'long_name',
+    administrative_area_level_1Edition: 'short_name',
+    countryEdition: 'long_name',
+    postal_codeEdition: 'short_name'
+};
+
+function fillInAddressEdition() {
+    var placeEdition = autocompleteEdition.getPlace();
+    for (var component in componentFormEdition) {
+        document.getElementById(component).value = '';
+        document.getElementById(component).disabled = false;
+    }
+
+    for (var j = 0; j < placeEdition.address_components.length; j++) {
+        var addressTypeEdition = placeEdition.address_components[j].types[0];
+        if (componentFormEdition[addressTypeEdition]) {
+            var valEdition = placeEdition.address_components[j][componentFormEdition[addressTypeEdition]];
+            document.getElementById(addressTypeEdition).value = valEdition;
+        }
+    }
+}
+function geolocateEdition() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var geolocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            var circle = new google.maps.Circle({
+                center: geolocation,
+                radius: position.coords.accuracy
+            });
+            autocompleteEdition.setBounds(circle.getBounds());
+        });
+    }
+}
+
 var placeSearch, autocomplete;
 var componentForm = {
     street_number: 'short_name',
@@ -8,10 +49,15 @@ var componentForm = {
     postal_code: 'short_name'
 };
 function initAutocomplete() {
+    autocompleteEdition = new google.maps.places.Autocomplete(
+        /** @type {!HTMLInputElement} */(document.getElementById('autocompleteEdition')),
+        {types: ['geocode']});
+    autocompleteEdition.addListener('place_changed', fillInAddressEdition);
     autocomplete = new google.maps.places.Autocomplete(
         /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
         {types: ['geocode']});
     autocomplete.addListener('place_changed', fillInAddress);
+
 }
 function fillInAddress() {
     var place = autocomplete.getPlace();
@@ -43,6 +89,7 @@ function geolocate() {
         });
     }
 }
+
 function emailValidation(email) {
     var emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return emailRegExp.test(email);
@@ -252,4 +299,58 @@ addressForm.submit(function () {
     }
     return false;
 });
+ var addressEdition = $('#addressEdition');
+addressEdition.submit(function () {
+    var formValid = true;
+    var $this = $(this);
+    console.log('ok');
+    var $firstnameAddressEdition = $('#firstnameAddressEdition').val(),
+        $lastnameAddressEdition = $('#lastnameAddressEdition').val(),
+        streetNumber = $('#street_numberEdition').val(),
+        phone = $('#phoneAddressEdition').val(),
+        route = $('#routeEdition').val(),
+        city = $('#localityEdition').val(),
+        postalCode = $('#postal_codeEdition').val(),
+        $name = $( "#addressName option:selected").val() ;
+    console.log('ok',streetNumber,route,city,postalCode);
 
+    if (!nameValidation($firstnameAddressEdition)) {
+        formValid = false;
+        vNotify.error({text: 'Veuillez saisir un prénom valide.', title: 'Erreur !'});
+    }
+    if (!nameValidation($lastnameAddressEdition)) {
+        formValid = false;
+        vNotify.error({text: 'Veuillez saisir un nom valide.', title: 'Erreur !'});
+    }
+    if ($firstnameAddressEdition === '' || $lastnameAddressEdition === '' || $name === '') {
+        vNotify.error({text: 'Champ(s) manquant(s).', title: 'Erreur !'});
+    }
+    if (formValid) {
+        $.ajax({
+            url: $this.attr('action'),
+            type: $this.attr('method'),
+            data: {
+                addressName: $name,
+                streetNumber: streetNumber,
+                route: route,
+                postalCode: postalCode,
+                city: city,
+                firstname:$firstnameAddressEdition,
+                lastname: $lastnameAddressEdition,
+                phone: phone
+            },
+            success: function (data) {
+                if (data !== 'true') {
+                    vNotify.error({text: data, title: 'Erreur !'});
+                } else {
+                    console.log($name);
+                    vNotify.success({text: 'Adresses bien rentré', title: 'Félicitation'});
+                    /*contentAddress.append('<div class="listAddress">' +$name + ': ' + streetNumber + ' ' +route + ' ' +
+                        postalCode+ ' ' + $firstnameAddress+ ' '+ $lastnameAddress+ ' '+ phone + ' </div>');*/
+                    addressForm[0].reset();
+                }
+            }
+        });
+    }
+    return false;
+});

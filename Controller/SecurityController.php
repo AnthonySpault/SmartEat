@@ -123,9 +123,21 @@ class SecurityController extends BaseController
                    }
 
                 }
+                if(isset($_POST['firstnameAddressEdition'])){
+                    var_dump($_POST);
+                    $check = $manager->userCheckAddress($_POST);
+                    if($check === true){
+                        $manager->addressEdition($_POST);
+                        echo 'true';
+                        exit(0);
+                    }else{
+                        echo $check;
+                        exit(0);
+                    }
 
+                }
 
-
+/*
                 $check = $manager->userCheckAddress($_POST);
                 if ($check === true) {
                     $manager->userAddressInsert($_POST);
@@ -136,7 +148,9 @@ class SecurityController extends BaseController
                     echo $check;
                     exit(0);
                 }
-                }
+
+*/
+            }
 
                 echo $this->renderView('profile.html.twig',['user'=> $user,'allAddress'=> $allAddress]);
         }

@@ -7,6 +7,7 @@ class UserManager
     private $DBManager;
 
     private static $instance = null;
+
     public static function getInstance()
     {
         if (self::$instance === null)
@@ -22,21 +23,21 @@ class UserManager
     public function getUserById($id)
     {
         $id = (int)$id;
-        $data = $this->DBManager->findOne("SELECT * FROM users WHERE id = ".$id);
+        $data = $this->DBManager->findOne("SELECT * FROM users WHERE id = " . $id);
         return $data;
     }
 
     public function getUserByEmail($email)
     {
         $data = $this->DBManager->findOneSecure("SELECT * FROM users WHERE email = :email",
-                                ['email' => $email]);
+            ['email' => $email]);
         return $data;
     }
 
     public function getUserByPhone($phone)
     {
         $data = $this->DBManager->findOneSecure("SELECT * FROM users WHERE phone = :phone",
-                                ['phone' => $phone]);
+            ['phone' => $phone]);
         return $data;
     }
 
@@ -45,15 +46,18 @@ class UserManager
         $data = $this->DBManager->findAllSecure('SELECT email FROM users');
         return $data;
     }
+
     public function getNameById()
     {
 
-        $data = $this->DBManager->findOneSecure("SELECT name FROM users WHERE id = ",['user_id'=>$_SESSION['user_id']]);
+        $data = $this->DBManager->findOneSecure("SELECT name FROM users WHERE id = ", ['user_id' => $_SESSION['user_id']]);
         return $data;
     }
-    public function getAddressByUserId(){
 
-        $data = $this->DBManager->findAllSecure("SELECT * FROM addresses WHERE userid= :user_id",['user_id' => $_SESSION['user_id']]);
+    public function getAddressByUserId()
+    {
+
+        $data = $this->DBManager->findAllSecure("SELECT * FROM addresses WHERE userid= :user_id", ['user_id' => $_SESSION['user_id']]);
         return $data;
     }
 
@@ -80,22 +84,39 @@ class UserManager
         return true;
     }
 
-    public function userCheckAddress($data) {
-        if (empty($data['streetNumber']) OR empty($data['route']) OR empty($data['city']) OR empty($data['postalCode'])){
+    public function userCheckAddress($data)
+    {
+        if (empty($data['streetNumber']) OR empty($data['route']) OR empty($data['city']) OR empty($data['postalCode'])) {
             return "Des champs obligatoire ne sont pas remplis";
         }
 
-        if ($data['city'] !== "Paris"){
+        if ($data['city'] !== "Paris") {
             return "SmartEat est disponible uniquement sur Paris pour le moment.";
         }
 
         return true;
     }
 
-    public function userAddressInsert($data) {
-       if(isset($_SESSION['email'])){
+    public function addressEdition($data)
+    {
+
+        $update['id'] = $data['addressName'];
+        $update['streetNumber'] = $data['streetNumber'];
+        $update['street'] = $data['route'];
+        $update['zipcode'] = $data['postalCode'];
+        $update['city'] = $data['city'];
+        $update['firstname'] = $data['firstname'];
+        $update['lastname'] = $data['lastname'];
+        $update['phone'] = $data['phone'];
+        $query = $this->DBManager->findOneSecure("UPDATE addresses SET `streetNumber`= :streetNumber ,`street` = :street,`zipcode` = :zipcode,`city` = :city,`firstname`= :firstname,`lastname`= :lastname,`phone`= :phone WHERE `id` = :id", $update);
+        return $query;
+    }
+
+    public function userAddressInsert($data)
+    {
+        if (isset($_SESSION['email'])) {
             $user = $this->getUserByEmail($_SESSION['email']);
-        }else{
+        } else {
             $user = $this->getUserByEmail($data['email']);
         }
 
@@ -109,7 +130,7 @@ class UserManager
         $insert['lastname'] = $data['lastname'];
         $insert['phone'] = $data['phone'];
         $this->DBManager->insert('addresses', $insert);
-        $write = $this->writeLog('access.log', ' => function : userInsertAdress || User ' . $user['id'] . ' enter the adress : ' .$insert['name'] . "\n");
+        $write = $this->writeLog('access.log', ' => function : userInsertAdress || User ' . $user['id'] . ' enter the adress : ' . $insert['name'] . "\n");
     }
 
     private function userHash($pass)
@@ -128,7 +149,21 @@ class UserManager
         $user['password'] = $this->userHash($data['password']);
         $user['points'] = "10";
         $this->DBManager->insert('users', $user);
-        $write = $this->writeLog('access.log', ' => function : userRegister || User ' . $user['lastname'] . ' ' .$user['firstname'] .' just register.' . "\n");
+        $write = $this->writeLog('access.log', ' => function : userRegister || User ' . $user['lastname'] . ' ' . $user['firstname'] . ' just register.' . "\n");
+        return true;
+    }
+    public function insertPlates($data)
+    {
+
+        $user['name'] = $data['name'];
+        $user['description'] = $data['lastname'];
+        $user['ingredients'] = $data['ingredients'];
+        $user['trick'] = $data['trick'];
+        $user['price'] =  $data['price'];
+        $user['category'] =  $data['category'];
+
+        $this->DBManager->insert('users', $user);
+        $write = $this->writeLog('access.log', ' => function : userRegister || User ' . $user['lastname'] . ' ' . $user['firstname'] . ' just register.' . "\n");
         return true;
     }
 
@@ -156,7 +191,7 @@ class UserManager
             return false;
         $_SESSION['user_id'] = $data['id'];
         $_SESSION['email'] = $data['email'];
-     return true;
+        return true;
     }
 
     public function firstnameEdition($data)
@@ -165,7 +200,7 @@ class UserManager
         $update['user_id'] = $_SESSION['user_id'];
         $query = $this->DBManager->findOneSecure("UPDATE users SET `firstname`= :firstnameEditing WHERE `id` = :user_id", $update);
         $write = $this->writeLog('access.log', ' => function : firstnameEdition || User ' . $_SESSION['user_id'] . ' just updated his name to ' . $update['firstnameEditing'] . '.' . "\n");
-       return true;
+        return true;
     }
 
     public function lastnameEdition($data)
@@ -185,6 +220,7 @@ class UserManager
         $write = $this->writeLog('access.log', ' => function : emailEdition || User ' . $_SESSION['user_id'] . ' just updated his email to ' . $update['emailEditing'] . '.' . "\n");
         return true;
     }
+
     public function phoneEdition($data)
     {
         $update['phoneEditing'] = $data['phoneEditing'];
@@ -197,14 +233,14 @@ class UserManager
     public function userCheckFirstname($data)
     {
 
-        if (empty($data['firstnameEditing'])){
-            return  'Contenu manquant';
+        if (empty($data['firstnameEditing'])) {
+            return 'Contenu manquant';
         }
-        if(strlen($data['firstnameEditing']) < 4){
-            return'Prénom trop court';
+        if (strlen($data['firstnameEditing']) < 4) {
+            return 'Prénom trop court';
         }
 
-            return true;
+        return true;
 
 
     }
@@ -212,21 +248,21 @@ class UserManager
     public function userCheckLastname($data)
     {
 
-        if (empty($data['lastnameEditing'])){
-            return  'Contenu manquant';
+        if (empty($data['lastnameEditing'])) {
+            return 'Contenu manquant';
         }
-        if(strlen($data['lastnameEditing']) < 4){
-            return  'Nom de famille trop court';
+        if (strlen($data['lastnameEditing']) < 4) {
+            return 'Nom de famille trop court';
         }
 
-            return true;
+        return true;
     }
 
     public function userCheckPhone($data)
     {
 
-        if (empty($data['phoneEditing'])){
-            return  'Contenu manquant';
+        if (empty($data['phoneEditing'])) {
+            return 'Contenu manquant';
         }
         $phoneRegExp = '/(0|(\+33)|(0033))[1-9][0-9]{8}/';
         if (!preg_match($phoneRegExp, $data['phoneEditing']))
@@ -236,13 +272,13 @@ class UserManager
     }
 
 
-
-    public function userCheckEmail($data){
+    public function userCheckEmail($data)
+    {
 
         $testEmail = $this->getEmail();
         if (empty($data['emailEditing']))
-            return  'Contenu manquant';
-        foreach($testEmail as $Key){
+            return 'Contenu manquant';
+        foreach ($testEmail as $Key) {
             if ($Key === $data['emailEditing'])
                 return 'Email déjà utilisé';
         }
@@ -251,7 +287,7 @@ class UserManager
         if (!preg_match($emailRegExp, $data['emailEditing']))
             return "Votre email ne semble pas valide.";
 
-            return true;
+        return true;
 
     }
 
@@ -260,10 +296,11 @@ class UserManager
     {
         $date = date("Y-m-d");
         $hours = date("H:i");
-        return $date." ".$hours;
+        return $date . " " . $hours;
     }
 
-    public function writeLog($file, $text){
+    public function writeLog($file, $text)
+    {
         $date = $this->giveDate();
         $file_log = fopen('logs/' . $file, 'a');
         $log_info = $date . $text;
