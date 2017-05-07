@@ -12,6 +12,9 @@
             {% endfor %}
 
     </div>
+<!--{% for key in allPlates %}
+    <img src="{{ key.image }}" alt=" img plate">
+{% endfor %}-->
 
     <div id="form">
         {% if user.role == 'admin' %}
@@ -32,8 +35,8 @@
                         <textarea name="ingredients" id="ingredients"></textarea><br>
                         <label for="tricks">Astuce:</label>
                         <textarea name="tricks" id="tricks"></textarea><br>
-                        <label for="image">  Image :</label>
-                        <input type="file" name="image" id="image"><br><br>
+                        <label for="file">  Image :</label>
+                        <input type="file" name="file" id="file"><br><br>
                         <label for="price">  Prix :</label>
                         <input type="text" name="price" id="price"><br><br>
                         <label for="category"> Catégorie</label>

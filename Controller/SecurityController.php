@@ -8,22 +8,18 @@ class SecurityController extends BaseController
 {
     public function loginAction()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST')
-        {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (empty($_SESSION['user_id'])) {
                 $manager = UserManager::getInstance();
                 $check = $manager->userCheckLogin($_POST);
-                    if ($check === true)
-                    {
-                        $manager->userLogin($_POST['email']);
-                        echo 'true';
-                    }
-                else {
+                if ($check === true) {
+                    $manager->userLogin($_POST['email']);
+                    echo 'true';
+                } else {
                     echo "Votre email et/ou votre mot de passe sont incorrects";
                 }
-            }
-            else {
-               $this->redirect('profile');
+            } else {
+                $this->redirect('profile');
             }
         }
     }
@@ -31,142 +27,136 @@ class SecurityController extends BaseController
     public function logoutAction()
     {
         session_destroy();
-         $this->redirect('profile');
+        $this->redirect('profile');
     }
 
     public function registerAction()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST')
-        {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (empty($_SESSION['user_id'])) {
                 $manager = UserManager::getInstance();
                 $check = $manager->userCheckRegister($_POST);
-                if ($check === true)
-                {
+                if ($check === true) {
                     $check = $manager->userCheckAddress($_POST);
                     if ($check === true) {
                         $manager->userRegister($_POST);
                         $manager->userAddressInsert($_POST);
                         echo "true";
                         exit(0);
-                    }
-                    else {
+                    } else {
                         echo $check;
                         exit(0);
                     }
-                }
-                else {
+                } else {
                     echo $check;
                     exit(0);
                 }
-            }
-            else {
+            } else {
                 $this->redirect('profile');
             }
-        }
-        else {
+        } else {
             $this->redirect('profile');
         }
     }
 
 
-    public function profileAction() {
+    public function profileAction()
+    {
         if (isset($_SESSION['user_id'])) {
             $manager = UserManager::getInstance();
             $user = $manager->getUserById($_SESSION['user_id']);
             $allAddress = $manager->getAddressByUserId();
+            $allPlates = $manager->getPlates();
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                if(isset($_POST['firstnameEditing'])){
-                    $check  = $manager->userCheckFirstname($_POST);
-                    if($check === true){
+                if (isset($_POST['firstnameEditing'])) {
+                    $check = $manager->userCheckFirstname($_POST);
+                    if ($check === true) {
                         $manager->firstnameEdition($_POST);
                         echo 'true';
                         exit(0);
-                    }else{
+                    } else {
                         echo $check;
                         exit(0);
                     }
                 }
-                if(isset($_POST['phoneEditing'])) {
+                if (isset($_POST['phoneEditing'])) {
                     $check = $manager->userCheckPhone($_POST);
                     if ($check === true) {
                         $manager->phoneEdition($_POST);
                         echo 'true';
                         exit(0);
-                    }else{
+                    } else {
                         echo $check;
                         exit(0);
                     }
                 }
-                if(isset($_POST['lastnameEditing'])){
-                    $check =$manager->userCheckLastname($_POST);
-                    if( $check === true ){
+                if (isset($_POST['lastnameEditing'])) {
+                    $check = $manager->userCheckLastname($_POST);
+                    if ($check === true) {
                         $manager->lastnameEdition($_POST);
                         echo 'true';
                         exit(0);
-                    }else{
+                    } else {
                         echo $check;
                         exit(0);
                     }
                 }
-                if(isset($_POST['emailEditing'])){
+                if (isset($_POST['emailEditing'])) {
                     $check = $manager->userCheckEmail($_POST);
-                   if($check === true){
+                    if ($check === true) {
 
                         $manager->emailEdition($_POST);
                         echo 'true';
                         exit(0);
+                    } else {
+                        echo $check;
+                        exit(0);
                     }
-                   else {
-                       echo $check;
-                       exit(0);
-                   }
 
                 }
-                if(isset($_POST['plateName'])){
-                    var_dump($_POST);
-                    $check =$manager->userCheckPlates($_POST, $_FILES);
+                if (isset($_POST['plateName'])) {
+
+                    $check = $manager->userCheckPlates($_POST, $_FILES);
                     if ($check === true) {
                         $manager->insertPlates($_POST, $_FILES);
                         echo 'true';
                         exit(0);
-                    }else{
+                    } else {
                         echo $check;
                         exit(0);
                     }
                 }
 
-                if(isset($_POST['firstnameAddressEdition'])){
+                if (isset($_POST['firstnameAddressEdition'])) {
                     $check = $manager->userCheckAddress($_POST);
-                    if($check === true){
+                    if ($check === true) {
                         $manager->addressEdition($_POST);
                         echo 'true';
                         exit(0);
-                    }else{
+                    } else {
                         echo $check;
                         exit(0);
                     }
 
                 }
 
-/*
-                $check = $manager->userCheckAddress($_POST);
-                if ($check === true) {
-                    $manager->userAddressInsert($_POST);
-                    echo "true";
-                    exit(0);
-                }
-                else {
-                    echo $check;
-                    exit(0);
-                }
+                if (isset($_POST['firstnameAddress'])) {
+                    $check = $manager->userCheckAddress($_POST);
+                    if ($check === true) {
+                        $manager->userAddressInsert($_POST);
+                        echo "true";
+                        exit(0);
+                    } else {
+                        echo $check;
+                        exit(0);
+                    }
 
-*/
+
+                }
             }
 
-                echo $this->renderView('profile.html.twig',['user'=> $user,'allAddress'=> $allAddress]);
-        }
-        else {
+            echo $this->renderView('profile.html.twig', ['user' => $user, 'allAddress' => $allAddress,'allPlates'=> $allPlates]);
+        } else {
             echo $this->renderView('loginregister.html.twig');
         }
     }

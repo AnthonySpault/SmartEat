@@ -366,7 +366,7 @@ platesForm.submit(function () {
         $tricks = $('#tricks').val(),
         $name = $( "#plateName").val(),
         $price = $('#price').val(),
-        $image = $('#image').val();
+        $image = $('#file').val();
 
 console.log($image);
     if (!nameValidation($name)) {
@@ -379,12 +379,13 @@ console.log($image);
     }
 
     var formData = new FormData(this);
+    formData.append('image', $image.files);
     if (formValid) {
         $.ajax({
             url: $this.attr('action'),
             type: $this.attr('method'),
-            contentType: false,
-            processData: false,
+                contentType: false,
+                processData: false,
             data: formData,
             success: function (data) {
                 if (data !== 'true') {
