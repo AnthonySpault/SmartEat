@@ -14,9 +14,26 @@ class DefaultController extends BaseController
             $user = $manager->getUserById($_SESSION['user_id']);
         }
             $allPlates = $manager->getPlates();
-
-            echo $this->renderView('home.html.twig',
-                ['user' => $user,'allPlates'=> $allPlates]);
+            $dishes = [];
+            $desserts = [];
+            $drinks = [];
+            foreach ($allPlates as $key => $value) {
+                if($value['category'] == "dish") {
+                    $dishes[] = $value;
+                }
+                if($value['category'] == "dessert") {
+                    $desserts[] = $value;
+                }
+                if($value['category'] == "drink") {
+                    $drinks[] = $value;
+                }
+            }
+            echo $this->renderView('home.html.twig', [
+                                'user' => $user,
+                                'dishes'=> $dishes,
+                                'desserts'=> $desserts,
+                                'drinks'=> $drinks,
+                            ]);
 
 
     }

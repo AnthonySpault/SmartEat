@@ -173,6 +173,16 @@ body {
     border: 0;
 }
 
+.dish, #dish {
+    background-color: #157063;
+}
+.dessert, #dessert {
+    background-color: #a02427;
+}
+.drink, #drink {
+    background-color: #31a9cb;
+}
+
 .itemnavmobile {
     display: flex;
     justify-content: space-between;
@@ -187,11 +197,23 @@ body {
     text-decoration: none;
     color: black;
     font-weight: 300;
+    background-color: white;
 }
 
-.itemnavmobile a.active {
+.itemnavmobile a:hover {
     background-color: #e3e3e3;
+}
+
+.itemnavmobile a.dish:hover {
     border-bottom: 5px solid #157063;
+}
+
+.itemnavmobile a.dessert:hover {
+    border-bottom: 5px solid #a02427;
+}
+
+.itemnavmobile a.drink:hover {
+    border-bottom: 5px solid #31a9cb;
 }
 
 .categorytitle {
@@ -205,11 +227,45 @@ body {
     margin: 30px 0;
 }
 
-.dish {
-    background-color: #157063;
+.items {
+    width: 320px;
+    align-self: center;
 }
 
+.items .item {
+    width: 100%;
+    height: 600px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+}
 
+.items .item img {
+    width: 100%;
+    border-bottom: 5px solid white;
+}
+
+.items .item .content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 300px;
+    color: white;
+    text-align: center;
+}
+
+.items .item .content .title {
+    text-transform: uppercase;
+}
+
+.items .item .content .actions {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
 
 
 /* LOGIN REGISTER PAGE */

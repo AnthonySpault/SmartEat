@@ -7,13 +7,64 @@
     </ul>
 
     <div class="itemnavmobile">
-        <a href="#" class="active">Plats</a>
-        <a href="#">Desserts</a>
-        <a href="#">Boissons</a>
+        <a href="#dish" class="dish">Plats</a>
+        <a href="#dessert" class="dessert">Desserts</a>
+        <a href="#drink" class="drink">Boissons</a>
     </div>
 
-    <div class="categorytitle dish">Plats du jour</div>
+    <div class="categorytitle" id="dish">Plats du jour</div>
 
+    <div class="items">
+        {% for dish in dishes %}
+            <div class="item dish">
+                <img src="{{ dish.image }}" alt="{{ dish.name }}">
+                <div class="content">
+                    <h2 class="title">{{ dish.name }}</h2>
+                    <p class="description">{{ dish.description }}</p>
+                    <div class="actions">
+                        <a href="#">Astuce du jour</a>
+                        <a href="#">Add to cart</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="categorytitle" id="dessert">Desserts du jour</div>
+
+    <div class="items">
+        {% for dessert in desserts %}
+            <div class="item dessert">
+                <img src="{{ dessert.image }}" alt="{{ dessert.name }}">
+                <div class="content">
+                    <h2 class="title">{{ dessert.name }}</h2>
+                    <p class="description">{{ dessert.description }}</p>
+                    <div class="actions">
+                        <a href="#">Astuce du jour</a>
+                        <a href="#">Add to cart</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="categorytitle" id="drink">Boissons du jour</div>
+
+    <div class="items">
+        {% for drink in drinks %}
+            <div class="item drink">
+                <img src="{{ drink.image }}" alt="{{ drink.name }}">
+                <div class="content">
+                    <h2 class="title">{{ drink.name }}</h2>
+                    <p class="description">{{ drink.description }}</p>
+                    <div class="actions">
+                        <a href="#">Astuce du jour</a>
+                        <a href="#">Add to cart</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
     <script src="assets/js/responsiveslides.min.js"></script>
     <script src="assets/js/home.js"></script>
 {% endblock %}
