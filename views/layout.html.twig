@@ -4,13 +4,29 @@
         <meta name="viewport" content="width=device-width, user-scalable=no">
         <meta charset="utf-8">
         <title>SmartEat</title>
-        <link rel="stylesheet" href="assets/css/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">        <link rel="stylesheet" href="assets/css/style.css">
         <link rel="stylesheet" href="assets/css/vanilla-notify.css">
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <script src="assets/js/vanilla-notify.js"></script>
-
+        <script src="assets/js/script.js"></script>
     </head>
     <body>
+        <div id="mobile-nav" class="lateral latDesaparece">
+            <nav>
+                <ul>
+                    <li><a href="?action=home">Accueil</a></li>
+                    <li><a href="?action=concept">Concept</a></li>
+                    <li><a href="?action=partners">Partenaires</a></li>
+                    <li><a href="?action=profile">Profil</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <header id="mobile-header">
+            <a href="#" id="burger-toggle"><span></span></a>
+            <a href="?action=home"><img src="assets/images/logo.png" alt="Logo Smart Eat" class="logo"></a>
+            <a href="?action=basket" class="basket"><img src="assets/images/basket.png" alt="Logo ajouter au pannier"></a>
+        </header>
 
         {% block content %}{% endblock %}
 

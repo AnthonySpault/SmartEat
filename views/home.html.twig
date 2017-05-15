@@ -2,32 +2,18 @@
 
 {% block content %}
 
-    {% for key in allPlates %}
+    <ul class="rslides">
+        <li><img src="assets/images/homehead1.png" alt=""></li>
+    </ul>
 
-        {%  if key.category == 'dish' %}
+    <div class="itemnavmobile">
+        <a href="#" class="active">Plats</a>
+        <a href="#">Desserts</a>
+        <a href="#">Boissons</a>
+    </div>
 
-    <img src="{{ key.image }}" alt=" img plate">
-        <p> {{ key.name }}</p>
+    <div class="categorytitle dish">Plats du jour</div>
 
-        {%  endif %}
-
-
-
-        {%  if key.category == 'dessert' %}
-
-            <img src="{{ key.image }}" alt=" img plate">
-            <p> {{ key.name }}</p>
-
-        {%  endif %}
-
-
-
-        {%  if key.category == 'drink' %}
-
-            <img src="{{ key.image }}" alt=" img plate">
-            <p> {{ key.name }}</p>
-
-        {%  endif %}
-
-    {% endfor %}
+    <script src="assets/js/responsiveslides.min.js"></script>
+    <script src="assets/js/home.js"></script>
 {% endblock %}

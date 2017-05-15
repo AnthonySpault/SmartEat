@@ -6,6 +6,212 @@
 html {
     font-size: 100%;
 }
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER */
+
+#mobile-header {
+    width: 100%;
+    height: 55px;
+    background-color: rgba(14, 11, 22, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+}
+
+#mobile-header .logo {
+    z-index: 20;
+    height: 40px;
+}
+
+#mobile-header .basket img {
+    height: 25px;
+}
+
+#mobile-header .basket {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
+
+#burger-toggle {
+    position: absolute;
+    width: 30px;
+    height: 25px;
+    top: 15px;
+    left: 20px;
+    cursor: pointer;
+    z-index: 20;
+}
+
+#burger-toggle span {
+    position: relative;
+    top: 45%;
+    display: block;
+    width: 30px;
+    height: 4px;
+    background-color: white;
+    border-radius: 5px;
+    transition: all .2s ease-in-out;
+}
+
+#burger-toggle span:before, #burger-toggle span:after {
+    position: absolute;
+    background-color: white;
+    content: '';
+    width: 30px;
+    height: 4px;
+    border-radius: 5px;
+    transition: all .2s ease-in-out;
+}
+
+#burger-toggle span:before {
+    top: -10px;
+}
+
+#burger-toggle span:after {
+    top: 10px;
+}
+
+#burger-toggle.active span {
+    background: transparent;
+}
+
+#burger-toggle.active span:before {
+    transform: translate(0, 10px) rotate(45deg);
+}
+
+#burger-toggle.active span:after {
+    transform: translate(0, -10px) rotate(-45deg);
+}
+
+#mobile-nav {
+    font-size: 18px;
+    width: 320px; /* The same negative value of LEFT property in .latDesaparece class */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 10;
+    background-color: rgba(14, 11, 22, 0.9);
+}
+
+#mobile-nav nav {
+    width: 100%;
+    margin: 60px 0 0 0;
+}
+
+#mobile-nav nav ul {
+    text-align: left;
+}
+
+#mobile-nav nav ul li {
+    list-style-type: none;
+    text-transform: capitalize;
+}
+#mobile-nav nav ul li a {
+    text-decoration: none;
+    color: white;
+    padding: 15px 0 15px 35px;
+    display: block;
+    text-indent: 10px;
+}
+#mobile-nav nav ul li a:hover, #mobile-nav nav ul li a.active {
+    background-color: white;
+    color: #333
+}
+
+#mobile-nav.latAparece{
+    left: 0px;
+    transition: all .3s ease;
+}
+#mobile-nav.latDesaparece{
+	left: -320px;
+	transition: all .3s ease;
+}
+
+/* HOME PAGE */
+
+.rslides {
+    position: relative;
+    list-style: none;
+    overflow: hidden;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.rslides li {
+    -webkit-backface-visibility: hidden;
+    position: absolute;
+    display: none;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.rslides li:first-child {
+    position: relative;
+    display: block;
+    float: left;
+}
+
+.rslides img {
+    display: block;
+    height: auto;
+    float: left;
+    width: 100%;
+    border: 0;
+}
+
+.itemnavmobile {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.itemnavmobile a {
+    width: 33.33%;
+    line-height: 50px;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: black;
+    font-weight: 300;
+}
+
+.itemnavmobile a.active {
+    background-color: #e3e3e3;
+    border-bottom: 5px solid #157063;
+}
+
+.categorytitle {
+    width: 50%;
+    text-transform: uppercase;
+    color: white;
+    text-align: center;
+    line-height: 50px;
+    font-size: 20px;
+    align-self: center;
+    margin: 30px 0;
+}
+
+.dish {
+    background-color: #157063;
+}
+
+
+
+
 /* LOGIN REGISTER PAGE */
 .loginregister {
     display: flex;
