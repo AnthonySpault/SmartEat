@@ -5,6 +5,7 @@ routes:
     register: 'Security:register'
     registeraddress: 'Security:registeraddress'
     profile: 'Security:profile'
+    PaypallPN: 'Security:PaypallPN'
 
 defaut_route: 'home'
 

@@ -41,9 +41,9 @@ class UserManager
         return $data;
     }
 
-    public function getEmail()
+    public function getEmailByEmail($email)
     {
-        $data = $this->DBManager->findAllSecure('SELECT email FROM users');
+        $data = $this->DBManager->findAllSecure('SELECT email FROM users WHERE `email` = :email', ['email' => $email]);
         return $data;
     }
 
@@ -53,11 +53,12 @@ class UserManager
         return $data;
     }
 
- public function getPlatesByName($name){
-     $data = $this->DBManager->findOneSecure("SELECT * FROM plates WHERE name = :name",
-         ['name' => $name]);
-     return $data;
- }
+    public function getPlatesByName($name)
+    {
+        $data = $this->DBManager->findOneSecure("SELECT * FROM plates WHERE name = :name",
+            ['name' => $name]);
+        return $data;
+    }
 
     public function getNameById()
     {
@@ -164,31 +165,28 @@ class UserManager
         $write = $this->writeLog('access.log', ' => function : userRegister || User ' . $user['lastname'] . ' ' . $user['firstname'] . ' just register.' . "\n");
         return true;
     }
+
     public function userCheckPlates($data, $img)
     {
         $valid = true;
         $errors = array();
-        $extension= array();
-        $extension = ['.jpeg','.png','.jpg','.PNG','.JPG','.JPEG'];
-
-
+        $extension = array();
+        $extension = ['.jpeg', '.png', '.jpg', '.PNG', '.JPG', '.JPEG'];
         $extFile = strrchr(basename($img['file']['name']), '.');
-       if (empty($data['plateName']) OR empty($img['file']['name']) OR empty($data['description']) OR empty($data['ingredients']) OR empty($data['tricks']) OR empty($data['price']) OR empty($data['category'])){
+        if (empty($data['plateName']) OR empty($img['file']['name']) OR empty($data['description']) OR empty($data['ingredients']) OR empty($data['tricks']) OR empty($data['price']) OR empty($data['category'])) {
             return "Des champs obligatoire ne sont pas remplis";
         }
-        if(!in_array($extFile,$extension)){
+        if (!in_array($extFile, $extension)) {
             return "Seul les images sont autoriséses";
         }
         $testName = $this->getPlatesByName($data['plateName']);
-        if ($testName){
+        if ($testName) {
             return "Nom déjà utilisé";
         }
-
-            return true;
-
+        return true;
     }
 
-    public function insertPlates($data,$img)
+    public function insertPlates($data, $img)
     {
         $filepath = "uploads/plates_img/" . $data['plateName'] . strrchr(basename($img['file']['name']), '.');
         $user['name'] = $data['plateName'];
@@ -196,13 +194,13 @@ class UserManager
         $user['ingredients'] = $data['ingredients'];
         $user['trick'] = $data['tricks'];
         $user['image'] = $filepath;
-        $user['price'] =  $data['price'];
-        $user['category'] =  $data['category'];
+        $user['price'] = $data['price'];
+        $user['category'] = $data['category'];
         $this->DBManager->insert('plates', $user);
 
         $req = $this->getPlatesByName($data['plateName']);
         $update['image'] = 'uploads/plates_img/' . $req['id'] . strrchr(basename($img['file']['name']), '.');
-        $update['id']=$req['id'];
+        $update['id'] = $req['id'];
         $query = $this->DBManager->findOneSecure("UPDATE plates SET `image`= :image  WHERE `id` = :id", $update);
         move_uploaded_file($img['file']['tmp_name'], $update['image']);
         return true;
@@ -315,21 +313,16 @@ class UserManager
 
     public function userCheckEmail($data)
     {
-
-        $testEmail = $this->getEmail();
+        $testEmail = $this->getEmailByEmail($data['emailEditing']);
         if (empty($data['emailEditing']))
             return 'Contenu manquant';
-        foreach ($testEmail as $Key) {
-            if ($Key === $data['emailEditing'])
-                return 'Email déjà utilisé';
-        }
-
+        if ($testEmail)
+            return 'Email déjà utilisé';
         $emailRegExp = '/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
         if (!preg_match($emailRegExp, $data['emailEditing']))
             return "Votre email ne semble pas valide.";
 
         return true;
-
     }
 
 

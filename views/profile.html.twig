@@ -12,9 +12,7 @@
             {% endfor %}
 
     </div>
-<!--{% for key in allPlates %}
-    <img src="{{ key.image }}" alt=" img plate">
-{% endfor %}-->
+
 
     <div id="form">
         {% if user.role == 'admin' %}
@@ -23,9 +21,6 @@
             <div class="insert_article">
                 <p>Insérer un nouveau plat</p>
                 </div>
-
-
-
                     <form action="?action=profile" method="POST" enctype="multipart/form-data" id="platesForm">
                         <label for="plateName">  Nom du plat :</label>
                         <input type="text" name="plateName" id="plateName"><br>
@@ -121,7 +116,7 @@
     <div class="infoToEdit">
 
         <div class="align">
-            <div class="infoUser" id="emailRecap"> Email: {{ user.email }}</div><img id="parameterEmail" alt="image rouage" class="img_params parameter" src="assets/images/parametre.png">
+            <div class="infoUser" id="emailRecap"> Email: {{ user.email }}</div><a id="parameterEmail">Modifier</a>
             <div id="infoEmail">
                 <form action="?action=profile" method="POST" name="emailForm" class="none" id="emailForm">
                     <input type="text" name="emailEditing" id="emailEditing"><br>
@@ -130,7 +125,7 @@
             </div>
         </div>
         <div class="align">
-            <div class="infoUser" id="firstnameRecap"> Prénom: {{ user.firstname }}</div> <img alt="image rouage" id="parameterFirstname" class="img_params parameter" src="assets/images/parametre.png">
+            <div class="infoUser" id="firstnameRecap"> Prénom: {{ user.firstname }}</div> <a id="parameterFirstname">Modifier</a>
             <div id="infoFirstname">
                 <form action="?action=profile" method="POST" name="firstnameForm" class="none" id="firstnameForm">
                     <input type="text" name="firstnameEditing" id="firstnameEditing"><br>
@@ -139,17 +134,16 @@
             </div>
         </div>
         <div class="align">
-            <div class="infoUser" id="lastnameRecap"> Nom: {{ user.lastname }}</div><img alt="image rouage" class="img_params parameter" id="parameterLastname" src="assets/images/parametre.png">
+            <div class="infoUser" id="lastnameRecap"> Nom: {{ user.lastname }}</div><a id="parameterLastname">Modifier</a>
             <div id="infoLastname">
                 <form action="?action=profile" method="POST" name="lastnameForm" class="none" id="lastnameForm">
                     <input type="text" name="lastnameEditing" id="lastnameEditing"><br>
-                    <input type="submit" value="valider">
+                    <input type="submit" value="valider"></form>
                 </form>
             </div>
         </div>
         <div class="align">
-            <div class="infoUser" id="phoneRecap"> Téléphone : {{ user.phone }}</div>
-            <img id="parameterPhone" class="img_params parameter" alt="image rouage" src="assets/images/parametre.png">
+            <div class="infoUser" id="phoneRecap"> Téléphone : {{ user.phone }}</div><a id="parameterPhone">Modifier</a>
             <div id="infoUsername">
                 <form action="?action=profile" method="POST" name="phoneForm" class="none" id="phoneForm">
                     <input type="text" name="phoneEditing" id="phoneEditing"><br>

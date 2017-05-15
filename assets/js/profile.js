@@ -10,6 +10,7 @@ var componentFormEdition = {
 
 function fillInAddressEdition() {
     var placeEdition = autocompleteEdition.getPlace();
+    console.log(placeEdition);
     for (var component in componentFormEdition) {
         document.getElementById(component).value = '';
         document.getElementById(component).disabled = false;
@@ -17,9 +18,10 @@ function fillInAddressEdition() {
 
     for (var j = 0; j < placeEdition.address_components.length; j++) {
         var addressTypeEdition = placeEdition.address_components[j].types[0];
+        console.log(addressTypeEdition);
         if (componentFormEdition[addressTypeEdition]) {
-            var valEdition = placeEdition.address_components[j][componentFormEdition[addressTypeEdition]];
-            document.getElementById(addressTypeEdition).value = valEdition;
+
+            document.getElementById(addressTypeEdition).value = placeEdition.address_components[j][componentFormEdition[addressTypeEdition]];
         }
     }
 }
@@ -68,6 +70,7 @@ function fillInAddress() {
 
     for (var i = 0; i < place.address_components.length; i++) {
         var addressType = place.address_components[i].types[0];
+        console.log(addressType);
         if (componentForm[addressType]) {
             var val = place.address_components[i][componentForm[addressType]];
             document.getElementById(addressType).value = val;
@@ -118,16 +121,24 @@ var addressForm = $('#addressForm');
 
 parameterFirstname.click(function () {
     firstnameForm.css('display', 'block')
+    parameterFirstname.addClass('none');
+    $('#firstnameRecap').addClass('none');
 
 });
 parameterLastname.click(function () {
-    lastnameForm.css('display', 'block')
+    lastnameForm.css('display', 'block');
+    parameterLastname.addClass('none');
+    $('#lastnameRecap').addClass('none');
 });
 parameterEmail.click(function () {
-    emailForm.css('display', 'block')
+    emailForm.css('display', 'block');
+    parameterEmail.addClass('none');
+    $('#emailRecap').addClass('none');
 });
 parameterPhone.click(function () {
-    phoneForm.css('display', 'block')
+    phoneForm.css('display', 'block');
+    parameterPhone.addClass('none');
+    $('#phoneRecap').addClass('none');
 });
 
 
@@ -345,8 +356,6 @@ addressEdition.submit(function () {
                 } else {
                     console.log($name);
                     vNotify.success({text: 'Adresses bien rentré', title: 'Félicitation'});
-                    /*contentAddress.append('<div class="listAddress">' +$name + ': ' + streetNumber + ' ' +route + ' ' +
-                        postalCode+ ' ' + $firstnameAddress+ ' '+ $lastnameAddress+ ' '+ phone + ' </div>');*/
                     addressForm[0].reset();
                 }
             }
@@ -359,7 +368,6 @@ var platesForm = $('#platesForm');
 platesForm.submit(function () {
     var formValid = true;
     var $this = $(this);
-    console.log('ok');
     var $category =  $( "#category option:selected").val(),
         $ingredients = $('#ingredients').val(),
         $description = $('#description').val(),
@@ -369,9 +377,9 @@ platesForm.submit(function () {
         $image = $('#file').val();
 
 console.log($image);
-    if (!nameValidation($name)) {
+    if ($name === '') {
         formValid = false;
-        vNotify.error({text: 'Veuillez saisir un prénom valide.', title: 'Erreur !'});
+        vNotify.error({text: 'Veuillez rentrer un nom.', title: 'Erreur !'});
     }
 
     if ($category === '' || $ingredients === '' || $tricks === '' || $price === '' || $description === '' || $image  === '') {
@@ -392,8 +400,6 @@ console.log($image);
                     vNotify.error({text: data, title: 'Erreur !'});
                 } else {
                     vNotify.success({text: 'Plat bien rentré', title: 'Félicitation'});
-                    /*contentAddress.append('<div class="listAddress">' +$name + ': ' + streetNumber + ' ' +route + ' ' +
-                     postalCode+ ' ' + $firstnameAddress+ ' '+ $lastnameAddress+ ' '+ phone + ' </div>');*/
                     platesForm[0].reset();
                 }
             }

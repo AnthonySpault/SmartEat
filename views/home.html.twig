@@ -1,5 +1,33 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-<h1>Hello {{ name }} !</h1>
+
+    {% for key in allPlates %}
+
+        {%  if key.category == 'dish' %}
+
+    <img src="{{ key.image }}" alt=" img plate">
+        <p> {{ key.name }}</p>
+
+        {%  endif %}
+
+
+
+        {%  if key.category == 'dessert' %}
+
+            <img src="{{ key.image }}" alt=" img plate">
+            <p> {{ key.name }}</p>
+
+        {%  endif %}
+
+
+
+        {%  if key.category == 'drink' %}
+
+            <img src="{{ key.image }}" alt=" img plate">
+            <p> {{ key.name }}</p>
+
+        {%  endif %}
+
+    {% endfor %}
 {% endblock %}

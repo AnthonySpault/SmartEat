@@ -16,7 +16,7 @@ class SecurityController extends BaseController
                     $manager->userLogin($_POST['email']);
                     echo 'true';
                 } else {
-                    echo "Votre email et/ou votre mot de passe sont incorrects";
+                    echo 'Votre email et/ou votre mot de passe sont incorrects';
                 }
             } else {
                 $this->redirect('profile');
@@ -38,10 +38,10 @@ class SecurityController extends BaseController
                 $check = $manager->userCheckRegister($_POST);
                 if ($check === true) {
                     $check = $manager->userCheckAddress($_POST);
-                    if ($check === true) {
+                    if ($check) {
                         $manager->userRegister($_POST);
                         $manager->userAddressInsert($_POST);
-                        echo "true";
+                        echo 'true';
                         exit(0);
                     } else {
                         echo $check;
@@ -144,7 +144,7 @@ class SecurityController extends BaseController
                     $check = $manager->userCheckAddress($_POST);
                     if ($check === true) {
                         $manager->userAddressInsert($_POST);
-                        echo "true";
+                        echo 'true';
                         exit(0);
                     } else {
                         echo $check;
