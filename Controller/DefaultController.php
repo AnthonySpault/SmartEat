@@ -35,4 +35,8 @@ class DefaultController extends BaseController
     public function conceptAction() {
         echo $this->renderView('concept.html.twig');
     }
+
+    public function partnersAction() {
+        echo $this->renderView('partners.html.twig');
+    }
 }

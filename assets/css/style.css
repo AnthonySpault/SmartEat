@@ -365,6 +365,78 @@ body {
     background-size: 100% auto;
 }
 
+/* PARTNERS */
+
+.partnersheader {
+    width: 100%;
+}
+
+.partnerblock {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 600px;
+    width: 80%;
+    padding: 10px;
+    margin: 5%;
+    border: 10px solid #157063;
+}
+.partnerblock img {
+    width: 70%;
+    height: auto;
+}
+
+.partnerblock .separator {
+    width: 100%;
+    height: 10px;
+    background-color: #a02427;
+    margin: 10% 0;
+}
+
+.partnerform {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10%;
+    width: 80%;
+}
+
+.partnerform h2 {
+    color: #a02427;
+    margin: 10px 0;
+}
+
+.partnerform div {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.partnerform input {
+    width: 96%;
+    height: 30px;
+    padding: 2%;
+    border: 1px solid black;
+    margin: 10px 0;
+}
+
+.partnerform div input:first-of-type {
+    border-right: 0px;
+}
+
+.partnerform p {
+    font-size: 12px;
+    text-align: center;
+}
+
+.partnerform .btn {
+    width: 30%;
+    height: 30px;
+    background-color: #a02427;
+    color: white;
+    border: 0;
+}
 
 /* LOGIN REGISTER PAGE */
 .loginregister {

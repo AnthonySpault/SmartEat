@@ -1,0 +1,28 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <img src="assets/images/partners.jpg" alt="Partners image" class="partnersheader">
+
+    <div class="partnerblock">
+        <img src="assets/images/monoprix.png" alt="Monoprix">
+        <div class="separator"></div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+
+    <div class="partnerblock">
+        <img src="assets/images/restos.png" alt="Restaurant du coeur">
+        <div class="separator"></div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+
+    <form class="partnerform">
+        <h2>Devenir partenaire</h2>
+        <div>
+            <input type="text" name="lastname" placeholder="Nom"><input type="text" name="firstname" placeholder="Prénom">
+        </div>
+        <input type="email" name="email" placeholder="Adresse email">
+        <input type="tel" name="phone" placeholder="Téléphone">
+        <p>Nous vous recontacterons bientôt pour discuter d'un partenariat éventuel.</p>
+        <input type="submit" class="btn" value="Envoyer">
+    </form>
+{% endblock %}

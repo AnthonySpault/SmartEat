@@ -1,6 +1,7 @@
 routes:
     home: 'Default:home'
     concept: 'Default:concept'
+    partners: 'Default:partners'
     login: 'Security:login'
     logout: 'Security:logout'
     register: 'Security:register'
