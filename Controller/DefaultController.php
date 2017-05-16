@@ -2,18 +2,15 @@
 
 namespace Controller;
 
+use Model\ContentManager;
 use Model\UserManager;
 
 class DefaultController extends BaseController
 {
     public function homeAction()
     {
-        $user= '';
-        $manager = UserManager::getInstance();
-        if(isset($_SESSION['user_id'])){
-            $user = $manager->getUserById($_SESSION['user_id']);
-        }
-        $allPlates = $manager->getPlates();
+        $manager = ContentManager::getInstance();
+        $allPlates = $manager->getCurrentPlates();
         $dishes = [];
         $desserts = [];
         $drinks = [];
@@ -29,12 +26,13 @@ class DefaultController extends BaseController
             }
         }
         echo $this->renderView('home.html.twig', [
-                            'user' => $user,
                             'dishes'=> $dishes,
                             'desserts'=> $desserts,
                             'drinks'=> $drinks,
                         ]);
+    }
 
-
+    public function conceptAction() {
+        echo "oui";
     }
 }

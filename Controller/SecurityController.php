@@ -65,7 +65,7 @@ class SecurityController extends BaseController
         if (isset($_SESSION['user_id'])) {
             $manager = UserManager::getInstance();
             $user = $manager->getUserById($_SESSION['user_id']);
-            $allAddress = $manager->getAddressByUserId();
+            $allAddress = $manager->getAddressByUserId($_SESSION['user_id']);
             $allPlates = $manager->getPlates();
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (isset($_POST['firstnameEditing'])) {

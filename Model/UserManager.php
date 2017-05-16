@@ -2,6 +2,8 @@
 
 namespace Model;
 
+use Model\ContentManager;
+
 class UserManager
 {
     private $DBManager;
@@ -41,36 +43,10 @@ class UserManager
         return $data;
     }
 
-    public function getEmailByEmail($email)
-    {
-        $data = $this->DBManager->findAllSecure('SELECT email FROM users WHERE `email` = :email', ['email' => $email]);
-        return $data;
-    }
-
-    public function getPlates()
-    {
-        $data = $this->DBManager->findAllSecure('SELECT * FROM plates');
-        return $data;
-    }
-
-    public function getPlatesByName($name)
-    {
-        $data = $this->DBManager->findOneSecure("SELECT * FROM plates WHERE name = :name",
-            ['name' => $name]);
-        return $data;
-    }
-
-    public function getNameById()
+    public function getAddressByUserId($id)
     {
 
-        $data = $this->DBManager->findOneSecure("SELECT name FROM users WHERE id = ", ['user_id' => $_SESSION['user_id']]);
-        return $data;
-    }
-
-    public function getAddressByUserId()
-    {
-
-        $data = $this->DBManager->findAllSecure("SELECT * FROM addresses WHERE userid= :user_id", ['user_id' => $_SESSION['user_id']]);
+        $data = $this->DBManager->findAllSecure("SELECT * FROM addresses WHERE userid= :id", ['id' => $id]);
         return $data;
     }
 
@@ -121,7 +97,7 @@ class UserManager
         $update['firstname'] = $data['firstname'];
         $update['lastname'] = $data['lastname'];
         $update['phone'] = $data['phone'];
-        $query = $this->DBManager->findOneSecure("UPDATE addresses SET `streetNumber`= :streetNumber ,`street` = :street,`zipcode` = :zipcode,`city` = :city,`firstname`= :firstname,`lastname`= :lastname,`phone`= :phone WHERE `id` = :id", $update);
+        $query = $this->DBManager->doRequestSecure("UPDATE addresses SET `streetNumber`= :streetNumber ,`street` = :street,`zipcode` = :zipcode,`city` = :city,`firstname`= :firstname,`lastname`= :lastname,`phone`= :phone WHERE `id` = :id", $update);
         return $query;
     }
 
@@ -168,9 +144,6 @@ class UserManager
 
     public function userCheckPlates($data, $img)
     {
-        $valid = true;
-        $errors = array();
-        $extension = array();
         $extension = ['.jpeg', '.png', '.jpg', '.PNG', '.JPG', '.JPEG'];
         $extFile = strrchr(basename($img['file']['name']), '.');
         if (empty($data['plateName']) OR empty($img['file']['name']) OR empty($data['description']) OR empty($data['ingredients']) OR empty($data['tricks']) OR empty($data['price']) OR empty($data['category'])) {
@@ -179,7 +152,8 @@ class UserManager
         if (!in_array($extFile, $extension)) {
             return "Seul les images sont autoriséses";
         }
-        $testName = $this->getPlatesByName($data['plateName']);
+        $manager = ContentManager::getInstance();
+        $testName = $manager->getPlatesByName($data['plateName']);
         if ($testName) {
             return "Nom déjà utilisé";
         }
@@ -189,14 +163,14 @@ class UserManager
     public function insertPlates($data, $img)
     {
         $filepath = "uploads/plates_img/" . $data['plateName'] . strrchr(basename($img['file']['name']), '.');
-        $user['name'] = $data['plateName'];
-        $user['description'] = $data['description'];
-        $user['ingredients'] = $data['ingredients'];
-        $user['trick'] = $data['tricks'];
-        $user['image'] = $filepath;
-        $user['price'] = $data['price'];
-        $user['category'] = $data['category'];
-        $this->DBManager->insert('plates', $user);
+        $plates['name'] = $data['plateName'];
+        $plates['description'] = $data['description'];
+        $plates['ingredients'] = $data['ingredients'];
+        $plates['trick'] = $data['tricks'];
+        $plates['image'] = $filepath;
+        $plates['price'] = $data['price'];
+        $plates['category'] = $data['category'];
+        $this->DBManager->insert('plates', $plates);
 
         $req = $this->getPlatesByName($data['plateName']);
         $update['image'] = 'uploads/plates_img/' . $req['id'] . strrchr(basename($img['file']['name']), '.');
@@ -211,7 +185,6 @@ class UserManager
 
         if (empty($data['email']) OR empty($data['password']))
             return 'Champ(s) manquants';
-
 
         $user = $this->getUserByEmail($data['email']);
         if ($user === false)
@@ -237,7 +210,7 @@ class UserManager
     {
         $update['firstnameEditing'] = $data['firstnameEditing'];
         $update['user_id'] = $_SESSION['user_id'];
-        $query = $this->DBManager->findOneSecure("UPDATE users SET `firstname`= :firstnameEditing WHERE `id` = :user_id", $update);
+        $query = $this->DBManager->doRequestSecure("UPDATE users SET `firstname`= :firstnameEditing WHERE `id` = :user_id", $update);
         $write = $this->writeLog('access.log', ' => function : firstnameEdition || User ' . $_SESSION['user_id'] . ' just updated his name to ' . $update['firstnameEditing'] . '.' . "\n");
         return true;
     }
@@ -246,7 +219,7 @@ class UserManager
     {
         $update['lastnameEditing'] = $data['lastnameEditing'];
         $update['user_id'] = $_SESSION['user_id'];
-        $query = $this->DBManager->findOneSecure("UPDATE users SET `lastname`= :lastnameEditing WHERE `id` = :user_id", $update);
+        $query = $this->DBManager->doRequestSecure("UPDATE users SET `lastname`= :lastnameEditing WHERE `id` = :user_id", $update);
         $write = $this->writeLog('access.log', ' => function : lastnameEdition || User ' . $_SESSION['user_id'] . ' just updated his lastname to ' . $update['lastnameEditing'] . '.' . "\n");
         return true;
     }
@@ -255,7 +228,7 @@ class UserManager
     {
         $update['emailEditing'] = $data['emailEditing'];
         $update['user_id'] = $_SESSION['user_id'];
-        $query = $this->DBManager->findOneSecure("UPDATE users SET `email`= :emailEditing WHERE `id` = :user_id", $update);
+        $query = $this->DBManager->doRequestSecure("UPDATE users SET `email`= :emailEditing WHERE `id` = :user_id", $update);
         $write = $this->writeLog('access.log', ' => function : emailEdition || User ' . $_SESSION['user_id'] . ' just updated his email to ' . $update['emailEditing'] . '.' . "\n");
         return true;
     }
@@ -264,7 +237,7 @@ class UserManager
     {
         $update['phoneEditing'] = $data['phoneEditing'];
         $update['user_id'] = $_SESSION['user_id'];
-        $query = $this->DBManager->findOneSecure("UPDATE users SET `phone`= :phoneEditing WHERE `id` = :user_id", $update);
+        $query = $this->DBManager->doRequestSecure("UPDATE users SET `phone`= :phoneEditing WHERE `id` = :user_id", $update);
         $write = $this->writeLog('access.log', ' => function : phoneEdition || User ' . $_SESSION['user_id'] . ' just updated his phone to ' . $update['phoneEditing'] . '.' . "\n");
         return true;
     }
