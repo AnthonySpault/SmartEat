@@ -10,7 +10,7 @@ routes:
 defaut_route: 'home'
 
 db_config:
-    name: 'smarteat'
-    host: 'localhost'
+    name: 'SmartEat'
+    host: '151.80.10.13:3306'
     user: 'smarteat'
-    pass: 'smarteat'
+    pass: 'I6e6yx9%'

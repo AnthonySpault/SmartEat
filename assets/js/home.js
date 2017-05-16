@@ -8,7 +8,6 @@ $(function() {
         drink = $('#drink').offset().top;
     $(window).scroll(function(){
         var scroll = $(window).scrollTop();
-        console.log(scroll);
         if(scroll > (drink - 130)){
             $('.itemnavmobile').css('position','fixed').css('top','55px');
             $('#dish').css('margin-top', '80px');
