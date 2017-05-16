@@ -33,6 +33,6 @@ class DefaultController extends BaseController
     }
 
     public function conceptAction() {
-        echo "oui";
+        echo $this->renderView('concept.html.twig');
     }
 }
