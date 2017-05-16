@@ -139,6 +139,56 @@ body {
 	transition: all .3s ease;
 }
 
+/* FOOTER */
+
+#mobile-footer {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #282828;
+    color: white;
+    font-size: 12px;
+}
+
+#mobile-footer img {
+    height: 25px;
+}
+
+#mobile-footer a {
+    color: white;
+    text-decoration: none;
+}
+
+#mobile-footer a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+#mobile-footer .left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 80%;
+    padding: 0 20px;
+}
+
+#mobile-footer .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 80%;
+    padding: 0 20px;
+    text-align: center;
+}
+
+#mobile-footer .right .mail {
+    color: #2d697a;
+}
+
 /* HOME PAGE */
 
 .rslides {
@@ -228,7 +278,7 @@ body {
 }
 
 .items {
-    width: 320px;
+    width: 315px;
     align-self: center;
 }
 
