@@ -44,14 +44,14 @@
         {% for drink in drinks %}
             <h2 class="title">{{ drink.name }}</h2>
 
-            <input type="radio" id="drinks" name="drinks" value="{{ drinks.id }}" class="none">
-            <label for="drinks"> <img src="{{ drink.image }}" alt="{{ drink.name }}"></label>
+            <input type="radio" id="{{ drink.name }}" name="drinks" value="{{ drink.id }}" class="none">
+            <label for="{{ drink.name }}"> <img src="{{ drink.image }}" alt="{{ drink.name }}"></label>
 
 
 
 
         {% endfor %}
-
+        <input type="submit" value="J'ai faim">
 
     </form>
     <script src="assets/js/customize.js"></script>

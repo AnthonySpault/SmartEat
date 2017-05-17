@@ -1,13 +1,4 @@
-/*var label = $('label');
-for(var i = 0; i<label.length;i++){
 
-label[i].onclick = function () {
-
-        this.style.opacity='0.8';
-
-
-};
-}*/
     var label =  $('label');
     var labelDrinksChecked = $('input:checked[name=drinks]');
     var labelDishChecked = $('input:checked[name=dish]');
@@ -16,10 +7,40 @@ label[i].onclick = function () {
     var labelDrinks = $('#drinks');
     var labelDish = $('#dish');
     var labelDessert = $('#dessert');
-label.click(function(){
-    labelDrinks.each(function (){
-        $(this).change(function(){
-            labelDrinksChecked.next().addClass('label');
-        });
-    });
-});
+
+     var form = $('#formMeal');
+
+     form.submit(function(){
+        var  formValid= true;
+
+         var drinks = $('input:checked[name=drinks]').val();
+         var dish = $('input:checked[name=dish]').val();
+         var dessert = $('input:checked[name=dessert]').val();
+         console.log(drinks);
+         console.log(dish);
+         console.log(dessert);
+
+         if(formValid){
+             $.ajax({
+                 type: 'post',
+                 url: '?action=customize',
+                 data: {
+                     dish:dish,
+                     drinks:drinks,
+                     dessert:dessert
+                 },
+                 success:function(response) {
+                     if (response !== "true") {
+                         vNotify.error({text:response, title:'Erreur !'});
+                     }
+                     else {
+                         vNotify.success({text:'Votre menu à bien été prit en compte.', title:'Félicitation !'});
+                     }
+                 }
+             });
+         }
+
+         return false;
+
+     });
+

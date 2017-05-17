@@ -4,6 +4,7 @@ namespace Controller;
 
 use Model\ContentManager;
 use Model\UserManager;
+use Model\OrderManager;
 
 class DefaultController extends BaseController
 {
@@ -41,8 +42,9 @@ class DefaultController extends BaseController
     }
 
     public function customizeAction() {
-        $manager = ContentManager::getInstance();
-        $allPlates = $manager->getCurrentPlates();
+        $contentManager = ContentManager::getInstance();
+        $orderManager = OrderManager::getInstance();
+        $allPlates = $contentManager->getCurrentPlates();
         $dishes = [];
         $desserts = [];
         $drinks = [];
@@ -57,6 +59,21 @@ class DefaultController extends BaseController
                 $drinks[] = $value;
             }
         }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $check = $orderManager->checkBasket($_POST);
+                if($check){
+                    $orderManager->basket($_POST);
+                    echo 'true';
+                    exit(0);
+                }else{
+                    echo $check;
+                    exit(0);
+                }
+
+
+
+        }
+
         echo $this->renderView('customize.html.twig', [
             'dishes'=> $dishes,
             'desserts'=> $desserts,
