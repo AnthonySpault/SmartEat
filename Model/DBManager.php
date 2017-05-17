@@ -82,6 +82,7 @@ class DBManager
         $dbh = $this->getDbh();
         $sth = $dbh->prepare($query);
         $sth->execute($data);
+        return $sth;
     }
 
     public function findOne($query)

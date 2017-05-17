@@ -39,4 +39,29 @@ class DefaultController extends BaseController
     public function partnersAction() {
         echo $this->renderView('partners.html.twig');
     }
+
+    public function customizeAction() {
+        $manager = ContentManager::getInstance();
+        $allPlates = $manager->getCurrentPlates();
+        $dishes = [];
+        $desserts = [];
+        $drinks = [];
+        foreach ($allPlates as $key => $value) {
+            if($value['category'] == "dish") {
+                $dishes[] = $value;
+            }
+            if($value['category'] == "dessert") {
+                $desserts[] = $value;
+            }
+            if($value['category'] == "drink") {
+                $drinks[] = $value;
+            }
+        }
+        echo $this->renderView('customize.html.twig', [
+            'dishes'=> $dishes,
+            'desserts'=> $desserts,
+            'drinks'=> $drinks,
+        ]);
+
+    }
 }

@@ -20,6 +20,7 @@ class UserManager
     private function __construct()
     {
         $this->DBManager = DBManager::getInstance();
+        $this->ContentManager = ContentManager::getInstance();
     }
 
     public function getUserById($id)
@@ -172,7 +173,7 @@ class UserManager
         $plates['category'] = $data['category'];
         $this->DBManager->insert('plates', $plates);
 
-        $req = $this->getPlatesByName($data['plateName']);
+        $req = $this->ContentManager->getPlatesByName($data['plateName']);
         $update['image'] = 'uploads/plates_img/' . $req['id'] . strrchr(basename($img['file']['name']), '.');
         $update['id'] = $req['id'];
         $query = $this->DBManager->findOneSecure("UPDATE plates SET `image`= :image  WHERE `id` = :id", $update);

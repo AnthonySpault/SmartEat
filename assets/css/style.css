@@ -118,6 +118,7 @@ body {
     list-style-type: none;
     text-transform: capitalize;
 }
+
 #mobile-nav nav ul li a {
     text-decoration: none;
     color: white;
@@ -125,18 +126,20 @@ body {
     display: block;
     text-indent: 10px;
 }
+
 #mobile-nav nav ul li a:hover, #mobile-nav nav ul li a.active {
     background-color: white;
     color: #333
 }
 
-#mobile-nav.latAparece{
+#mobile-nav.latAparece {
     left: 0px;
     transition: all .3s ease;
 }
-#mobile-nav.latDesaparece{
-	left: -320px;
-	transition: all .3s ease;
+
+#mobile-nav.latDesaparece {
+    left: -320px;
+    transition: all .3s ease;
 }
 
 /* FOOTER */
@@ -226,9 +229,11 @@ body {
 .dish, #dish {
     background-color: #157063;
 }
+
 .dessert, #dessert {
     background-color: #a02427;
 }
+
 .drink, #drink {
     background-color: #31a9cb;
 }
@@ -382,6 +387,7 @@ body {
     margin: 5%;
     border: 10px solid #157063;
 }
+
 .partnerblock img {
     width: 70%;
     height: auto;
@@ -475,4 +481,12 @@ body {
     background-color: #1b907f;
     color: white;
     border: 0;
+}
+
+.none {
+    display: none;
+}
+
+.label{
+    opacity : 0.8;
 }
