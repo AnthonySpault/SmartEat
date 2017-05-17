@@ -8,6 +8,7 @@ routes:
     registeraddress: 'Security:registeraddress'
     profile: 'Security:profile'
     PaypallPN: 'Security:PaypallPN'
+    customize: 'Default:customize'
 
 defaut_route: 'home'
 

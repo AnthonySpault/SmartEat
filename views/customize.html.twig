@@ -1,0 +1,58 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+    <div class="itemnavmobile">
+        <a href="#dish" class="dish">Plats</a>
+        <a href="#dessert" class="dessert">Desserts</a>
+        <a href="#drink" class="drink">Boissons</a>
+    </div>
+
+    <div class="categorytitle" id="dish">Plats du jour</div>
+
+
+    <form id="formMeal" method="POST" action="?action=customize">
+        {% for dish in dishes %}
+
+            <h2 class="title">{{ dish.name }}</h2>
+            <input type="radio" id="{{ dish.name }}" name="dish" value="{{ dish.id }}" class="none">
+            <label for="{{ dish.name }}"> <img src="{{ dish.image }}" alt="{{ dish.name }}"></label>
+
+
+
+        {% endfor %}
+
+
+        <div class="categorytitle" id="dessert">Desserts du jour</div>
+
+
+        {% for dessert in desserts %}
+
+            <h2 class="title">{{ dessert.name }}</h2>
+            <input type="radio"  id="{{ dessert.name }}" name="dessert" value="{{ dessert.id }}" class="none">
+            <label for="{{ dessert.name }}"><img src="{{ dessert.image }}" alt="{{ dessert.name }}"></label>
+
+
+
+
+        {% endfor %}
+
+
+        <div class="categorytitle" id="drink">Boissons du jour</div>
+
+
+        {% for drink in drinks %}
+            <h2 class="title">{{ drink.name }}</h2>
+
+            <input type="radio" id="{{ drink.name }}" name="drinks" value="{{ drink.id }}" class="none">
+            <label for="{{ drink.name }}"> <img src="{{ drink.image }}" alt="{{ drink.name }}"></label>
+
+
+
+
+        {% endfor %}
+        <input type="submit" value="J'ai faim">
+
+    </form>
+    <script src="assets/js/customize.js"></script>
+{% endblock %}
