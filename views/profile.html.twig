@@ -1,170 +1,90 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-<h1>Bonjour {{ user.firstname }}</h1>
 
+<div class="editblock">
+    <h2 class="red">Gérer les paramètres du compte</h2>
 
-    <div id="contentAddress">
-        {% for key in allAddress %}
+    <table>
+        <tr>
+            <th>Prénom</th>
+            <td contenteditable="true" onBlur="editProfile(this,'firstname')">{{ user.firstname }}</td>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <td contenteditable="true" onBlur="editProfile(this,'lastname')">{{ user.lastname }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td contenteditable="true" onBlur="editProfile(this,'email')">{{ user.email }}</td>
+        </tr>
+        <tr>
+            <th>Téléphone</th>
+            <td contenteditable="true" onBlur="editProfile(this,'phone')">{{ user.phone }}</td>
+        </tr>
+    </table>
+</div>
 
+<div class="addresses">
+    <h2 class="red">Adresses</h2>
+    <table>
+        <tr>
+            <th>Par défaut</th>
+            <th width="50%">Adresse</th>
+            <th>Supprimer</th>
+        </tr>
+    {% for key in allAddress %}
+        <tr>
+            {% if key.defaultAddress == "true" %}
+            <td><input type="radio" name="defaultAddress" checked value="{{ key.id }}"></td>
+            {% else %}
+            <td><input type="radio" name="defaultAddress" value="{{ key.id }}"></td>
+            {% endif %}
+            <td>{{ key.streetNumber }} {{ key.street }}, {{ key.zipcode }} {{ key.city }}</td>
+            <td><img src="assets/images/garbage.png" alt="Supprimer" onclick="deleteAddress({{ key.id }})"></td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="3" class="center green">Ajouter une adresse</td>
+    </tr>
+    </table>
+</div>
 
-          <div class="listAddress"> {{ key.name}} : {{ key.streetNumber}} {{ key.street}}   {{ key.zipcode}} {{ key.firstname}} {{ key.lastname}} {{ key.phone}}</div>
-            {% endfor %}
+<div class="pointblock">
+    <h2 class="red">Points de fidélité</h2>
+    <h3 class="green">Vos points : {{ user.points }}</h3>
+    <!-- PROGRESS BAR A FAIRE -->
+    <h3 class="green">Comment ça marche ?</h3>
+    <p>
+        1€ = 1 point
+    </p>
+    <h3 class="green">Récompenses :</h3>
+    <p>
+        A venir...
+    </p>
+</div>
 
-    </div>
+<div class="orders">
+    <h2 class="red">Historique de commande</h2>
 
+    <table>
+        {% for order in orders %}
+        <tr>
+            <td>
+                <h3>Commande n° {{ order.id }}</h3>
+                <p>
+                    Date et heure de la commande :<br />
+                    {{ order.date }}<br />
+                    Envoyé à :<br>
+                    <!-- ADRESSE -->
+                </p>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 
-    <div id="form">
-        {% if user.role == 'admin' %}
-        <div id="new_article" class="content">
-            <fieldset class="fieldsetSend">
-            <div class="insert_article">
-                <p>Insérer un nouveau plat</p>
-                </div>
-                    <form action="?action=profile" method="POST" enctype="multipart/form-data" id="platesForm">
-                        <label for="plateName">  Nom du plat :</label>
-                        <input type="text" name="plateName" id="plateName"><br>
-                        <label for="description">Description :</label>
-                        <textarea name="description" id="description"></textarea><br>
-                        <label for="ingredients">Ingrédient:</label>
-                        <textarea name="ingredients" id="ingredients"></textarea><br>
-                        <label for="tricks">Astuce:</label>
-                        <textarea name="tricks" id="tricks"></textarea><br>
-                        <label for="file">  Image :</label>
-                        <input type="file" name="file" id="file"><br><br>
-                        <label for="price">  Prix :</label>
-                        <input type="text" name="price" id="price"><br><br>
-                        <label for="category"> Catégorie</label>
-                        <select name="category" id="category">
-
-                                <option value="dish">Plat</option>
-                                <option value="dessert">Dessert</option>
-                                <option value="drink">Boisson</option>
-
-                        </select><br><br>
-
-                        <input class="custom-btn" type="submit">
-                        <br><br>
-                    </form>
-
-
-            </fieldset>
-            </div>
-        {%  endif %}
-
-
-
-
-
-            <fieldset class="fieldsetSend">
-                <legend> Insérez votre adresse</legend>
-                <form action="?action=profile" method="POST" name="addressForm" id="addressForm">
-                    <label for="pseudo">Nom de l'adresse : </label>
-                    <input type="text" name="name" id="name"><br>
-                    <label for="autocomplete">Adresse</label>
-                    <input id="autocomplete" placeholder="Entrer votre adresse..." onFocus="geolocate()" type="text">
-                    <label for="firstnameAddress"> Votre prénom</label>
-                    <input type="text" name="firstnameAddress" id="firstnameAddress" value="{{ user.firstname }}"><br>
-                    <label for="lastnameAddress"> Votre nom</label>
-                    <input type="text" name="lastnameAddress" id="lastnameAddress" value="{{ user.lastname}}"><br>
-                    <label for="phone">Téléphone: </label>
-                    <input type="text" name="phone" id="phone"><br>
-
-
-                    <input type="hidden" id="street_number">
-                    <input type="hidden" id="route">
-                    <input type="hidden" id="locality">
-                    <input type="hidden" id="administrative_area_level_1">
-                    <input type="hidden" id="country">
-                    <input type="hidden" id="postal_code">
-                    <input type="submit" name="submitAddress" value="Valider">
-                </form>
-            </fieldset>
-            <br><br>
-        <form action="?action=profile" method="POST" name="addressEdition">
-            <fieldset class="fieldsetSend">
-                <legend> Editez votre adresse</legend>
-                <label for="addressName">Nom de l'adresse à modifier : </label>
-                <select name="addressName" id="addressName">
-                    {% for key in allAddress %}
-
-                        <option value="{{ key.id }}"> {{ key.name }}</option>
-
-                    {% endfor %}
-                </select><br><br>
-                <label for="autocompleteEdition">Adresse</label>
-                <input id="autocompleteEdition" placeholder="Entrer votre adresse..." onFocus="geolocateEdition()" type="text">
-                <label for="firstnameAddressEdition"> Votre prénom</label>
-                <input type="text" name="firstnameAddressEdition" id="firstnameAddressEdition" value="{{ user.firstname }}"><br>
-                <label for="lastnameAddressEdition"> Votre nom</label>
-                <input type="text" name="lastnameAddressEdition" id="lastnameAddressEdition" value="{{ user.lastname }}"><br>
-                <label for="phoneAddressEdition">Téléphone: </label>
-                <input type="text" name="phoneAddressEdition" id="phoneAddressEdition"><br>
-
-                <input type="hidden" id="street_numberEdition">
-                <input type="hidden" id="routeEdition">
-                <input type="hidden" id="localityEdition">
-                <input type="hidden" id="administrative_area_level_1Edition">
-                <input type="hidden" id="countryEdition">
-                <input type="hidden" id="postal_codeEdition">
-                <input type="submit" name="editingAddress" value="Valider">
-            </fieldset>
-        </form>
-        <br><br>
-        <fieldset>
-
-    <div class="infoToEdit">
-
-        <div class="align">
-            <div class="infoUser" id="emailRecap"> Email: {{ user.email }}</div><a id="parameterEmail">Modifier</a>
-            <div id="infoEmail">
-                <form action="?action=profile" method="POST" name="emailForm" class="none" id="emailForm">
-                    <input type="text" name="emailEditing" id="emailEditing"><br>
-                    <input type="submit" value="valider">
-                </form>
-            </div>
-        </div>
-        <div class="align">
-            <div class="infoUser" id="firstnameRecap"> Prénom: {{ user.firstname }}</div> <a id="parameterFirstname">Modifier</a>
-            <div id="infoFirstname">
-                <form action="?action=profile" method="POST" name="firstnameForm" class="none" id="firstnameForm">
-                    <input type="text" name="firstnameEditing" id="firstnameEditing"><br>
-                    <input type="submit" value="valider">
-                </form>
-            </div>
-        </div>
-        <div class="align">
-            <div class="infoUser" id="lastnameRecap"> Nom: {{ user.lastname }}</div><a id="parameterLastname">Modifier</a>
-            <div id="infoLastname">
-                <form action="?action=profile" method="POST" name="lastnameForm" class="none" id="lastnameForm">
-                    <input type="text" name="lastnameEditing" id="lastnameEditing"><br>
-                    <input type="submit" value="valider"></form>
-                </form>
-            </div>
-        </div>
-        <div class="align">
-            <div class="infoUser" id="phoneRecap"> Téléphone : {{ user.phone }}</div><a id="parameterPhone">Modifier</a>
-            <div id="infoUsername">
-                <form action="?action=profile" method="POST" name="phoneForm" class="none" id="phoneForm">
-                    <input type="text" name="phoneEditing" id="phoneEditing"><br>
-                    <input type="submit" value="valider">
-                </form>
-            </div>
-        </div>
-        <div class="align">
-            <div class="infoUser" id="pointsRecap"> Vos points : {{ user.points }}</div>
-
-        </div>
-    </div>
-    </fieldset>
-    </div>
-
-
-    <a href="?action=logout">Logout</a>
-
-
-    <link rel="stylesheet" href="assets/css/profile.css">
-    <script src="assets/js/profile.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDugzDcYGo-62iMQ3aUepxGtqwyzz6ZC8M&libraries=places&callback=initAutocomplete" async defer></script>
+<script src="assets/js/profile.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDugzDcYGo-62iMQ3aUepxGtqwyzz6ZC8M&libraries=places&callback=initAutocomplete" async defer></script>
 
 {% endblock %}

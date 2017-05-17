@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Model\UserManager;
+use Model\ContentManager;
 
 class SecurityController extends BaseController
 {
@@ -63,62 +64,77 @@ class SecurityController extends BaseController
     public function profileAction()
     {
         if (isset($_SESSION['user_id'])) {
-            $manager = UserManager::getInstance();
-            $user = $manager->getUserById($_SESSION['user_id']);
-            $allAddress = $manager->getAddressByUserId($_SESSION['user_id']);
-            $allPlates = $manager->getPlates();
+            $userManager = UserManager::getInstance();
+            $ContentManager = ContentManager::getInstance();
+            $user = $userManager->getUserById($_SESSION['user_id']);
+            $allAddress = $userManager->getAddressByUserId($_SESSION['user_id']);
+            $allPlates = $ContentManager->getAllPlates();
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                if (isset($_POST['firstnameEditing'])) {
-                    $check = $manager->userCheckFirstname($_POST);
-                    if ($check === true) {
-                        $manager->firstnameEdition($_POST);
-                        echo 'true';
-                        exit(0);
-                    } else {
-                        echo $check;
-                        exit(0);
+                if ($_POST['edit'] == "editProfile") {
+                    if($_POST["kind"] == "firstname") {
+                        $check = $userManager->userCheckFirstname($_POST['value']);
+                        if ($check === true) {
+                            $userManager->firstnameEdition($_POST['value']);
+                            echo 'true';
+                            exit(0);
+                        } else {
+                            echo $check;
+                            exit(0);
+                        }
                     }
-                }
-                if (isset($_POST['phoneEditing'])) {
-                    $check = $manager->userCheckPhone($_POST);
-                    if ($check === true) {
-                        $manager->phoneEdition($_POST);
-                        echo 'true';
-                        exit(0);
-                    } else {
-                        echo $check;
-                        exit(0);
+                    if ($_POST["kind"] == "lastname") {
+                        $check = $userManager->userCheckLastname($_POST['value']);
+                        if ($check === true) {
+                            $userManager->lastnameEdition($_POST['value']);
+                            echo 'true';
+                            exit(0);
+                        } else {
+                            echo $check;
+                            exit(0);
+                        }
                     }
-                }
-                if (isset($_POST['lastnameEditing'])) {
-                    $check = $manager->userCheckLastname($_POST);
-                    if ($check === true) {
-                        $manager->lastnameEdition($_POST);
-                        echo 'true';
-                        exit(0);
-                    } else {
-                        echo $check;
-                        exit(0);
-                    }
-                }
-                if (isset($_POST['emailEditing'])) {
-                    $check = $manager->userCheckEmail($_POST);
-                    if ($check === true) {
+                    if ($_POST["kind"] == "email") {
+                        $check = $userManager->userCheckEmail($_POST['value']);
+                        if ($check === true) {
 
-                        $manager->emailEdition($_POST);
-                        echo 'true';
-                        exit(0);
-                    } else {
-                        echo $check;
-                        exit(0);
+                            $userManager->emailEdition($_POST['value']);
+                            echo 'true';
+                            exit(0);
+                        } else {
+                            echo $check;
+                            exit(0);
+                        }
+
                     }
-
+                    if ($_POST["kind"] == "phone") {
+                        $check = $userManager->userCheckPhone($_POST['value']);
+                        if ($check === true) {
+                            $userManager->phoneEdition($_POST['value']);
+                            echo 'true';
+                            exit(0);
+                        } else {
+                            echo $check;
+                            exit(0);
+                        }
+                    }
+                    if ($_POST["kind"] == "changeDefaultAddress") {
+                        $check = $userManager->userCheckDefaultAddress($_POST['value']);
+                        if ($check === true) {
+                            $userManager->defaultAddressEdition($_POST['value']);
+                            echo "true";
+                            exit(0);
+                        } else {
+                            echo $check;
+                            exit(0);
+                        }
+                    }
                 }
-                if (isset($_POST['plateName'])) {
 
-                    $check = $manager->userCheckPlates($_POST, $_FILES);
+                /*if (isset($_POST['plateName'])) {
+
+                    $check = $ContentManager->userCheckPlates($_POST, $_FILES);
                     if ($check === true) {
-                        $manager->insertPlates($_POST, $_FILES);
+                        $ContentManager->insertPlates($_POST, $_FILES);
                         echo 'true';
                         exit(0);
                     } else {
@@ -128,9 +144,9 @@ class SecurityController extends BaseController
                 }
 
                 if (isset($_POST['firstnameAddressEdition'])) {
-                    $check = $manager->userCheckAddress($_POST);
+                    $check = $userManager->userCheckAddress($_POST);
                     if ($check === true) {
-                        $manager->addressEdition($_POST);
+                        $userManager->addressEdition($_POST);
                         echo 'true';
                         exit(0);
                     } else {
@@ -141,9 +157,9 @@ class SecurityController extends BaseController
                 }
 
                 if (isset($_POST['firstnameAddress'])) {
-                    $check = $manager->userCheckAddress($_POST);
+                    $check = $userManager->userCheckAddress($_POST);
                     if ($check === true) {
-                        $manager->userAddressInsert($_POST);
+                        $userManager->userAddressInsert($_POST);
                         echo 'true';
                         exit(0);
                     } else {
@@ -152,9 +168,8 @@ class SecurityController extends BaseController
                     }
 
 
-                }
+                }*/
             }
-
             echo $this->renderView('profile.html.twig', ['user' => $user, 'allAddress' => $allAddress,'allPlates'=> $allPlates]);
         } else {
             echo $this->renderView('loginregister.html.twig');

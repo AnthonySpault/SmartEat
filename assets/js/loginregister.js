@@ -128,7 +128,7 @@ $('form[name=registerform]').submit(function() {
             route:route,
             city:city,
             postalCode:postalCode,
-            addressName: 'Adresse par défaut'
+            defaultAddress: "true"
         },
         success:function(response) {
             if (response !== "true") {

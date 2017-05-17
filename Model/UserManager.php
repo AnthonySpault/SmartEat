@@ -50,6 +50,25 @@ class UserManager
         return $data;
     }
 
+    public function getAddressById($id)
+    {
+
+        $data = $this->DBManager->findOneSecure("SELECT * FROM addresses WHERE id= :id", ['id' => $id]);
+        return $data;
+    }
+
+    public function getEmailByEmail($email)
+    {
+        $data = $this->DBManager->findAllSecure('SELECT email FROM users WHERE `email` = :email', ['email' => $email]);
+        return $data;
+    }
+
+    public function getPhoneByPhone($phone)
+    {
+        $data = $this->DBManager->findAllSecure('SELECT phone FROM users WHERE `phone` = :phone', ['phone' => $phone]);
+        return $data;
+    }
+
     public function userCheckRegister($data)
     {
         if (empty($data['firstname']) OR empty($data['lastname']) OR empty($data['email']) OR empty($data['password']) OR empty($data['passwordconfirm']) OR empty($data['phone']))
@@ -86,21 +105,6 @@ class UserManager
         return true;
     }
 
-    public function addressEdition($data)
-    {
-
-        $update['id'] = $data['addressName'];
-        $update['streetNumber'] = $data['streetNumber'];
-        $update['street'] = $data['route'];
-        $update['zipcode'] = $data['postalCode'];
-        $update['city'] = $data['city'];
-        $update['firstname'] = $data['firstname'];
-        $update['lastname'] = $data['lastname'];
-        $update['phone'] = $data['phone'];
-        $query = $this->DBManager->doRequestSecure("UPDATE addresses SET `streetNumber`= :streetNumber ,`street` = :street,`zipcode` = :zipcode,`city` = :city,`firstname`= :firstname,`lastname`= :lastname,`phone`= :phone WHERE `id` = :id", $update);
-        return $query;
-    }
-
     public function userAddressInsert($data)
     {
         if (isset($_SESSION['email'])) {
@@ -110,7 +114,7 @@ class UserManager
         }
 
         $insert['userid'] = $user['id'];
-        $insert['name'] = $data['addressName'];
+        $insert['defaultAddress'] = $data['defaultAddress'];
         $insert['streetNumber'] = $data['streetNumber'];
         $insert['street'] = $data['route'];
         $insert['zipcode'] = $data['postalCode'];
@@ -142,44 +146,6 @@ class UserManager
         return true;
     }
 
-    public function userCheckPlates($data, $img)
-    {
-        $extension = ['.jpeg', '.png', '.jpg', '.PNG', '.JPG', '.JPEG'];
-        $extFile = strrchr(basename($img['file']['name']), '.');
-        if (empty($data['plateName']) OR empty($img['file']['name']) OR empty($data['description']) OR empty($data['ingredients']) OR empty($data['tricks']) OR empty($data['price']) OR empty($data['category'])) {
-            return "Des champs obligatoire ne sont pas remplis";
-        }
-        if (!in_array($extFile, $extension)) {
-            return "Seul les images sont autoriséses";
-        }
-        $manager = ContentManager::getInstance();
-        $testName = $manager->getPlatesByName($data['plateName']);
-        if ($testName) {
-            return "Nom déjà utilisé";
-        }
-        return true;
-    }
-
-    public function insertPlates($data, $img)
-    {
-        $filepath = "uploads/plates_img/" . $data['plateName'] . strrchr(basename($img['file']['name']), '.');
-        $plates['name'] = $data['plateName'];
-        $plates['description'] = $data['description'];
-        $plates['ingredients'] = $data['ingredients'];
-        $plates['trick'] = $data['tricks'];
-        $plates['image'] = $filepath;
-        $plates['price'] = $data['price'];
-        $plates['category'] = $data['category'];
-        $this->DBManager->insert('plates', $plates);
-
-        $req = $this->getPlatesByName($data['plateName']);
-        $update['image'] = 'uploads/plates_img/' . $req['id'] . strrchr(basename($img['file']['name']), '.');
-        $update['id'] = $req['id'];
-        $query = $this->DBManager->findOneSecure("UPDATE plates SET `image`= :image  WHERE `id` = :id", $update);
-        move_uploaded_file($img['file']['tmp_name'], $update['image']);
-        return true;
-    }
-
     public function userCheckLogin($data)
     {
 
@@ -206,49 +172,56 @@ class UserManager
         return true;
     }
 
-    public function firstnameEdition($data)
+    public function firstnameEdition($firstname)
     {
-        $update['firstnameEditing'] = $data['firstnameEditing'];
+        $update['firstnameEditing'] = $firstname;
         $update['user_id'] = $_SESSION['user_id'];
         $query = $this->DBManager->doRequestSecure("UPDATE users SET `firstname`= :firstnameEditing WHERE `id` = :user_id", $update);
         $write = $this->writeLog('access.log', ' => function : firstnameEdition || User ' . $_SESSION['user_id'] . ' just updated his name to ' . $update['firstnameEditing'] . '.' . "\n");
         return true;
     }
 
-    public function lastnameEdition($data)
+    public function lastnameEdition($lastname)
     {
-        $update['lastnameEditing'] = $data['lastnameEditing'];
+        $update['lastnameEditing'] = $lastname;
         $update['user_id'] = $_SESSION['user_id'];
         $query = $this->DBManager->doRequestSecure("UPDATE users SET `lastname`= :lastnameEditing WHERE `id` = :user_id", $update);
         $write = $this->writeLog('access.log', ' => function : lastnameEdition || User ' . $_SESSION['user_id'] . ' just updated his lastname to ' . $update['lastnameEditing'] . '.' . "\n");
         return true;
     }
 
-    public function emailEdition($data)
+    public function emailEdition($email)
     {
-        $update['emailEditing'] = $data['emailEditing'];
+        $update['emailEditing'] = $email;
         $update['user_id'] = $_SESSION['user_id'];
         $query = $this->DBManager->doRequestSecure("UPDATE users SET `email`= :emailEditing WHERE `id` = :user_id", $update);
         $write = $this->writeLog('access.log', ' => function : emailEdition || User ' . $_SESSION['user_id'] . ' just updated his email to ' . $update['emailEditing'] . '.' . "\n");
         return true;
     }
 
-    public function phoneEdition($data)
+    public function phoneEdition($phone)
     {
-        $update['phoneEditing'] = $data['phoneEditing'];
+        $update['phoneEditing'] = $phone;
         $update['user_id'] = $_SESSION['user_id'];
         $query = $this->DBManager->doRequestSecure("UPDATE users SET `phone`= :phoneEditing WHERE `id` = :user_id", $update);
         $write = $this->writeLog('access.log', ' => function : phoneEdition || User ' . $_SESSION['user_id'] . ' just updated his phone to ' . $update['phoneEditing'] . '.' . "\n");
         return true;
     }
 
-    public function userCheckFirstname($data)
+    public function defaultAddressEdition($id) {
+        $update['user_id'] = $_SESSION['user_id'];
+        $query = $this->DBManager->doRequestSecure('UPDATE addresses SET `defaultAddress`= "false" WHERE `userid` = :user_id AND `defaultAddress` = "true"', $update);
+        $update['id'] = $id;
+        $query = $this->DBManager->doRequestSecure('UPDATE addresses SET `defaultAddress`= "true" WHERE `userid` = :user_id AND `id` = :id', $update);
+    }
+
+    public function userCheckFirstname($firstname)
     {
 
-        if (empty($data['firstnameEditing'])) {
+        if (empty($firstname)) {
             return 'Contenu manquant';
         }
-        if (strlen($data['firstnameEditing']) < 4) {
+        if (strlen($firstname) < 4) {
             return 'Prénom trop court';
         }
 
@@ -257,44 +230,55 @@ class UserManager
 
     }
 
-    public function userCheckLastname($data)
+    public function userCheckLastname($lastname)
     {
 
-        if (empty($data['lastnameEditing'])) {
+        if (empty($lastname)) {
             return 'Contenu manquant';
         }
-        if (strlen($data['lastnameEditing']) < 4) {
+        if (strlen($lastname) < 4) {
             return 'Nom de famille trop court';
         }
 
         return true;
     }
 
-    public function userCheckPhone($data)
+    public function userCheckPhone($phone)
     {
-
-        if (empty($data['phoneEditing'])) {
+        if (empty($phone)) {
             return 'Contenu manquant';
         }
+        $testPhone = $this->getPhoneByPhone($phone);
+        if ($testPhone)
+            return 'Numéro de téléphone déjà utilisé';
         $phoneRegExp = '/(0|(\+33)|(0033))[1-9][0-9]{8}/';
-        if (!preg_match($phoneRegExp, $data['phoneEditing']))
+        if (!preg_match($phoneRegExp, $phone))
             return "Votre numéro de téléphone ne semble pas valide.";
 
         return true;
     }
 
 
-    public function userCheckEmail($data)
+    public function userCheckEmail($email)
     {
-        $testEmail = $this->getEmailByEmail($data['emailEditing']);
-        if (empty($data['emailEditing']))
+        if (empty($email))
             return 'Contenu manquant';
+        $testEmail = $this->getEmailByEmail($email);
         if ($testEmail)
             return 'Email déjà utilisé';
         $emailRegExp = '/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
-        if (!preg_match($emailRegExp, $data['emailEditing']))
+        if (!preg_match($emailRegExp, $email))
             return "Votre email ne semble pas valide.";
 
+        return true;
+    }
+
+    public function userCheckDefaultAddress($id) {
+        if (empty($id))
+            return "Action interdite";
+        $check = $this->getAddressById($id);
+        if ($check["userid"] != $_SESSION['user_id'])
+            return "L'adresse que vous souhaitez mettre par defaut ne vous appartient pas.";
         return true;
     }
 

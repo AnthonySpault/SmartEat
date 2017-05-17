@@ -38,4 +38,42 @@ class ContentManager
             ['name' => $name]);
         return $data;
     }
+
+    public function userCheckPlates($data, $img)
+    {
+        $extension = ['.jpeg', '.png', '.jpg', '.PNG', '.JPG', '.JPEG'];
+        $extFile = strrchr(basename($img['file']['name']), '.');
+        if (empty($data['plateName']) OR empty($img['file']['name']) OR empty($data['description']) OR empty($data['ingredients']) OR empty($data['tricks']) OR empty($data['price']) OR empty($data['category'])) {
+            return "Des champs obligatoire ne sont pas remplis";
+        }
+        if (!in_array($extFile, $extension)) {
+            return "Seul les images sont autoriséses";
+        }
+        $manager = ContentManager::getInstance();
+        $testName = $manager->getPlatesByName($data['plateName']);
+        if ($testName) {
+            return "Nom déjà utilisé";
+        }
+        return true;
+    }
+
+    public function insertPlates($data, $img)
+    {
+        $filepath = "uploads/plates_img/" . $data['plateName'] . strrchr(basename($img['file']['name']), '.');
+        $plates['name'] = $data['plateName'];
+        $plates['description'] = $data['description'];
+        $plates['ingredients'] = $data['ingredients'];
+        $plates['trick'] = $data['tricks'];
+        $plates['image'] = $filepath;
+        $plates['price'] = $data['price'];
+        $plates['category'] = $data['category'];
+        $this->DBManager->insert('plates', $plates);
+
+        $req = $this->getPlatesByName($data['plateName']);
+        $update['image'] = 'uploads/plates_img/' . $req['id'] . strrchr(basename($img['file']['name']), '.');
+        $update['id'] = $req['id'];
+        $query = $this->DBManager->findOneSecure("UPDATE plates SET `image`= :image  WHERE `id` = :id", $update);
+        move_uploaded_file($img['file']['tmp_name'], $update['image']);
+        return true;
+    }
 }
