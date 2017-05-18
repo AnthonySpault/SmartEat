@@ -23,7 +23,7 @@
                     <p class="description">{{ dish.description }}</p>
                     <div class="actions">
                         <a href="#">Astuce du jour</a>
-                        <a href="#">Add to cart</a>
+                        <button onclick="addtocart({{dish.id}})">Add to cart</button>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                     <p class="description">{{ dessert.description }}</p>
                     <div class="actions">
                         <a href="#">Astuce du jour</a>
-                        <a href="#">Add to cart</a>
+                        <button onclick="addtocart({{dessert.id}})">Add to cart</button>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                     <p class="description">{{ drink.description }}</p>
                     <div class="actions">
                         <a href="#">Astuce du jour</a>
-                        <a href="#">Add to cart</a>
+                        <button onclick="addtocart({{drink.id}})">Add to cart</button>
                     </div>
                 </div>
             </div>

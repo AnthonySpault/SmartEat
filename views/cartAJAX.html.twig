@@ -1,0 +1,28 @@
+<h2 class="red">Panier</h2>
+
+<div class="cartelements">
+    {% for key, element in CartElements %}
+        <div class="cartelement">
+            <img src="{{ element.img }}" alt="{{ element.name }}">
+            <h3 class="green">{{ element.name }}</h3>
+            <div class="pricequantity">
+                <div>
+                    <span class="green">Prix : </span>&nbsp;<span>{{ element.price * element.quantity }} €</span>
+                </div>
+                <div>
+                    <span class="green">Quantité : </span>&nbsp;<input type="image" src="assets/images/removeone.png" alt="Supprimer une quantité" onclick="removeone({{key}})">&nbsp;{{ element.quantity }}&nbsp;<input type="image" src="assets/images/addone.png" alt="Ajouter une quantité" onclick="addone({{key}})">
+                </div>
+            </div>
+            <input class=delete type="image" src="assets/images/garbage.png" alt="Supprimer" onclick="removetocart({{key}})">
+        </div>
+        <hr>
+    {% endfor %}
+</div>
+
+{% if CartElements is defined and CartElements is not empty %}
+    <h3 class="green">Total : {{ Total }} €</h3>
+    <button type="button">Valider</button>
+{% else %}
+    <h3 class="green">Aucun article dans le panier.</h3>
+    <button type="button" disabled>Valider</button>
+{% endif %}

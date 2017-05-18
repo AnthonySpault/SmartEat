@@ -10,8 +10,8 @@ class DefaultController extends BaseController
 {
     public function homeAction()
     {
-        $manager = ContentManager::getInstance();
-        $allPlates = $manager->getCurrentPlates();
+        $ContentManager = ContentManager::getInstance();
+        $allPlates = $ContentManager->getCurrentPlates();
         $dishes = [];
         $desserts = [];
         $drinks = [];
@@ -27,18 +27,23 @@ class DefaultController extends BaseController
             }
         }
         echo $this->renderView('home.html.twig', [
-                            'dishes'=> $dishes,
-                            'desserts'=> $desserts,
-                            'drinks'=> $drinks,
-                        ]);
+            'SessionEmail' => $_SESSION['email'],
+            'dishes' => $dishes,
+            'desserts' => $desserts,
+            'drinks' => $drinks,
+        ]);
     }
 
     public function conceptAction() {
-        echo $this->renderView('concept.html.twig');
+        echo $this->renderView('concept.html.twig', [
+            'SessionEmail' => $_SESSION['email']
+        ]);
     }
 
     public function partnersAction() {
-        echo $this->renderView('partners.html.twig');
+        echo $this->renderView('partners.html.twig', [
+            'SessionEmail' => $_SESSION['email']
+        ]);
     }
 
     public function customizeAction() {
@@ -60,24 +65,23 @@ class DefaultController extends BaseController
             }
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $check = $orderManager->checkBasket($_POST);
-                if($check){
-                    $orderManager->basket($_POST);
-                    echo 'true';
-                    exit(0);
-                }else{
-                    echo $check;
-                    exit(0);
-                }
-
-
-
+            $check = $orderManager->checkBasket($_POST);
+            if($check) {
+                $orderManager->basket($_POST);
+                echo 'true';
+                exit(0);
+            }
+            else {
+                echo $check;
+                exit(0);
+            }
         }
 
         echo $this->renderView('customize.html.twig', [
-            'dishes'=> $dishes,
-            'desserts'=> $desserts,
-            'drinks'=> $drinks,
+            'SessionEmail' => $_SESSION['email'],
+            'dishes' => $dishes,
+            'desserts' => $desserts,
+            'drinks' => $drinks,
         ]);
 
     }
