@@ -124,7 +124,7 @@ class UserManager
         $insert['lastname'] = $data['lastname'];
         $insert['phone'] = $data['phone'];
         $this->DBManager->insert('addresses', $insert);
-        $write = $this->writeLog('access.log', ' => function : userInsertAdress || User ' . $user['id'] . ' enter the adress : ' . $insert['name'] . "\n");
+        $write = $this->writeLog('access.log', ' => function : userInsertAdress || User ' . $user['id'] . ' add an address' . "\n");
     }
 
     private function userHash($pass)

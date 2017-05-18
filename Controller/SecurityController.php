@@ -2,8 +2,8 @@
 
 namespace Controller;
 
-use Model\UserManager;
 use Model\ContentManager;
+use Model\UserManager;
 
 class SecurityController extends BaseController
 {
@@ -70,8 +70,8 @@ class SecurityController extends BaseController
             $allAddress = $userManager->getAddressByUserId($_SESSION['user_id']);
             $allPlates = $ContentManager->getAllPlates();
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                if ($_POST['edit'] == "editProfile") {
-                    if($_POST["kind"] == "firstname") {
+                if ($_POST['action'] == "editProfile") {
+                    if ($_POST["kind"] == "firstname") {
                         $check = $userManager->userCheckFirstname($_POST['value']);
                         if ($check === true) {
                             $userManager->firstnameEdition($_POST['value']);
@@ -128,7 +128,22 @@ class SecurityController extends BaseController
                             exit(0);
                         }
                     }
+                } elseif ($_POST['action'] == "addAddress") {
+
+                        $check = $userManager->userCheckAddress($_POST);
+                        if ($check) {
+                            $userManager->userAddressInsert($_POST);
+                            echo 'true';
+                            exit(0);
+                        } else {
+                            echo $check;
+                            exit(0);
+                        }
+
                 }
+
+                }
+
 
                 /*if (isset($_POST['plateName'])) {
 
@@ -169,8 +184,8 @@ class SecurityController extends BaseController
 
 
                 }*/
-            }
-            echo $this->renderView('profile.html.twig', ['user' => $user, 'allAddress' => $allAddress,'allPlates'=> $allPlates]);
+
+            echo $this->renderView('profile.html.twig', ['user' => $user, 'allAddress' => $allAddress, 'allPlates' => $allPlates]);
         } else {
             echo $this->renderView('loginregister.html.twig');
         }
