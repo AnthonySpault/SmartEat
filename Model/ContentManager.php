@@ -26,6 +26,12 @@ class ContentManager
         return $data;
     }
 
+    public function getOnePlates($id)
+    {
+        $data = $this->DBManager->findOneSecure('SELECT * FROM plates WHERE id = :id', ['id' => $id]);
+        return $data;
+    }
+
     public function getCurrentPlates()
     {
         $data = $this->DBManager->findAllSecure('SELECT * FROM plates WHERE status = "active"');
@@ -65,7 +71,7 @@ class ContentManager
         $plates['ingredients'] = $data['ingredients'];
         $plates['trick'] = $data['tricks'];
         $plates['image'] = $filepath;
-        $plates['price'] = $data['price'];
+        $plates['price'] = str_replace($data['price'],",",".");
         $plates['category'] = $data['category'];
         $this->DBManager->insert('plates', $plates);
 

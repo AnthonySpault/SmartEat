@@ -2,13 +2,16 @@ routes:
     home: 'Default:home'
     concept: 'Default:concept'
     partners: 'Default:partners'
+    customize: 'Default:customize'
+    profile: 'Security:profile'
+    cart: 'Cart:viewcart'
     login: 'Security:login'
     logout: 'Security:logout'
     register: 'Security:register'
     registeraddress: 'Security:registeraddress'
-    profile: 'Security:profile'
+    editcart: 'Cart:editcart'
+    refreshcart: 'Cart:refreshcart'
     PaypallPN: 'Security:PaypallPN'
-    customize: 'Default:customize'
 
 defaut_route: 'home'
 

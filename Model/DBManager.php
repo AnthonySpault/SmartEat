@@ -26,7 +26,7 @@ class DBManager
     {
         global $config;
         $db_config = $config['db_config'];
-        $dsn = 'mysql:dbname='.$db_config['name'].';host='.$db_config['host'];
+        $dsn = 'mysql:host='.$db_config['host'].';dbname='.$db_config['name'].';charset=utf8';
         $user = $db_config['user'];
         $password = $db_config['pass'];
 

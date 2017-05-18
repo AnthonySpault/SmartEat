@@ -18,6 +18,9 @@
                     <li><a href="?action=concept">Concept</a></li>
                     <li><a href="?action=partners">Partenaires</a></li>
                     <li><a href="?action=profile">Mon compte</a></li>
+                    {% if SessionEmail is defined and SessionEmail is not empty %}
+                    <li><a href="?action=logout">Deconnexion</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
@@ -25,7 +28,7 @@
         <header id="mobile-header">
             <a href="#" id="burger-toggle"><span></span></a>
             <a href="?action=home"><img src="assets/images/logo.png" alt="Logo Smart Eat" class="logo"></a>
-            <a href="?action=basket" class="basket"><img src="assets/images/basket.png" alt="Logo ajouter au pannier"></a>
+            <a href="?action=cart" class="basket"><img src="assets/images/basket.png" alt="Logo ajouter au pannier"></a>
         </header>
 
         {% block content %}{% endblock %}

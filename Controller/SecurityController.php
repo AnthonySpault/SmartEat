@@ -170,7 +170,12 @@ class SecurityController extends BaseController
 
                 }*/
             }
-            echo $this->renderView('profile.html.twig', ['user' => $user, 'allAddress' => $allAddress,'allPlates'=> $allPlates]);
+            echo $this->renderView('profile.html.twig', [
+                'SessionEmail' => $_SESSION['email'],
+                'user' => $user,
+                'allAddress' => $allAddress,
+                'allPlates'=> $allPlates
+            ]);
         } else {
             echo $this->renderView('loginregister.html.twig');
         }
