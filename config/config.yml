@@ -11,6 +11,7 @@ routes:
     registeraddress: 'Security:registeraddress'
     editcart: 'Cart:editcart'
     refreshcart: 'Cart:refreshcart'
+    printaddress: 'Security:printaddress'
     PaypallPN: 'Security:PaypallPN'
 
 defaut_route: 'home'

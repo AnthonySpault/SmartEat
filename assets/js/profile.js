@@ -1,3 +1,32 @@
+/**
+ * Created by Dam's on 18/05/2017.
+ */
+// Get the modal
+var modal = $('#myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("addAddress");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+    modal.css('display','block');
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
 var placeSearch, autocomplete;
 var componentForm = {
     street_number: 'short_name',
@@ -178,43 +207,22 @@ addressForm.submit(function () {
                 if (data !== 'true') {
                     vNotify.error({text: data, title: 'Erreur !'});
                 } else {
-                    vNotify.success({text: 'Adresses bien rentré', title: 'Félicitation'});
-                    contentAddress.append('<td class="contentAddresssInfo">'  + ': ' + streetNumber + ' ' +route + ' ' +
-                        postalCode+ ' ' + $firstnameAddress+ ' '+ $lastnameAddress+ ' '+ phone + ' </td>');
-                    addressForm[0].reset();
+                  printAddress();
+                  modal.css('display','none');
                 }
             }
         });
     }
     return false;
 });
-
-
-/**
- * Created by Dam's on 18/05/2017.
- */
-// Get the modal
-var modal = document.getElementById('myModal');
-
-// Get the button that opens the modal
-var btn = document.getElementById("addAddress");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on the button, open the modal
-btn.onclick = function() {
-    modal.style.display = "block";
+function printAddress(){
+    $.ajax({
+        type: 'post',
+        url: '?action=printaddress',
+        success:function(response) {
+            $(".addresses").html(response);
+        }
+    });
 }
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}

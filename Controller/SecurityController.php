@@ -196,4 +196,18 @@ class SecurityController extends BaseController
             echo $this->renderView('loginregister.html.twig');
         }
     }
+
+    public function printaddressAction(){
+        $userManager = UserManager::getInstance();
+        $ContentManager = ContentManager::getInstance();
+        $user = $userManager->getUserById($_SESSION['user_id']);
+        $allAddress = $userManager->getAddressByUserId($_SESSION['user_id']);
+        $allPlates = $ContentManager->getAllPlates();
+        echo $this->renderView('profileAJAX.html.twig', [
+            'SessionEmail' => $_SESSION['email'],
+            'user' => $user,
+            'allAddress' => $allAddress,
+            'allPlates'=> $allPlates
+        ]);
+    }
 }
