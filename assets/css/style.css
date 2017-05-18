@@ -25,6 +25,7 @@ body {
 .none {
     display: none;
 }
+
 /* MODAL */
 
 .modal {
@@ -690,7 +691,7 @@ body {
     width: 100%; height:100%;
     top:0; left:0;
     background:rgba(0,0,0,0.6) url("../images/logoselected.png") no-repeat;
-    background-size: 70%;
+    background-size: 60%;
     background-position: center;
     border-radius: 20px;
     opacity: 0;
