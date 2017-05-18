@@ -10,14 +10,9 @@ var btn = document.getElementById("addAddress");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
-// When the user clicks on the button, open the modal
-btn.onclick = function() {
-    modal.css('display','block');
-}
-
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
-    modal.style.display = "none";
+    modal.css('display', 'none');
 }
 
 // When the user clicks anywhere outside of the modal, close it
@@ -134,6 +129,17 @@ function editProfile(element, kind) {
     });
 }
 
+function printAddress(){
+    $.ajax({
+        type: 'post',
+        url: '?action=printaddress',
+        success:function(response) {
+            $(".addresses").html(response);
+        }
+    });
+}
+
+
 $(function () {
     $('.addresses input[name=defaultAddress]').change(function(){
         $.ajax({
@@ -154,44 +160,40 @@ $(function () {
             }
         });
     });
-});
-var addressForm = $('#addressForm');
-console.log(addressForm);
-var contentAddress = $('.contentAddress');
-addressForm.submit(function () {
-    var formValid = true;
-    var $this = $(this);
-    var $firstnameAddress = $('#firstnameAddress').val(),
-        $lastnameAddress = $('#lastnameAddress').val(),
-        streetNumber = $('#street_number').val(),
-        phone = $('#phone').val(),
-        route = $('#route').val(),
-        city = $('#locality').val(),
-        postalCode = $('#postal_code').val(),
-        defaultAddress = $('input:checked[name=default]').val();
+    $('#addressForm').submit(function () {
+        var firstnameAddress = $('#firstnameAddress').val(),
+            lastnameAddress = $('#lastnameAddress').val(),
+            streetNumber = $('#street_number').val(),
+            phone = $('#phone').val(),
+            route = $('#route').val(),
+            city = $('#locality').val(),
+            postalCode = $('#postal_code').val(),
+            defaultAddress = $('input:checked[name=default]').val();
 
+        if(defaultAddress === ''){
+            vNotify.error({text: 'Veuillez choisir si vous voulez mettre cette adresse par défaut.', title: 'Erreur !'});
+            return false;
+        }
+        if (!nameValidation(firstnameAddress)) {
+            vNotify.error({text: 'Veuillez saisir un prénom valide.', title: 'Erreur !'});
+            return false;
+        }
+        if (!nameValidation(lastnameAddress)) {
+            vNotify.error({text: 'Veuillez saisir un nom valide.', title: 'Erreur !'});
+            return false;
+        }
+        if (city != "Paris") {
+            vNotify.error({text: 'Désolé mais Smart Eat est uniquement disponible sur Paris pour le moment.', title: 'Erreur !'});
+            return false;
+        }
+        if (!phoneValidation(phone)) {
+            vNotify.error({text: 'Veuillez saisir un numéro de téléphone valide.', title: 'Erreur !'});
+            return false;
+        }
 
-    if(defaultAddress === ''){
-        formValid = false;
-        vNotify.error({text: 'Veuillez saisir le boutton defaut.', title: 'Erreur !'});
-    }
-
-
-    if (!nameValidation($firstnameAddress)) {
-        formValid = false;
-        vNotify.error({text: 'Veuillez saisir un prénom valide.', title: 'Erreur !'});
-    }
-    if (!nameValidation($lastnameAddress)) {
-        formValid = false;
-        vNotify.error({text: 'Veuillez saisir un nom valide.', title: 'Erreur !'});
-    }
-    if ($firstnameAddress === '' || $lastnameAddress === '') {
-        vNotify.error({text: 'Champ(s) manquant(s).', title: 'Erreur !'});
-    }
-    if (formValid) {
         $.ajax({
-            url: $this.attr('action'),
-            type: $this.attr('method'),
+            url: "?action=profile",
+            type: "post",
             data: {
                 action:'addAddress',
                 defaultAddress : defaultAddress,
@@ -199,8 +201,8 @@ addressForm.submit(function () {
                 route: route,
                 postalCode: postalCode,
                 city: city,
-                firstname:$firstnameAddress,
-                lastname: $lastnameAddress,
+                firstname:firstnameAddress,
+                lastname: lastnameAddress,
                 phone: phone
             },
             success: function (data) {
@@ -212,17 +214,6 @@ addressForm.submit(function () {
                 }
             }
         });
-    }
-    return false;
-});
-function printAddress(){
-    $.ajax({
-        type: 'post',
-        url: '?action=printaddress',
-        success:function(response) {
-            $(".addresses").html(response);
-        }
+        return false;
     });
-}
-
-
+});

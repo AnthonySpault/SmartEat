@@ -45,42 +45,10 @@
         </tr>
     {% endfor %}
     <tr>
-        <td id="addAddress" colspan="3" class="center green">Ajouter une adresse</td>
+        <td id="addAddress" colspan="3" onclick="$('#myModal').css('display','block');" class="center green">Ajouter une adresse</td>
     </tr>
     </table>
 </div>
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-
-            <fieldset class="fieldsetSend">
-                <legend> Insérez votre adresse</legend>
-                <form action="?action=profile" method="POST" name="addressForm" id="addressForm">
-                    <label for="autocomplete">Adresse</label>
-                    <input id="autocomplete" placeholder="Entrer votre adresse..." onFocus="geolocate()" type="text">
-                    <label for="firstnameAddress"> Votre prénom</label>
-                    <input type="text" name="firstnameAddress" id="firstnameAddress" value="{{ user.firstname }}"><br>
-                    <label for="lastnameAddress"> Votre nom</label>
-                    <input type="text" name="lastnameAddress" id="lastnameAddress" value="{{ user.lastname}}"><br>
-                    <label for="phone">Téléphone: </label>
-                   <input type="text" name="phone" id="phone" value="{{ user.phone }}"><br>
-                     <h2>Voulez vous définir cette adresse comme adresse par défaut ? </h2>
-                     <input type="radio" name="default" id="r1" value="true"><label for="r1"> Oui</label>
-                     <input type="radio" name="default" id="r2" value="false" checked ><label for="r2"> Non</label>
-
-
-
-                    <input type="hidden" id="street_number">
-                    <input type="hidden" id="route">
-                    <input type="hidden" id="locality">
-                    <input type="hidden" id="administrative_area_level_1">
-                    <input type="hidden" id="country">
-                    <input type="hidden" id="postal_code">
-                    <input type="submit" name="submitAddress" value="Valider">
-                </form>
-            </fieldset>
-            </div>
-    </div>
 
 
 <div class="pointblock">
@@ -117,8 +85,41 @@
     </table>
 </div>
 
-<script src="assets/js/profile.js"></script>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <div class="head">
+            <h3 class="red">Ajouter une adresse</h3>
+            <div class="close"></div>
+        </div>
 
+        <form action="?action=profile" method="POST" name="addressForm" id="addressForm">
+            <label for="autocomplete">Adresse</label>
+            <input id="autocomplete" placeholder="Entrer votre adresse..." onFocus="geolocate()" type="text">
+            <label for="firstnameAddress"> Votre prénom</label>
+            <input type="text" name="firstnameAddress" id="firstnameAddress" value="{{ user.firstname }}">
+            <label for="lastnameAddress"> Votre nom</label>
+            <input type="text" name="lastnameAddress" id="lastnameAddress" value="{{ user.lastname}}">
+            <label for="phone">Téléphone: </label>
+            <input type="text" name="phone" id="phone" value="{{ user.phone }}">
+            <span>Voulez vous définir cette adresse comme adresse par défaut ?</span>
+
+            <div>
+                <input type="radio" name="default" id="r1" value="true"><label for="r1"> Oui</label><br />
+                <input type="radio" name="default" id="r2" value="false" checked ><label for="r2"> Non</label>
+            </div>
+
+            <input type="hidden" id="street_number">
+            <input type="hidden" id="route">
+            <input type="hidden" id="locality">
+            <input type="hidden" id="administrative_area_level_1">
+            <input type="hidden" id="country">
+            <input type="hidden" id="postal_code">
+            <input type="submit" name="submitAddress" class="btn" value="Valider">
+        </form>
+    </div>
+</div>
+
+<script src="assets/js/profile.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDugzDcYGo-62iMQ3aUepxGtqwyzz6ZC8M&libraries=places&callback=initAutocomplete" async defer></script>
 
 {% endblock %}

@@ -129,20 +129,20 @@ class SecurityController extends BaseController
                         }
                     }
                 } elseif ($_POST['action'] == "addAddress") {
-
-                        $check = $userManager->userCheckAddress($_POST);
-                        if ($check) {
-                            $userManager->userAddressInsert($_POST);
-                            echo 'true';
-                            exit(0);
-                        } else {
-                            echo $check;
-                            exit(0);
+                    $check = $userManager->userCheckAddress($_POST);
+                    if ($check) {
+                        if ($_POST['defaultAddress'] == "true") {
+                            $userManager->newDefaultAddress();
                         }
-
+                        $userManager->userAddressInsert($_POST);
+                        echo 'true';
+                        exit(0);
+                    } else {
+                        echo $check;
+                        exit(0);
+                    }
                 }
-
-                }
+            }
 
 
                 /*if (isset($_POST['plateName'])) {

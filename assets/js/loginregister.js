@@ -60,18 +60,18 @@ function geolocate() {
     }
 }
 
-    $('#registeremail').keyup(function () {
-        if (emailValidation(this.value) === false) {
-            $(this).css({
-                borderColor: 'red'
-            });
-        } else {
-            $(this).css({
-                borderColor: 'green'
-            });
-        }
-    });
-var displayadresse = false;
+$('#registeremail').keyup(function () {
+    if (emailValidation(this.value) === false) {
+        $(this).css({
+            borderColor: 'red'
+        });
+    } else {
+        $(this).css({
+            borderColor: 'green'
+        });
+    }
+});
+
 $('form[name=registerform]').submit(function() {
     var firstname = $('#firstname').val(),
         lastname = $('#lastname').val(),
@@ -83,36 +83,35 @@ $('form[name=registerform]').submit(function() {
         route = $('#route').val(),
         city = $('#locality').val(),
         postalCode = $('#postal_code').val(),
-        formValid = true;
 
-        if(!emailValidation(email)){
-            formValid = false;
-            vNotify.error({text:'Email non conforme.', title:'Erreur !'});
-        }
+    if(!emailValidation(email)){
+        vNotify.error({text:'Votre email ne semble pas valide.', title:'Erreur !'});
+        return false;
+    }
     if (!nameValidation(firstname) ) {
-        formValid = false;
         vNotify.error({text:'Nom non conforme.', title:'Erreur !'});
-
+        return false;
     }
     if(!nameValidation(lastname)){
-        formValid = false;
         vNotify.error({text:'Prénom non conforme.', title:'Erreur !'});
+        return false;
     }
     if (!phoneValidation(phone)) {
-        formValid = false;
-        vNotify.error({text:'Téléphone non conforme.', title:'Erreur !'});
+        vNotify.error({text:'Votre numéro de téléphone ne semble pas valide.', title:'Erreur !'});
+        return false;
     }
     if (password.length < 8) {
-        formValid = false;
         vNotify.error({text:'Mot de passe non conforme.', title:'Erreur !'});
+        return false;
     }
     if (passwordconfirm != password) {
-        formValid = false;
         vNotify.error({text:'Entrez le même mot de passe', title:'Erreur !'});
+        return false;
     }
-
-    if(formValid){
-
+    if (city != "Paris") {
+        vNotify.error({text: 'Désolé mais Smart Eat est uniquement disponible sur Paris pour le moment.', title: 'Erreur !'});
+        return false;
+    }
 
     $.ajax({
         type: 'post',
@@ -141,7 +140,6 @@ $('form[name=registerform]').submit(function() {
             }
         }
     });
-    }
 
     return false;
 

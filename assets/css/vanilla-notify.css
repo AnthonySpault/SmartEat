@@ -1,5 +1,6 @@
 .vnotify-container {
-  position: fixed; }
+  position: fixed;
+  z-index: 10; }
   .vnotify-container.vn-top-right {
     right: 10px;
     top: 70px; }

@@ -217,6 +217,11 @@ class UserManager
         $query = $this->DBManager->doRequestSecure('UPDATE addresses SET `defaultAddress`= "true" WHERE `userid` = :user_id AND `id` = :id', $update);
     }
 
+    public function newDefaultAddress() {
+        $update['user_id'] = $_SESSION['user_id'];
+        $query = $this->DBManager->doRequestSecure('UPDATE addresses SET `defaultAddress`= "false" WHERE `userid` = :user_id AND `defaultAddress` = "true"', $update);
+    }
+
     public function userCheckFirstname($firstname)
     {
 
