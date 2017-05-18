@@ -4,7 +4,7 @@ namespace Controller;
 
 use Model\ContentManager;
 use Model\UserManager;
-use Model\OrderManager;
+use Model\CartManager;
 
 class DefaultController extends BaseController
 {
@@ -47,9 +47,21 @@ class DefaultController extends BaseController
     }
 
     public function customizeAction() {
-        $contentManager = ContentManager::getInstance();
-        $orderManager = OrderManager::getInstance();
-        $allPlates = $contentManager->getCurrentPlates();
+        $CartManager = CartManager::getInstance();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $check = $CartManager->checkMeal($_POST);
+            if($check) {
+                $CartManager->addMeal($_POST);
+                echo 'true';
+                exit(0);
+            }
+            else {
+                echo $check;
+                exit(0);
+            }
+        }
+        $ContentManager = ContentManager::getInstance();
+        $allPlates = $ContentManager->getCurrentPlates();
         $dishes = [];
         $desserts = [];
         $drinks = [];
@@ -62,18 +74,6 @@ class DefaultController extends BaseController
             }
             if($value['category'] == "drink") {
                 $drinks[] = $value;
-            }
-        }
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $check = $orderManager->checkBasket($_POST);
-            if($check) {
-                $orderManager->basket($_POST);
-                echo 'true';
-                exit(0);
-            }
-            else {
-                echo $check;
-                exit(0);
             }
         }
 

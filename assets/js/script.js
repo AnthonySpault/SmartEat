@@ -7,7 +7,7 @@ function addtocart(id) {
             productId:id,
         },
         success:function(response) {
-            item_count();
+            document.location.href = "?action=cart";
         }
     });
 }
@@ -21,7 +21,6 @@ function removetocart(id) {
         },
         success:function(response) {
             show_cart();
-            item_count();
         }
     });
 }
@@ -57,15 +56,6 @@ function show_cart() {
         url: '?action=refreshcart',
         success:function(response) {
             $(".cart").html(response);
-        }
-    });
-}
-function item_count() {
-    $.ajax({
-        type:'post',
-        url:'?action=cartinfo',
-        success:function(response) {
-            $('.itemcount').html(response);
         }
     });
 }

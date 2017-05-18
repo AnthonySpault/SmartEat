@@ -17,6 +17,12 @@
         </div>
         <hr>
     {% endfor %}
+    {% for reduction in MealReductions %}
+        <div class="reducelement">
+            <h3 class="green">Reduction grace au menu : -{{ reduction }} €</h3>
+        </div>
+        <hr>
+    {% endfor %}
 </div>
 
 {% if CartElements is defined and CartElements is not empty %}

@@ -41,6 +41,7 @@ class CartController extends BaseController
         echo $this->renderView('cart.html.twig', [
             'SessionEmail' => $_SESSION['email'],
             'CartElements' => $_SESSION['cart'],
+            'MealReductions' => $_SESSION['cartmealreduc'],
             'Total' => $total,
         ]);
     }
@@ -51,6 +52,7 @@ class CartController extends BaseController
         echo $this->renderView('cartAJAX.html.twig', [
             'SessionEmail' => $_SESSION['email'],
             'CartElements' => $_SESSION['cart'],
+            'MealReductions' => $_SESSION['cartmealreduc'],
             'Total' => $total,
         ]);
     }

@@ -2,55 +2,59 @@
 
 {% block content %}
 
+    <div class="customizeHeader">
+        <h2>Personnalise ton menu</h2>
+        <div class="row">
+            <div class="element">
+                <img src="assets/images/dish.png" alt="Icon">
+                <span>Choisis ton plat</span>
+            </div>
+            <div class="element">
+                <img src="assets/images/dessert.png" alt="Icon">
+                <span>Choisis ton dessert</span>
+            </div>
+            <div class="element">
+                <img src="assets/images/drink.png" alt="Icon">
+                <span>Choisis ta boisson</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="element">
+                <img src="assets/images/validation.png" alt="Icon">
+                <span>Valide ta commande</span>
+            </div>
+        </div>
+    </div>
+
     <div class="itemnavmobile">
         <a href="#dish" class="dish">Plats</a>
         <a href="#dessert" class="dessert">Desserts</a>
         <a href="#drink" class="drink">Boissons</a>
     </div>
 
-    <div class="categorytitle" id="dish">Plats du jour</div>
-
-
     <form id="formMeal" method="POST" action="?action=customize">
+
+        <div class="categorytitle" id="dish">Plats du jour</div>
+
         {% for dish in dishes %}
-
-            <h2 class="title">{{ dish.name }}</h2>
-            <input type="radio" id="{{ dish.name }}" name="dish" value="{{ dish.id }}" class="none">
-            <label for="{{ dish.name }}"> <img src="{{ dish.image }}" alt="{{ dish.name }}"></label>
-
-
-
+            <input type="radio" id="{{ dish.id }}" name="dish" value="{{ dish.id }}" class="none">
+            <label for="{{ dish.id }}"> <img src="{{ dish.image }}" alt="{{ dish.name }}"><h3 class="dish">{{ dish.name }}</h3></label>
         {% endfor %}
-
 
         <div class="categorytitle" id="dessert">Desserts du jour</div>
 
-
         {% for dessert in desserts %}
-
-            <h2 class="title">{{ dessert.name }}</h2>
             <input type="radio"  id="{{ dessert.name }}" name="dessert" value="{{ dessert.id }}" class="none">
-            <label for="{{ dessert.name }}"><img src="{{ dessert.image }}" alt="{{ dessert.name }}"></label>
-
-
-
-
+            <label for="{{ dessert.name }}"><img src="{{ dessert.image }}" alt="{{ dessert.name }}"><h3 class="dessert">{{ dessert.name }}</h3></label>
         {% endfor %}
-
 
         <div class="categorytitle" id="drink">Boissons du jour</div>
 
-
         {% for drink in drinks %}
-            <h2 class="title">{{ drink.name }}</h2>
-
             <input type="radio" id="{{ drink.name }}" name="drinks" value="{{ drink.id }}" class="none">
-            <label for="{{ drink.name }}"> <img src="{{ drink.image }}" alt="{{ drink.name }}"></label>
-
-
-
-
+            <label for="{{ drink.name }}"> <img src="{{ drink.image }}" alt="{{ drink.name }}"><h3 class="drink">{{ drink.name }}</h3></label>
         {% endfor %}
+
         <input type="submit" value="J'ai faim">
 
     </form>
