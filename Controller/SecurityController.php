@@ -5,6 +5,7 @@ namespace Controller;
 use Model\ContentManager;
 use Model\UserManager;
 
+
 class SecurityController extends BaseController
 {
     public function loginAction()
@@ -159,45 +160,9 @@ class SecurityController extends BaseController
             }
 
 
-                /*if (isset($_POST['plateName'])) {
-
-                    $check = $ContentManager->userCheckPlates($_POST, $_FILES);
-                    if ($check === true) {
-                        $ContentManager->insertPlates($_POST, $_FILES);
-                        echo 'true';
-                        exit(0);
-                    } else {
-                        echo $check;
-                        exit(0);
-                    }
-                }
-
-                if (isset($_POST['firstnameAddressEdition'])) {
-                    $check = $userManager->userCheckAddress($_POST);
-                    if ($check === true) {
-                        $userManager->addressEdition($_POST);
-                        echo 'true';
-                        exit(0);
-                    } else {
-                        echo $check;
-                        exit(0);
-                    }
-
-                }
-
-                if (isset($_POST['firstnameAddress'])) {
-                    $check = $userManager->userCheckAddress($_POST);
-                    if ($check === true) {
-                        $userManager->userAddressInsert($_POST);
-                        echo 'true';
-                        exit(0);
-                    } else {
-                        echo $check;
-                        exit(0);
-                    }
 
 
-                }*/
+
 
             echo $this->renderView('profile.html.twig', [
                 'SessionEmail' => $_SESSION['email'],
@@ -225,6 +190,31 @@ class SecurityController extends BaseController
         ]);
     }
 
+    public function adminAction(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST['plateName'])) {
+
+                $ContentManager = ContentManager::getInstance();
+                $check = $ContentManager->userCheckPlates($_POST, $_FILES);
+                if ($check === true) {
+                    $ContentManager->insertPlates($_POST, $_FILES);
+                    echo 'true';
+                    exit(0);
+                } else {
+                    echo $check;
+                    exit(0);
+                }
+            }
+        }
+        $manager = UserManager::getInstance();
+        $user = $manager->getUserById($_SESSION['user_id']);
+        if($user['role'] !=='admin'){
+            $this->redirect('profile');
+    }else{
+            echo $this->renderView('admin.html.twig');
+        }
+
+    }
 
 
 }
