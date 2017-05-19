@@ -160,6 +160,7 @@ $(function () {
             }
         });
     });
+    var addressInput = $('#autocomplete');
     $('#addressForm').submit(function () {
         var firstnameAddress = $('#firstnameAddress').val(),
             lastnameAddress = $('#lastnameAddress').val(),
@@ -211,9 +212,29 @@ $(function () {
                 } else {
                   printAddress();
                   modal.css('display','none');
+                    addressInput.val('');
+
                 }
             }
         });
         return false;
     });
 });
+function deleteAddress(id){
+    $.ajax({
+
+        url: "?action=profile",
+        type: "post",
+        data: {
+            action: 'deleteAddress',
+            id:id
+        },
+        success: function (data) {
+            if (data !== 'true') {
+                vNotify.error({text: data, title: 'Erreur !'});
+            } else {
+                vNotify.success({text: 'Votre adresse à bien été supprimé', title: 'Félicitation !'});
+            }
+        }
+    });
+}

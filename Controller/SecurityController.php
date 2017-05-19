@@ -142,6 +142,20 @@ class SecurityController extends BaseController
                         exit(0);
                     }
                 }
+                elseif ($_POST['action'] == "deleteAddress") {
+                    if(isset($_POST['id'])){
+                        $check = $userManager->checkDeleteAddress($_POST,$_SESSION['user_id']);
+                        if ($check === true) {
+                            $userManager->deleteAddress($_POST);
+                            echo 'true';
+                            exit(0);
+                        } else {
+                            echo $check;
+                            exit(0);
+                        }
+                    }
+                    }
+
             }
 
 
@@ -210,4 +224,7 @@ class SecurityController extends BaseController
             'allPlates'=> $allPlates
         ]);
     }
+
+
+
 }

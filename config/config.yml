@@ -13,6 +13,7 @@ routes:
     refreshcart: 'Cart:refreshcart'
     printaddress: 'Security:printaddress'
     PaypallPN: 'Security:PaypallPN'
+    admin: 'Security:admin'
 
 defaut_route: 'home'
 
