@@ -166,7 +166,7 @@ $('form[name=registerform]').submit(function() {
 
             $.ajax({
                 type: 'post',
-                url: '?action=login',
+                url: $this.attr('action'),
                 data: {
                     email:email,
                     password:password
