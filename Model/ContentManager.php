@@ -61,7 +61,9 @@ class ContentManager
     public function deletePlates($data)
     {
         $id = $data['id'];
+        $plate = $this->getOnePlates($data['id']);
         $data = $this->DBManager->doRequestSecure('DELETE   FROM `plates` WHERE `id` = :id', ['id' => $id]);
+        unlink($plate['image']);
         return $data;
     }
 
