@@ -221,22 +221,26 @@ $(function () {
     });
 });
 function deleteAddress(id){
-    $.ajax({
 
-        url: "?action=profile",
-        type: "post",
-        data: {
-            action: 'deleteAddress',
-            id:id
-        },
-        success: function (data) {
-            if (data !== 'true') {
-                vNotify.error({text: data, title: 'Erreur !'});
-            } else {
-                printAddress();
-                vNotify.success({text: 'Votre adresse à bien été supprimé', title: 'Félicitation !'});
-            }
-        }
-    });
+      $.ajax({
+
+          url: "?action=profile",
+          type: "post",
+          data: {
+              action: 'deleteAddress',
+              id:id
+          },
+          success: function (data) {
+              if (data !== 'true') {
+                  vNotify.error({text: data, title: 'Erreur !'});
+              } else {
+                  printAddress();
+                  vNotify.success({text: 'Votre adresse à bien été supprimé', title: 'Félicitation !'});
+              }
+          }
+      });
+
+
 }
+
 

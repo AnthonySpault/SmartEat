@@ -105,4 +105,19 @@ class ContentManager
         move_uploaded_file($img['file']['tmp_name'], $update['image']);
         return $plates;
     }
+
+    public function checkUpdateStatus($data){
+        if(empty($data['idStatus']) OR empty($data['status'])) {
+            return 'Des champs sont manquants';
+        }
+        return true;
+
+
+    }
+
+    public function updateStatus($data){
+        $update['id'] = $data['idStatus'];
+        $update['status'] = $data['status'];
+        $query = $this->DBManager->doRequestSecure("UPDATE plates SET `status`= :status WHERE `id` = :id", $update);
+    }
 }

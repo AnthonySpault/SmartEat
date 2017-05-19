@@ -209,6 +209,18 @@ class SecurityController extends BaseController
                     exit(0);
                 }
             }
+            if(isset($_POST['idStatus'])){
+                var_dump($_POST);
+                $check = $ContentManager->checkUpdateStatus($_POST);
+                if ($check === true) {
+                    $ContentManager->updateStatus($_POST);
+                    echo 'true';
+                    exit(0);
+                } else {
+                    echo $check;
+                    exit(0);
+                }
+            }
         }
 
 

@@ -95,3 +95,44 @@ function deletePlates(id){
         }
     });
 }
+
+$(function () {
+    var check = $('.plates input[name=plate]');
+    check.change(function () {
+    var $this = $(this);
+
+        if ($this.prop('checked')) {
+            $.ajax({
+                url: "?action=admin",
+                type: "post",
+                data: {
+                    idStatus: $this.val(),
+                    status: 'active'
+                },
+                success: function (data) {
+                    if (data !== 'true') {
+                        vNotify.error({text: data, title: 'Erreur !'});
+                    } else {
+                        vNotify.success({text: 'Votre produit est bien actif', title: 'Félicitation !'});
+                    }
+                }
+            });
+        } else  {
+            $.ajax({
+                url: "?action=admin",
+                type: "post",
+                data: {
+                    idStatus: $this.val(),
+                    status: 'inactive'
+                },
+                success: function (data) {
+                    if (data !== 'true') {
+                        vNotify.error({text: data, title: 'Erreur !'});
+                    } else {
+                        vNotify.success({text: 'Votre produit à bien été rendu inactif', title: 'Félicitation !'});
+                    }
+                }
+            });
+        }
+    });
+});

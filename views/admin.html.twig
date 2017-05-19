@@ -52,12 +52,12 @@
             {% for key in allPlates %}
             <tr class="contentPlatesInfo">
                 {% if key.status == "active" %}
-                    <td><input type="checkbox" name="{{ key.id }}" checked value="{{ key.id }}"></td>
+                    <td><input type="checkbox" name="plate" checked value="{{ key.id }}" ></td>
                 {% else %}
-                    <td><input type="checkbox" name="{{ key.id}}" value="{{ key.id }}"></td>
+                    <td><input type="checkbox" name="plate" value="{{ key.id }}" ></td>
                 {% endif %}
                 <td class="contentPlates">{{key.name}}</td>
-                <td><img src="assets/images/garbage.png" alt="Supprimer" onclick="deletePlates({{ key.id }})"></td>
+                <td><img src="assets/images/garbage.png" alt="Supprimer" onclick="deletePlates({{ key.id }})" ></td>
             </tr>
             {% endfor %}
 
