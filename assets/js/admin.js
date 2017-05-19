@@ -3,24 +3,23 @@
  */
 // Get the modal
 var modal = $('#myModal');
+var modalEdition = $('#myModalEdition');
 
-// Get the button that opens the modal
-var btn = document.getElementById("addAddress");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
+var span2 = document.getElementsByClassName("closeEdition")[0];
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
     modal.css('display', 'none');
 }
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
+span2.onclick = function() {
+    modalEdition.css('display', 'none');
 }
+
+
+
 
 var platesForm = $('#platesForm');
 platesForm.submit(function () {
@@ -30,6 +29,7 @@ platesForm.submit(function () {
         $ingredients = $('#ingredients').val(),
         $description = $('#description').val(),
         $tricks = $('#tricks').val(),
+        $allergenes = $('#allergenes').val(),
         $name = $( "#plateName").val(),
         $price = $('#price').val(),
         $image = $('#file').val();
@@ -40,13 +40,13 @@ platesForm.submit(function () {
         vNotify.error({text: 'Veuillez rentrer un nom.', title: 'Erreur !'});
     }
 
-    if ($category === '' || $ingredients === '' || $tricks === '' || $price === '' || $description === '' || $image  === '') {
+    if ($category === '' || $ingredients === '' || $tricks === '' || $price === '' || $description === '' || $image  === '' || $allergenes ==='') {
         vNotify.error({text: 'Champ(s) manquant(s).', title: 'Erreur !'});
     }
 
     var formData = new FormData(this);
     formData.append('image', $image.files);
-
+    console.log(formData);
     if (formValid) {
         $.ajax({
             url: $this.attr('action'),
@@ -135,4 +135,86 @@ $(function () {
             });
         }
     });
+
+    var plateEditing = $('.plateEditing');
+    var idEditingInput = $('.idEditing');
+    var plateNameEditingInput = $('#plateNameEditing');
+    var descriptionEditingInput = $('#descriptionEditing');
+    var ingredientsEditingInput = $('#ingredientsEditing');
+    var categoryEditingInput =  $( '#categoryEditing')
+    var allergenesEditingInput = $('#allergenesEditing');
+    var tricksEditingInput = $('#tricksEditing');
+    var priceEditingInput = $('#priceEditing');
+
+        plateEditing.click(function(){
+            plateNameEditingInput.val($(this).parent().parent().children('.name').html());
+            descriptionEditingInput.val($(this).parent().parent().children('.description').html());
+            ingredientsEditingInput.val($(this).parent().parent().children('.ingredients').html());
+            allergenesEditingInput.val($(this).parent().parent().children('.allergenes').html());
+            tricksEditingInput.val($(this).parent().parent().children('.tricks').html());
+            priceEditingInput.val($(this).parent().parent().children('.price').html());
+            idEditingInput.val($(this).parent().parent().children('.id').html());
+            var category = $(this).parent().parent().children('.category').html();
+            categoryEditingInput .val(category).trigger('change');
+        });
+    var platesFormEditing = $('#platesFormEditing');
+    platesFormEditing.submit(function () {
+
+        var formValid = true;
+        var $category =  categoryEditingInput.val(),
+            $ingredients = ingredientsEditingInput.val(),
+            $description = descriptionEditingInput.val(),
+            $tricks = tricksEditingInput.val(),
+            $allergenes = allergenesEditingInput.val(),
+            $name = plateNameEditingInput.val(),
+            $price = priceEditingInput.val(),
+            $id = priceEditingInput.val();
+
+
+
+
+        if ($name === '') {
+            formValid = false;
+            vNotify.error({text: 'Veuillez rentrer un nom.', title: 'Erreur !'});
+        }
+
+        if ($category === '' || $ingredients === '' || $tricks === '' || $price === '' || $description === ''  || $allergenes ==='') {
+
+            vNotify.error({text: 'Champ(s) manquant(s).', title: 'Erreur !'});
+        }
+
+
+
+        if (formValid) {
+            $.ajax({
+                url: '?action=admin',
+                type: 'post',
+                data: {
+                    idEditing: $id,
+                    nameEditing:$name,
+                    description:$description,
+                    ingredients:$ingredients,
+                    allergenes:$allergenes,
+                    tricks:$tricks,
+                    price:$price,
+                    category : $category
+
+               },
+                success: function (data) {
+                    if (data !== 'true') {
+                        vNotify.error({text: data, title: 'Erreur !'});
+                    } else {
+                        printPlates();
+                        vNotify.success({text: 'Votre produit à bien été éditer', title: 'Félicitation !'});
+                        modalEdition.css('display','none');
+
+                    }
+                }
+            });
+        }
+        return false;
+    });
+
+
+
 });

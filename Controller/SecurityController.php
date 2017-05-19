@@ -188,7 +188,7 @@ class SecurityController extends BaseController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['plateName'])) {
-                $check = $ContentManager->userCheckPlates($_POST, $_FILES);
+                $check = $ContentManager->checkPlates($_POST, $_FILES);
                 if ($check === true) {
                     $ContentManager->insertPlates($_POST, $_FILES);
                     echo 'true';
@@ -210,10 +210,20 @@ class SecurityController extends BaseController
                 }
             }
             if(isset($_POST['idStatus'])){
-                var_dump($_POST);
                 $check = $ContentManager->checkUpdateStatus($_POST);
                 if ($check === true) {
                     $ContentManager->updateStatus($_POST);
+                    echo 'true';
+                    exit(0);
+                } else {
+                    echo $check;
+                    exit(0);
+                }
+            }
+            if(isset($_POST['nameEditing'])){
+                $check = $ContentManager->checkPlatesEdition($_POST);
+                if ($check === true) {
+                    $ContentManager->insertPlatesEdition($_POST);
                     echo 'true';
                     exit(0);
                 } else {

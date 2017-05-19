@@ -17,6 +17,8 @@
         <textarea name="description" id="description"></textarea><br>
         <label for="ingredients">Ingrédient:</label>
         <textarea name="ingredients" id="ingredients"></textarea><br>
+        <label for="allergenes">Allergènes:</label>
+        <textarea name="allergenes" id="allergenes"></textarea><br>
         <label for="tricks">Astuce:</label>
         <textarea name="tricks" id="tricks"></textarea><br>
         <label for="file">  Image :</label>
@@ -39,6 +41,45 @@
     </div>
     </div>
 
+    <div id="myModalEdition" class="modal">
+        <div class="modal-content">
+            <div class="head">
+                <h3 class="red">Ajouter un plat</h3>
+                <div class="closeEdition"></div>
+            </div>
+
+            <form action="?action=admin" method="POST"  id="platesFormEditing"> <!-- enctype="multipart/form-data"-->
+                <input type="text" id="idEditing" class="none" >
+                <label for="plateNameEditing">  Nom du plat :</label>
+                <input type="text" name="plateNameEditing" id="plateNameEditing"><br>
+                <label for="descriptionEditing">Description :</label>
+                <textarea name="descriptionEditing" id="descriptionEditing"></textarea><br>
+                <label for="ingredientsEditing">Ingrédient:</label>
+                <textarea name="ingredientsEditing" id="ingredientsEditing"></textarea><br>
+                <label for="allergenesEditing">Allergènes:</label>
+                <textarea name="allergenesEditing" id="allergenesEditing"></textarea><br>
+                <label for="tricksEditing">Astuce:</label>
+                <textarea name="tricksEditing" id="tricksEditing"></textarea><br>
+          <!--      <label for="file">  Image :</label>
+                <input type="file" name="file" id="file"><br><br>-->
+                <label for="priceEditing">  Prix :</label>
+                <input type="text" name="priceEditing" id="priceEditing"><br><br>
+                <label for="categoryEditing"> Catégorie</label>
+                <select name="categoryEditing" id="categoryEditing">
+
+                    <option value="dish">Plat</option>
+                    <option value="dessert">Dessert</option>
+                    <option value="drink">Boisson</option>
+                    <option value="extra">Extra</option>
+
+                </select><br><br>
+
+                <input  class="btn" type="submit">
+
+            </form>
+        </div>
+    </div>
+
     <div class="plates">
         <h2 class="red">Produits</h2>
         <table>
@@ -46,8 +87,10 @@
 
             <tr class="platesInfo">
                 <th>Actif</th>
-                <th width="100%">Produits</th>
-                <th>Supprimer</th>
+                <th width="65%">Produits</th>
+                <th width="30%">Catégorie</th>
+                <th width="5%">Supprimer</th>
+                <th>Editer</th>
             </tr>
             {% for key in allPlates %}
             <tr class="contentPlatesInfo">
@@ -56,8 +99,16 @@
                 {% else %}
                     <td><input type="checkbox" name="plate" value="{{ key.id }}" ></td>
                 {% endif %}
-                <td class="contentPlates">{{key.name}}</td>
+                <td class="name">{{key.name}}</td>
+                <td class="category">{{key.category}}</td>
+                <td class="id none">{{key.id}}</td>
+                <td class="description none"> {{ key.description }}</td>
+                <td class="ingredients none"> {{ key.ingredients }}</td>
+                <td class="allergenes none"> {{ key.allergene }}</td>
+                <td class="tricks none"> {{ key.trick }}</td>
+                <td class="price none"> {{ key.price }}</td>
                 <td><img src="assets/images/garbage.png" alt="Supprimer" onclick="deletePlates({{ key.id }})" ></td>
+                <td><img src="assets/images/edit.png"  alt="Editer" onclick="$('#myModalEdition').css('display','block');" class="center green plateEditing"  ></td>
             </tr>
             {% endfor %}
 

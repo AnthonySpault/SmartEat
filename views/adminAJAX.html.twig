@@ -1,22 +1,32 @@
-<div class="addresses">
+<div class="plates">
     <h2 class="red">Produits</h2>
     <table>
 
 
-        <tr class="addressInfo">
+        <tr class="platesInfo">
             <th>Actif</th>
-            <th width="100%">Produits</th>
-            <th>Supprimer</th>
+            <th width="65%">Produits</th>
+            <th width="30%">Catégorie</th>
+            <th width="5%">Supprimer</th>
+            <th>Editer</th>
         </tr>
         {% for key in allPlates %}
-            <tr class="contentAddresssInfo">
+            <tr class="contentPlatesInfo">
                 {% if key.status == "active" %}
-                    <td><input type="checkbox" name="{{ key.id }}" checked value="{{ key.id }}"></td>
+                    <td><input type="checkbox" name="plate" checked value="{{ key.id }}" ></td>
                 {% else %}
-                    <td><input type="checkbox" name="{{ key.id}}" value="{{ key.id }}"></td>
+                    <td><input type="checkbox" name="plate" value="{{ key.id }}" ></td>
                 {% endif %}
-                <td class="contentAddress">{{key.name}}</td>
-                <td><img src="assets/images/garbage.png" alt="Supprimer" onclick="deleteAddress({{ key.id }})"></td>
+                <td class="name">{{key.name}}</td>
+                <td class="category">{{key.category}}</td>
+                <td class="id none">{{key.id}}</td>
+                <td class="description none"> {{ key.description }}</td>
+                <td class="ingredients none"> {{ key.ingredients }}</td>
+                <td class="allergenes none"> {{ key.allergene }}</td>
+                <td class="tricks none"> {{ key.trick }}</td>
+                <td class="price none"> {{ key.price }}</td>
+                <td><img src="assets/images/garbage.png" alt="Supprimer" onclick="deletePlates({{ key.id }})" ></td>
+                <td><img src="assets/images/edit.png"   alt="Editer" onclick="$('#myModalEdition').css('display','block');" class="center green plateEditing"  ></td>
             </tr>
         {% endfor %}
 
