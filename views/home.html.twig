@@ -65,6 +65,29 @@
             </div>
         {% endfor %}
     </div>
+
+    {% if extras is defined and extras is not empty %}
+
+    <div class="categorytitle" id="extra">Extra</div>
+
+    <div class="items">
+        {% for extra in extras %}
+            <div class="item extra">
+                <img src="{{ extra.image }}" alt="{{ extra.name }}">
+                <div class="content">
+                    <h2 class="title">{{ extra.name }}</h2>
+                    <p class="description">{{ extra.description }}</p>
+                    <div class="actions">
+                        <a href="#">Astuce du jour</a>
+                        <button onclick="addtocart({{extra.id}})">Add to cart</button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% endif %}
+
     <script src="assets/js/responsiveslides.min.js"></script>
     <script src="assets/js/home.js"></script>
 {% endblock %}
