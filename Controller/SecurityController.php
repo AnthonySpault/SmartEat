@@ -210,11 +210,15 @@ class SecurityController extends BaseController
         $user = $manager->getUserById($_SESSION['user_id']);
         if($user['role'] !=='admin'){
             $this->redirect('profile');
-    }else{
+    }else if (isset($_SESSION['email'])){
+            echo $this->renderView('admin.html.twig',['SessionEmail' => $_SESSION['email'],'user'=>$user]);
+        }else{
             echo $this->renderView('admin.html.twig');
         }
 
-    }
+        }
+
+
 
 
 }
