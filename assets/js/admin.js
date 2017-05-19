@@ -23,6 +23,7 @@ platesForm.submit(function () {
 
     var formData = new FormData(this);
     formData.append('image', $image.files);
+
     if (formValid) {
         $.ajax({
             url: $this.attr('action'),

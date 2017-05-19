@@ -192,19 +192,21 @@ class SecurityController extends BaseController
 
     public function adminAction(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (isset($_POST['plateName'])) {
 
-                $ContentManager = ContentManager::getInstance();
-                $check = $ContentManager->userCheckPlates($_POST, $_FILES);
-                if ($check === true) {
-                    $ContentManager->insertPlates($_POST, $_FILES);
-                    echo 'true';
-                    exit(0);
-                } else {
-                    echo $check;
-                    exit(0);
+                if (isset($_POST['plateName'])) {
+                    var_dump($_POST);
+                    $ContentManager = ContentManager::getInstance();
+                    $check = $ContentManager->userCheckPlates($_POST, $_FILES);
+                    if ($check === true) {
+                        $ContentManager->insertPlates($_POST, $_FILES);
+                        echo 'true';
+                        exit(0);
+                    } else {
+                        echo $check;
+                        exit(0);
+                    }
                 }
-            }
+
         }
         $manager = UserManager::getInstance();
         $user = $manager->getUserById($_SESSION['user_id']);

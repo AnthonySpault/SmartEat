@@ -71,8 +71,9 @@ class ContentManager
         $plates['ingredients'] = $data['ingredients'];
         $plates['trick'] = $data['tricks'];
         $plates['image'] = $filepath;
-        $plates['price'] = str_replace($data['price'],",",".");
+        $plates['price'] = str_replace(",",".",$data['price']);
         $plates['category'] = $data['category'];
+        $plates['status'] = 'inactive';
         $this->DBManager->insert('plates', $plates);
 
         $req = $this->getPlatesByName($data['plateName']);
