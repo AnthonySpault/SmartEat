@@ -15,6 +15,7 @@ class DefaultController extends BaseController
         $dishes = [];
         $desserts = [];
         $drinks = [];
+        $extras = [];
         foreach ($allPlates as $key => $value) {
             if($value['category'] == "dish") {
                 $dishes[] = $value;
@@ -25,12 +26,16 @@ class DefaultController extends BaseController
             if($value['category'] == "drink") {
                 $drinks[] = $value;
             }
+            if($value['category'] == "extra") {
+                $extras[] = $value;
+            }
         }
         echo $this->renderView('home.html.twig', [
             'SessionEmail' => $_SESSION['email'],
             'dishes' => $dishes,
             'desserts' => $desserts,
             'drinks' => $drinks,
+            'extras' => $extras,
         ]);
     }
 
