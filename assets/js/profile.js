@@ -233,8 +233,10 @@ function deleteAddress(id){
             if (data !== 'true') {
                 vNotify.error({text: data, title: 'Erreur !'});
             } else {
+                printAddress();
                 vNotify.success({text: 'Votre adresse à bien été supprimé', title: 'Félicitation !'});
             }
         }
     });
 }
+

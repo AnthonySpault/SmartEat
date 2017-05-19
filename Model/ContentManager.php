@@ -45,6 +45,26 @@ class ContentManager
         return $data;
     }
 
+    public function checkDeletePlates($data,$id)
+    {
+        if(empty($data['id'])){
+            return 'Ce plat n\'existe pas';
+        }
+        $plate = $this->getOnePlates($data['id']);
+        if($plate['status'] === 'active'){
+            return 'Vous ne pouvez pas supprimer un plat actif sur notre site';
+        }
+
+        return true;
+    }
+
+    public function deletePlates($data)
+    {
+        $id = $data['id'];
+        $data = $this->DBManager->doRequestSecure('DELETE   FROM `plates` WHERE `id` = :id', ['id' => $id]);
+        return $data;
+    }
+
     public function userCheckPlates($data, $img)
     {
         $extension = ['.jpeg', '.png', '.jpg', '.PNG', '.JPG', '.JPEG'];
@@ -81,6 +101,6 @@ class ContentManager
         $update['id'] = $req['id'];
         $query = $this->DBManager->findOneSecure("UPDATE plates SET `image`= :image  WHERE `id` = :id", $update);
         move_uploaded_file($img['file']['tmp_name'], $update['image']);
-        return true;
+        return $plates;
     }
 }

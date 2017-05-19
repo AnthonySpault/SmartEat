@@ -15,7 +15,6 @@ class DefaultController extends BaseController
         $UserManager = UserManager::getInstance();
         $user = $UserManager->getUserById($_SESSION['user_id']);
         $allPlates = $ContentManager->getCurrentPlates();
-        $user = $UserManager->getUserById($_SESSION['user_id']);
         $dishes = [];
         $desserts = [];
         $drinks = [];

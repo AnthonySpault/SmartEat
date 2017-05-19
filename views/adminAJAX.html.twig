@@ -1,0 +1,24 @@
+<div class="addresses">
+    <h2 class="red">Produits</h2>
+    <table>
+
+
+        <tr class="addressInfo">
+            <th>Actif</th>
+            <th width="100%">Produits</th>
+            <th>Supprimer</th>
+        </tr>
+        {% for key in allPlates %}
+            <tr class="contentAddresssInfo">
+                {% if key.status == "active" %}
+                    <td><input type="checkbox" name="{{ key.id }}" checked value="{{ key.id }}"></td>
+                {% else %}
+                    <td><input type="checkbox" name="{{ key.id}}" value="{{ key.id }}"></td>
+                {% endif %}
+                <td class="contentAddress">{{key.name}}</td>
+                <td><img src="assets/images/garbage.png" alt="Supprimer" onclick="deleteAddress({{ key.id }})"></td>
+            </tr>
+        {% endfor %}
+
+    </table>
+</div>

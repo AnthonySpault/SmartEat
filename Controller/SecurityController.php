@@ -69,7 +69,6 @@ class SecurityController extends BaseController
             $ContentManager = ContentManager::getInstance();
             $user = $userManager->getUserById($_SESSION['user_id']);
             $allAddress = $userManager->getAddressByUserId($_SESSION['user_id']);
-            $allPlates = $ContentManager->getAllPlates();
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($_POST['action'] == "editProfile") {
                     if ($_POST["kind"] == "firstname") {
@@ -156,19 +155,11 @@ class SecurityController extends BaseController
                         }
                     }
                     }
-
             }
-
-
-
-
-
-
             echo $this->renderView('profile.html.twig', [
                 'SessionEmail' => $_SESSION['email'],
                 'user' => $user,
                 'allAddress' => $allAddress,
-                'allPlates'=> $allPlates
             ]);
 
         } else {
@@ -183,44 +174,64 @@ class SecurityController extends BaseController
         $allAddress = $userManager->getAddressByUserId($_SESSION['user_id']);
         $allPlates = $ContentManager->getAllPlates();
         echo $this->renderView('profileAJAX.html.twig', [
-            'SessionEmail' => $_SESSION['email'],
-            'user' => $user,
-            'allAddress' => $allAddress,
-            'allPlates'=> $allPlates
+            'allAddress' => $allAddress
         ]);
     }
 
-    public function adminAction(){
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-                if (isset($_POST['plateName'])) {
-                    var_dump($_POST);
-                    $ContentManager = ContentManager::getInstance();
-                    $check = $ContentManager->userCheckPlates($_POST, $_FILES);
-                    if ($check === true) {
-                        $ContentManager->insertPlates($_POST, $_FILES);
-                        echo 'true';
-                        exit(0);
-                    } else {
-                        echo $check;
-                        exit(0);
-                    }
-                }
-
-        }
+    public function adminAction()
+    {
         $manager = UserManager::getInstance();
         $user = $manager->getUserById($_SESSION['user_id']);
+        $ContentManager = ContentManager::getInstance();
+        $allPlates = $ContentManager->getAllPlates();
+
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST['plateName'])) {
+                $check = $ContentManager->userCheckPlates($_POST, $_FILES);
+                if ($check === true) {
+                    $ContentManager->insertPlates($_POST, $_FILES);
+                    echo 'true';
+                    exit(0);
+                } else {
+                    echo $check;
+                    exit(0);
+                }
+            }
+            if(isset($_POST['id'])){
+                $check = $ContentManager->checkDeletePlates($_POST,$_SESSION['user_id']);
+                if ($check === true) {
+                    $ContentManager->deletePlates($_POST);
+                    echo 'true';
+                    exit(0);
+                } else {
+                    echo $check;
+                    exit(0);
+                }
+            }
+        }
+
+
+
         if($user['role'] !=='admin'){
             $this->redirect('profile');
     }else if (isset($_SESSION['email'])){
-            echo $this->renderView('admin.html.twig',['SessionEmail' => $_SESSION['email'],'user'=>$user]);
-        }else{
-            echo $this->renderView('admin.html.twig');
+            echo $this->renderView('admin.html.twig',[
+                'SessionEmail' => $_SESSION['email'],
+                'user'=>$user,
+                'allPlates' => $allPlates
+            ]);
         }
 
         }
 
 
-
+    public function printplatesAction(){
+        $ContentManager = ContentManager::getInstance();
+        $allPlates = $ContentManager->getAllPlates();
+        echo $this->renderView('adminAJAX.html.twig', [
+            'allPlates'=> $allPlates
+        ]);
+    }
 
 }
