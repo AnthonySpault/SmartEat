@@ -4,13 +4,18 @@ namespace Controller;
 
 use Model\CartManager;
 use Model\ContentManager;
+use Model\UserManager;
+
 
 class DefaultController extends BaseController
 {
     public function homeAction()
     {
         $ContentManager = ContentManager::getInstance();
+        $UserManager = UserManager::getInstance();
+        $user = $UserManager->getUserById($_SESSION['user_id']);
         $allPlates = $ContentManager->getCurrentPlates();
+        $user = $UserManager->getUserById($_SESSION['user_id']);
         $dishes = [];
         $desserts = [];
         $drinks = [];
@@ -33,6 +38,7 @@ class DefaultController extends BaseController
         if (isset($_SESSION['email'])) {
             echo $this->renderView('home.html.twig', [
                 'SessionEmail' => $_SESSION['email'],
+                'user'=>$user,
                 'dishes' => $dishes,
                 'desserts' => $desserts,
                 'drinks' => $drinks,
@@ -51,9 +57,12 @@ class DefaultController extends BaseController
 
     public function conceptAction()
     {
+        $UserManager = UserManager::getInstance();
+        $user = $UserManager->getUserById($_SESSION['user_id']);
         if (isset($_SESSION['email'])) {
             echo $this->renderView('concept.html.twig', [
-                'SessionEmail' => $_SESSION['email']
+                'SessionEmail' => $_SESSION['email'],
+                'user'=>$user
             ]);
         } else {
             echo $this->renderView('concept.html.twig');
@@ -63,9 +72,12 @@ class DefaultController extends BaseController
 
     public function partnersAction()
     {
+        $UserManager = UserManager::getInstance();
+        $user = $UserManager->getUserById($_SESSION['user_id']);
         if (isset($_SESSION['email'])) {
             echo $this->renderView('partners.html.twig', [
-                'SessionEmail' => $_SESSION['email']
+                'SessionEmail' => $_SESSION['email'],
+                'user'=>$user
             ]);
         } else {
             echo $this->renderView('partners.html.twig');
@@ -74,6 +86,8 @@ class DefaultController extends BaseController
 
     public function customizeAction()
     {
+        $UserManager = UserManager::getInstance();
+        $user = $UserManager->getUserById($_SESSION['user_id']);
         $CartManager = CartManager::getInstance();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $check = $CartManager->checkMeal($_POST);
@@ -105,6 +119,7 @@ class DefaultController extends BaseController
         if (isset($_SESSION['email'])) {
             echo $this->renderView('customize.html.twig', [
                 'SessionEmail' => $_SESSION['email'],
+                'user'=>$user,
                 'dishes' => $dishes,
                 'desserts' => $desserts,
                 'drinks' => $drinks,
