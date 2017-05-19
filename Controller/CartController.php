@@ -38,22 +38,40 @@ class CartController extends BaseController
     public function viewcartAction() {
         $manager = CartManager::getInstance();
         $total = $manager->totalCart();
-        echo $this->renderView('cart.html.twig', [
-            'SessionEmail' => $_SESSION['email'],
-            'CartElements' => $_SESSION['cart'],
-            'MealReductions' => $_SESSION['cartmealreduc'],
-            'Total' => $total,
-        ]);
+        if (isset($_SESSION['email'])) {
+            echo $this->renderView('cart.html.twig', [
+                'SessionEmail' => $_SESSION['email'],
+                'CartElements' => $_SESSION['cart'],
+                'MealReductions' => $_SESSION['cartmealreduc'],
+                'Total' => $total,
+            ]);
+        }
+        else {
+            echo $this->renderView('cart.html.twig', [
+                'CartElements' => $_SESSION['cart'],
+                'MealReductions' => $_SESSION['cartmealreduc'],
+                'Total' => $total,
+            ]);
+        }
     }
 
     public function refreshcartAction() {
         $manager = CartManager::getInstance();
         $total = $manager->totalCart();
-        echo $this->renderView('cartAJAX.html.twig', [
-            'SessionEmail' => $_SESSION['email'],
-            'CartElements' => $_SESSION['cart'],
-            'MealReductions' => $_SESSION['cartmealreduc'],
-            'Total' => $total,
-        ]);
+        if (isset($_SESSION['email'])) {
+            echo $this->renderView('cart.html.twig', [
+                'SessionEmail' => $_SESSION['email'],
+                'CartElements' => $_SESSION['cart'],
+                'MealReductions' => $_SESSION['cartmealreduc'],
+                'Total' => $total,
+            ]);
+        }
+        else {
+            echo $this->renderView('cart.html.twig', [
+                'CartElements' => $_SESSION['cart'],
+                'MealReductions' => $_SESSION['cartmealreduc'],
+                'Total' => $total,
+            ]);
+        }
     }
 }

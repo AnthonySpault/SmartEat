@@ -313,7 +313,7 @@ body {
 }
 
 .dish, #dish {
-    background-color: #1b907f;
+    background-color: #157063;
 }
 
 .dessert, #dessert {
@@ -322,6 +322,10 @@ body {
 
 .drink, #drink {
     background-color: #31a9cb;
+}
+
+.extra, #extra {
+    background-color:
 }
 
 .itemnavmobile {
@@ -566,7 +570,7 @@ body {
 .loginregister .btn {
     width: 100%;
     height: 25px;
-    background-color: #1b907f;
+    background-color: #157063;
     color: white;
     border: 0;
 }
@@ -752,7 +756,7 @@ body {
 }
 
 #formMeal label h3.dish {
-    background-color: #1b907f;
+    background-color: #157063;
 }
 
 #formMeal label h3.dessert {
