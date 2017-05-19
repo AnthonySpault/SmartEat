@@ -85,13 +85,20 @@ class DefaultController extends BaseController
                 $drinks[] = $value;
             }
         }
-
-        echo $this->renderView('customize.html.twig', [
-            'SessionEmail' => $_SESSION['email'],
-            'dishes' => $dishes,
-            'desserts' => $desserts,
-            'drinks' => $drinks,
-        ]);
+        if(isset($_SESSION['email'])) {
+            echo $this->renderView('customize.html.twig', [
+                'SessionEmail' => $_SESSION['email'],
+                'dishes' => $dishes,
+                'desserts' => $desserts,
+                'drinks' => $drinks,
+            ]);
+        }else{
+            echo $this->renderView('customize.html.twig', [
+                'dishes' => $dishes,
+                'desserts' => $desserts,
+                'drinks' => $drinks,
+            ]);
+        }
 
     }
 }
