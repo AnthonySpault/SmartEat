@@ -82,7 +82,7 @@ $('form[name=registerform]').submit(function() {
         streetNumber = $('#street_number').val(),
         route = $('#route').val(),
         city = $('#locality').val(),
-        postalCode = $('#postal_code').val();
+        postalCode = $('#postal_code').val(),
 
     if(!emailValidation(email)){
         vNotify.error({text:'Votre email ne semble pas valide.', title:'Erreur !'});
@@ -166,7 +166,7 @@ $('form[name=registerform]').submit(function() {
 
             $.ajax({
                 type: 'post',
-                url: $this.attr('action'),
+                url: '?action=login',
                 data: {
                     email:email,
                     password:password

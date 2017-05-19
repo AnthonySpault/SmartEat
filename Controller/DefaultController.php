@@ -26,21 +26,12 @@ class DefaultController extends BaseController
                 $drinks[] = $value;
             }
         }
-        if(isset($_SESSION['email'])){
-            echo $this->renderView('home.html.twig', [
-                'SessionEmail' => $_SESSION['email'],
-                'dishes' => $dishes,
-                'desserts' => $desserts,
-                'drinks' => $drinks,
-            ]);
-        }else{
-            echo $this->renderView('home.html.twig', [
-                'dishes' => $dishes,
-                'desserts' => $desserts,
-                'drinks' => $drinks,
-            ]);
-        }
-
+        echo $this->renderView('home.html.twig', [
+            'SessionEmail' => $_SESSION['email'],
+            'dishes' => $dishes,
+            'desserts' => $desserts,
+            'drinks' => $drinks,
+        ]);
     }
 
     public function conceptAction() {
@@ -85,20 +76,13 @@ class DefaultController extends BaseController
                 $drinks[] = $value;
             }
         }
-        if(isset($_SESSION['email'])) {
-            echo $this->renderView('customize.html.twig', [
-                'SessionEmail' => $_SESSION['email'],
-                'dishes' => $dishes,
-                'desserts' => $desserts,
-                'drinks' => $drinks,
-            ]);
-        }else{
-            echo $this->renderView('customize.html.twig', [
-                'dishes' => $dishes,
-                'desserts' => $desserts,
-                'drinks' => $drinks,
-            ]);
-        }
+
+        echo $this->renderView('customize.html.twig', [
+            'SessionEmail' => $_SESSION['email'],
+            'dishes' => $dishes,
+            'desserts' => $desserts,
+            'drinks' => $drinks,
+        ]);
 
     }
 }
