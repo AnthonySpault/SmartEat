@@ -30,9 +30,13 @@
 
                             <!-- Modal content -->
                             <div class="modal-content">
-                                <span class="close"></span>
+                                <span class="close" onclick="$('#myModalDish.modal').css('display','none')"> </span>
                                 <h4> Ingrédients :  </h4>
                                 <span> {{ dish.ingredients }}</span>
+                                <h4> Allergènes :  </h4>
+                                <span> {{ dish.allergenes }}</span>
+                                <h4> Astuce du jour :  </h4>
+                                <span> {{ dish.trick }}</span>
                             </div>
 
                         </div>
@@ -58,9 +62,13 @@
 
                             <!-- Modal content -->
                             <div class="modal-content">
-                                <span class="close"></span>
-                                <div><h4> Ingrédients :  </h4>
-                                <span> {{ dessert.ingredients }}</span></div>
+                                <span class="close" onclick="$('#myModalDessert.modal').css('display','none')"></span>
+                                <h4> Ingrédients :  </h4>
+                                <span> {{ dessert.ingredients }}</span>
+                                <h4> Allergènes :  </h4>
+                                <span> {{ dessert.allergenes }}</span>
+                                <h4> Astuce du jour :  </h4>
+                                <span> {{ dessert.trick }}</span>
                             </div>
 
                         </div>
@@ -99,14 +107,19 @@
                     <h2 class="title">{{ extra.name }}</h2>
                     <p class="description">{{ extra.description }}</p>
                     <div class="actions">
-                        <button class="openModal">En savoir plus</button>
+                        <button class="openModal" onclick="$('#myModalExtra.modal').css('display','block');">En savoir plus</button>
                         <button onclick="addtocart({{extra.id}})">Add to cart</button>
                         <div id="myModalExtra" class="modal ">
 
                             <!-- Modal content -->
                             <div class="modal-content ">
                                 <span class="close" onclick="$('.modal').css('display','none');"></span>
-                                <p>Some text in the Modal..</p>
+                                <h4> Ingrédients :  </h4>
+                                <span> {{ extra.ingredients }}</span>
+                                <h4> Allergènes :  </h4>
+                                <span> {{ extra.allergenes }}</span>
+                                <h4> Astuce du jour :  </h4>
+                                <span> {{ extra.trick }}</span>
                             </div>
 
                         </div>

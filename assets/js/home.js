@@ -1,19 +1,5 @@
 $(function() {
 
-    // Get the modal
-
-    var modal= $('.modal');
-
-
-// Get the <span> element that closes the modal
-    var spanDish = document.getElementsByClassName("close")[0];
-
-
-// When the user clicks on <span> (x), close the modal
-    spanDish.onclick = function() {
-        modal.css('display', 'none');
-    };
-
 
 
 
@@ -22,7 +8,7 @@ $(function() {
 
     $(".rslides").responsiveSlides({
         random: true,          // Boolean: Randomize the order of the slides, true or false
-        pause: true,           // Boolean: Pause on hover, true or false
+        pause: true         // Boolean: Pause on hover, true or false
     });
     var nav = $('.itemnavmobile').offset().top,
         dessert = $('#dessert').offset().top,
