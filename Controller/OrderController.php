@@ -17,13 +17,6 @@ class OrderController extends BaseController
                     $_SESSION['order']['step'] = 2;
                 else
                     $_SESSION['order']['step'] = 1;
-            } elseif ($_GET['step'] == 3) {
-                if ($_SESSION['order']['status'] == "complete")
-                    $_SESSION['order']['step'] = 3;
-                elseif (isset($_SESSION['order']['data']['billing']))
-                    $_SESSION['order']['step'] = 2;
-                else
-                    $_SESSION['order']['step'] = 1;
             }
             $CartManager = CartManager::getInstance();
             $UserManager = UserManager::getInstance();
@@ -67,24 +60,27 @@ class OrderController extends BaseController
                     'Total' => $total,
                 ]);
             }
-            elseif ($_SESSION['order']['step'] == 3) {
-                $total = $CartManager->totalCart();
-                $user = $UserManager->getUserById($_SESSION['user_id']);
-                $billing = $UserManager->getAddressById($_SESSION['order']['data']['billing']);
-                $shipping = $UserManager->getAddressById($_SESSION['order']['data']['shipping']);
-                echo $this->renderView('orderStep3.html.twig', [
-                    'SessionEmail' => $_SESSION['email'],
-                    'user' => $user,
-                    'billing' => $billing,
-                    'shipping' => $shipping,
-                    'CartElements' => $_SESSION['cart'],
-                    'Total' => $total,
-                ]);
-            }
         }
         else {
             echo $this->renderView('loginregister.html.twig');
         }
+    }
+
+    public function validOrderAction() {
+        $UserManager = UserManager::getInstance();
+        $user = $UserManager->getUserById($_SESSION['user_id']);
+        $order = $UserManager->getLatestOrderByUserId($_SESSION['user_id']);
+        $products = explode(";", $order['products']);
+        $billing = $UserManager->getAddressById($order['billingaddress']);
+        $shipping = $UserManager->getAddressById($order['shippingaddress']);
+        echo $this->renderView('orderStep3.html.twig', [
+            'SessionEmail' => $_SESSION['email'],
+            'user' => $user,
+            'billing' => $billing,
+            'shipping' => $shipping,
+            'CartElements' => $products,
+            'Total' => $order['total'],
+        ]);
     }
 
 }

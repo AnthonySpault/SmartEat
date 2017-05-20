@@ -63,7 +63,7 @@ function validateStep2() {
                 vNotify.error({text: response, title: 'Erreur !'});
             }
             else {
-                location.href = '?action=order&step=3';
+                location.href = '?action=validOrder';
             }
         }
     });

@@ -26,7 +26,8 @@
                 Facturation :<br>
                 {{ billing.firstname }} {{ billing.lastname }},<br>
                 {{ billing.streetNumber }} {{ billing.street }},<br>
-                {{ billing.zipcode }} {{ billing.city }}
+                {{ billing.zipcode }} {{ billing.city }}<br>
+                {{ billing.phone }}
             </p>
             <p>
                 Livraison :<br>
@@ -41,17 +42,17 @@
 
         <p>
             {% for element in CartElements %}
-                {{ element.quantity }}x {{ element.name }}<br>
+                {{ element }}<br>
             {% endfor %}
         </p>
 
-        <h4>Total : {{ Total + 2 }} €</h4>
+        <h4>Total : {{ Total }} €</h4>
     </div>
 
     <p>
         Pour toute information supplémentaire, modification ou annulation de commande, veuillez contacter le restaurant au 01 10 20 30 40.<br>
         Nous vous remerçions d’avoir choisi <span class="red">SmartEat</span>.<br>
-        Venez nous rejoindre sur les <a href="#">facebook</a>, <a href="#">twitter</a> et <a href="#">instagram</a>.
+        Venez nous rejoindre sur les <a class="red" href="#">facebook</a>, <a class="red" href="#">twitter</a> et <a class="red" href="#">instagram</a>.
     </p>
 </div>
 

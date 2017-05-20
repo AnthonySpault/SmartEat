@@ -40,15 +40,18 @@ class OrderManager
     }
 
     public function validatePayment($total) {
-        $_SESSION['order']['status'] = "complete";
         $orderInsert['userid'] = $_SESSION['user_id'];
         $orderInsert['products'] = '';
         foreach ($_SESSION['cart'] as $key => $value) {
-            $orderInsert['products'] .= $key.',';
+            $orderInsert['products'] .= $_SESSION['cart'][$key]['quantity'].'x '.$_SESSION['cart'][$key]['name'].';';
         }
-        $orderInsert['total'] = $total;
-        $orderInsert['billing'] = $_SESSION['order']['data']['billing'];
-        $orderInsert['shipping'] = $_SESSION['order']['data']['shipping'];
+        $orderInsert['products'] = substr($orderInsert['products'], 0, -1);
+        $orderInsert['total'] = $total + 2;
+        $orderInsert['billingaddress'] = $_SESSION['order']['data']['billing'];
+        $orderInsert['shippingaddress'] = $_SESSION['order']['data']['shipping'];
         $this->DBManager->insert('orders', $orderInsert);
+        unset($_SESSION['order']);
+        unset($_SESSION['cart']);
+        unset($_SESSION['cartmealreduc']);
     }
 }

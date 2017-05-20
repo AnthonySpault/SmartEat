@@ -2,6 +2,7 @@ function addtocart(id) {
     $.ajax({
         type: 'post',
         url: '?action=editcart',
+        async: true,
         data: {
             kind:"add",
             productId:id,
@@ -15,6 +16,7 @@ function removetocart(id) {
     $.ajax({
         type: 'post',
         url: '?action=editcart',
+        async: true,
         data: {
             kind:"remove",
             productId:id
@@ -28,6 +30,7 @@ function removeone(id) {
     $.ajax({
         type: 'post',
         url: '?action=editcart',
+        async: true,
         data: {
             kind:'removeone',
             productId:id
@@ -41,6 +44,7 @@ function addone(id) {
     $.ajax({
         type: 'post',
         url: '?action=editcart',
+        async: true,
         data: {
             kind:"addone",
             productId:id
@@ -54,6 +58,7 @@ function show_cart() {
     $.ajax({
         type: 'post',
         url: '?action=refreshcart',
+        async: true,
         success:function(response) {
             $(".cart").html(response);
         }

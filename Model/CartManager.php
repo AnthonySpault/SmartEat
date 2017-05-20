@@ -46,6 +46,7 @@ class CartManager
             $dish = 0;
             $dessert = 0;
             $drink = 0;
+            $total = 0;
             foreach ($_SESSION['cart'] as $key => $value) {
                 $price = $_SESSION['cart'][$key]['quantity'] * $_SESSION['cart'][$key]['price'];
                 $total += $price;
