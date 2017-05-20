@@ -70,6 +70,28 @@ class UserManager
         return $data;
     }
 
+    public function checkDeleteAddress($data,$id)
+    {
+        if(empty($data['id'])){
+            return 'Cette addresse n\'existe pas';
+        }
+        $address = $this->getAddressById($data['id']);
+        if($address['defaultAddress'] !== 'false'){
+            return 'Vous ne pouvez pas supprimer votre adresse par défaut';
+        }
+        if($address['userid'] !== $id )
+            return 'Vous ne pouvez supprimer que vos adresses';
+
+       return true;
+    }
+
+    public function deleteAddress($data)
+    {
+        $id = $data['id'];
+        $data = $this->DBManager->doRequestSecure('DELETE   FROM `addresses` WHERE `id` = :id', ['id' => $id]);
+        return $data;
+    }
+
     public function userCheckRegister($data)
     {
         if (empty($data['firstname']) OR empty($data['lastname']) OR empty($data['email']) OR empty($data['password']) OR empty($data['passwordconfirm']) OR empty($data['phone']))

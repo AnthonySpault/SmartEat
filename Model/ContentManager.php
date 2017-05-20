@@ -22,7 +22,7 @@ class ContentManager
 
     public function getAllPlates()
     {
-        $data = $this->DBManager->findAllSecure('SELECT * FROM plates');
+        $data = $this->DBManager->findAllSecure('SELECT * FROM plates ORDER BY `status`,`category`');
         return $data;
     }
 
@@ -45,11 +45,33 @@ class ContentManager
         return $data;
     }
 
-    public function userCheckPlates($data, $img)
+    public function checkDeletePlates($data,$id)
+    {
+        if(empty($data['id'])){
+            return 'Ce plat n\'existe pas';
+        }
+        $plate = $this->getOnePlates($data['id']);
+        if($plate['status'] === 'active'){
+            return 'Vous ne pouvez pas supprimer un plat actif sur notre site';
+        }
+
+        return true;
+    }
+
+    public function deletePlates($data)
+    {
+        $id = $data['id'];
+        $plate = $this->getOnePlates($data['id']);
+        $data = $this->DBManager->doRequestSecure('DELETE   FROM `plates` WHERE `id` = :id', ['id' => $id]);
+        unlink($plate['image']);
+        return $data;
+    }
+
+    public function checkPlates($data, $img)
     {
         $extension = ['.jpeg', '.png', '.jpg', '.PNG', '.JPG', '.JPEG'];
         $extFile = strrchr(basename($img['file']['name']), '.');
-        if (empty($data['plateName']) OR empty($img['file']['name']) OR empty($data['description']) OR empty($data['ingredients']) OR empty($data['tricks']) OR empty($data['price']) OR empty($data['category'])) {
+        if (empty($data['plateName']) OR empty($img['file']['name']) OR empty($data['description']) OR empty($data['allergenes']) OR empty($data['ingredients']) OR empty($data['tricks']) OR empty($data['price']) OR empty($data['category'])) {
             return "Des champs obligatoire ne sont pas remplis";
         }
         if (!in_array($extFile, $extension)) {
@@ -63,23 +85,61 @@ class ContentManager
         return true;
     }
 
+
     public function insertPlates($data, $img)
     {
         $filepath = "uploads/plates_img/" . $data['plateName'] . strrchr(basename($img['file']['name']), '.');
         $plates['name'] = $data['plateName'];
         $plates['description'] = $data['description'];
         $plates['ingredients'] = $data['ingredients'];
+        $plates['allergenes'] = $data['allergenes'];
         $plates['trick'] = $data['tricks'];
         $plates['image'] = $filepath;
-        $plates['price'] = str_replace($data['price'],",",".");
+        $plates['price'] = str_replace(",",".",$data['price']);
         $plates['category'] = $data['category'];
+        $plates['status'] = 'inactive';
         $this->DBManager->insert('plates', $plates);
-
         $req = $this->getPlatesByName($data['plateName']);
         $update['image'] = 'uploads/plates_img/' . $req['id'] . strrchr(basename($img['file']['name']), '.');
         $update['id'] = $req['id'];
         $query = $this->DBManager->findOneSecure("UPDATE plates SET `image`= :image  WHERE `id` = :id", $update);
         move_uploaded_file($img['file']['tmp_name'], $update['image']);
+        return $plates;
+    }
+    public function insertPlatesEdition($data)
+    {
+        $plates['id'] = $data['idEditing'];
+        $plates['nameEditing'] = $data['nameEditing'];
+        $plates['description'] = $data['description'];
+        $plates['ingredients'] = $data['ingredients'];
+        $plates['allergenes'] = $data['allergenes'];
+        $plates['trick'] = $data['tricks'];
+        $plates['price'] = str_replace(",",".",$data['price']);
+        $plates['category'] = $data['category'];
+        $query = $this->DBManager->findOneSecure("UPDATE plates SET `name` = :nameEditing, `description` = :description, `ingredients` = :ingredients, `allergenes` = :allergenes, `trick` = :trick, `price` = :price,`category` = :category  WHERE `id` = :id", $plates);
+        return $plates;
+    }
+    public function checkPlatesEdition($data)
+    {
+        if (empty($data['nameEditing'])  OR empty($data['description']) OR empty($data['allergenes']) OR empty($data['ingredients']) OR empty($data['tricks']) OR empty($data['price']) OR empty($data['category'])) {
+            return "Des champs obligatoire ne sont pas remplis";
+        }
+
+
         return true;
+    }
+    public function checkUpdateStatus($data){
+        if(empty($data['idStatus']) OR empty($data['status'])) {
+            return 'Des champs sont manquants';
+        }
+        return true;
+
+
+    }
+
+    public function updateStatus($data){
+        $update['id'] = $data['idStatus'];
+        $update['status'] = $data['status'];
+        $query = $this->DBManager->doRequestSecure("UPDATE plates SET `status`= :status WHERE `id` = :id", $update);
     }
 }

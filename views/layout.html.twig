@@ -21,7 +21,10 @@
                     <li><a href="?action=concept">Concept</a></li>
                     <li><a href="?action=partners">Partenaires</a></li>
                     <li><a href="?action=profile">Mon compte</a></li>
-                    {% if SessionEmail is defined and SessionEmail is not empty %}
+                    {% if SessionEmail is defined and user.role == 'admin'  %}
+                    <li><a href="?action=admin">Admin</a></li>
+                    {% endif %}
+                    {% if SessionEmail is defined  %}
                     <li><a href="?action=logout">Deconnexion</a></li>
                     {% endif %}
                 </ul>

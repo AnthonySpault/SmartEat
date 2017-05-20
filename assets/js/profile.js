@@ -4,8 +4,7 @@
 // Get the modal
 var modal = $('#myModal');
 
-// Get the button that opens the modal
-var btn = document.getElementById("addAddress");
+
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
@@ -160,6 +159,7 @@ $(function () {
             }
         });
     });
+    var addressInput = $('#autocomplete');
     $('#addressForm').submit(function () {
         var firstnameAddress = $('#firstnameAddress').val(),
             lastnameAddress = $('#lastnameAddress').val(),
@@ -211,9 +211,35 @@ $(function () {
                 } else {
                   printAddress();
                   modal.css('display','none');
+                    addressInput.val('');
+
                 }
             }
         });
         return false;
     });
 });
+function deleteAddress(id){
+
+      $.ajax({
+
+          url: "?action=profile",
+          type: "post",
+          data: {
+              action: 'deleteAddress',
+              id:id
+          },
+          success: function (data) {
+              if (data !== 'true') {
+                  vNotify.error({text: data, title: 'Erreur !'});
+              } else {
+                  printAddress();
+                  vNotify.success({text: 'Votre adresse à bien été supprimé', title: 'Félicitation !'});
+              }
+          }
+      });
+
+
+}
+
+
