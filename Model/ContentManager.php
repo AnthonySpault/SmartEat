@@ -120,10 +120,7 @@ class ContentManager
         $id = $_SESSION['user_id'];
         $plates['id'] = $data['idEditing'];
         $plateWithId = $this->getOnePlates($plates['id']);
-        if(!empty($img['fileEditing']['name'])){
-            unlink($plateWithId['image']);
-        }
-
+        unlink($plateWithId['image']);
         $plates['nameEditing'] = $data['plateNameEditing'];
         $plates['description'] = $data['descriptionEditing'];
         $plates['ingredients'] = $data['ingredientsEditing'];
@@ -147,12 +144,12 @@ class ContentManager
         if (empty($data['plateNameEditing'])  OR empty($data['descriptionEditing']) OR empty($data['allergenesEditing']) OR empty($data['ingredientsEditing']) OR empty($data['tricksEditing']) OR empty($data['priceEditing']) OR empty($data['categoryEditing'])) {
             return "Des champs obligatoire ne sont pas remplis";
         }
-    if(!empty($img['fileEditing']['name'])){
+    if(isset($img['fileEditing']['name']))){
+
+    }
         if (!in_array($extFile, $extension)) {
             return "Seul les images sont autoriséses";
         }
-    }
-
 
         return true;
     }
