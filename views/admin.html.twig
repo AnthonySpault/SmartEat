@@ -48,8 +48,8 @@
                 <div class="closeEdition"></div>
             </div>
 
-            <form action="?action=admin" method="POST"  id="platesFormEditing"> <!-- enctype="multipart/form-data"-->
-                <input type="text" id="idEditing" class="none" >
+            <form action="?action=admin" method="POST"  enctype="multipart/form-data" id="platesFormEditing">
+
                 <label for="plateNameEditing">  Nom du plat :</label>
                 <input type="text" name="plateNameEditing" id="plateNameEditing"><br>
                 <label for="descriptionEditing">Description :</label>
@@ -60,10 +60,11 @@
                 <textarea name="allergenesEditing" id="allergenesEditing"></textarea><br>
                 <label for="tricksEditing">Astuce:</label>
                 <textarea name="tricksEditing" id="tricksEditing"></textarea><br>
-          <!--      <label for="file">  Image :</label>
-                <input type="file" name="file" id="file"><br><br>-->
+                <label for="fileEditing">  Image :</label>
+                <input type="file" name="fileEditing" id="fileEditing"><br><br>
                 <label for="priceEditing">  Prix :</label>
                 <input type="text" name="priceEditing" id="priceEditing"><br><br>
+                <input type="text" id="idEditing"  name="idEditing" class="" >
                 <label for="categoryEditing"> Catégorie</label>
                 <select name="categoryEditing" id="categoryEditing">
 
@@ -95,20 +96,19 @@
             {% for key in allPlates %}
             <tr class="contentPlatesInfo">
                 {% if key.status == "active" %}
-                    <td><input type="checkbox" name="plate" checked value="{{ key.id }}" ></td>
+                    <td><input type="checkbox" onclick="status()" name="plate" checked value="{{ key.id }}" ></td>
                 {% else %}
-                    <td><input type="checkbox" name="plate" value="{{ key.id }}" ></td>
+                    <td><input type="checkbox" onclick="status()" name="plate" value="{{ key.id }}" ></td>
                 {% endif %}
                 <td class="name">{{key.name}}</td>
                 <td class="category">{{key.category}}</td>
-                <td class="id none">{{key.id}}</td>
                 <td class="description none"> {{ key.description }}</td>
                 <td class="ingredients none"> {{ key.ingredients }}</td>
-                <td class="allergenes none"> {{ key.allergene }}</td>
+                <td class="allergenes none"> {{ key.allergenes }}</td>
                 <td class="tricks none"> {{ key.trick }}</td>
                 <td class="price none"> {{ key.price }}</td>
                 <td><img src="assets/images/garbage.png" alt="Supprimer" onclick="deletePlates({{ key.id }})" ></td>
-                <td><img src="assets/images/edit.png"  alt="Editer" onclick="$('#myModalEdition').css('display','block');" class="center green plateEditing"  ></td>
+                <td><img src="assets/images/edit.png"  alt="Editer" onclick="addValue($(this),{{ key.id }});$('#myModalEdition').css('display','block');" class="center green plateEditing"  ></td>
             </tr>
             {% endfor %}
 
