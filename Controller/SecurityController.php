@@ -244,8 +244,6 @@ class SecurityController extends BaseController
             }
         }
 
-
-
         if($user['role'] !=='admin'){
             $this->redirect('profile');
     }else if (isset($_SESSION['email'])){

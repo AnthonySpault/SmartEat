@@ -83,8 +83,8 @@ class DefaultController extends BaseController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $UserManager = UserManager::getInstance();
             $check = $UserManager->checkInsertPartners($_POST);
-            if ($check === true) {
-                $UserManager->insertPartners($_POST);
+            if ($check) {
+                $UserManager->inertPartners($_POST);
                 echo 'true';
                 exit(0);
             } else {
@@ -109,7 +109,7 @@ class DefaultController extends BaseController
         $CartManager = CartManager::getInstance();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $check = $CartManager->checkMeal($_POST);
-            if ($check === true) {
+            if ($check) {
                 $CartManager->addMeal($_POST);
                 echo "true";
                 exit(0);

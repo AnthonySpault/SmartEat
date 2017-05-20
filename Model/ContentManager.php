@@ -123,7 +123,6 @@ class ContentManager
         if(!empty($img['fileEditing']['name'])){
             unlink($plateWithId['image']);
         }
-
         $plates['nameEditing'] = $data['plateNameEditing'];
         $plates['description'] = $data['descriptionEditing'];
         $plates['ingredients'] = $data['ingredientsEditing'];
