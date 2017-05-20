@@ -99,19 +99,10 @@ body {
     background: url('../images/closehover.png') no-repeat;
     cursor: pointer;
 }
-
-.modal .closeEdition {
-    background: url('../images/close.png') no-repeat;
-    background-position: center;
-    width: 32px;
-    height: 32px;
+#myModalDish{
+    color: black;
 }
 
-.modal .closeEdition:hover,
-.modal .closeEdition:focus {
-    background: url('../images/closehover.png') no-repeat;
-    cursor: pointer;
-}
 
 /* HEADER */
 

@@ -22,8 +22,20 @@
                     <h2 class="title">{{ dish.name }}</h2>
                     <p class="description">{{ dish.description }}</p>
                     <div class="actions">
-                        <a href="#">Astuce du jour</a>
+                        <button class="openModal" onclick="$('#myModalDish.modal').css('display','block');">En savoir plus</button>
                         <button onclick="addtocart({{dish.id}})">Add to cart</button>
+                        <!-- Trigger/Open The Modal -->
+                        <!-- The Modal -->
+                        <div id="myModalDish" class="modal">
+
+                            <!-- Modal content -->
+                            <div class="modal-content">
+                                <span class="close"></span>
+                                <h4> Ingrédients :  </h4>
+                                <span> {{ dish.ingredients }}</span>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -40,8 +52,18 @@
                     <h2 class="title">{{ dessert.name }}</h2>
                     <p class="description">{{ dessert.description }}</p>
                     <div class="actions">
-                        <a href="#">Astuce du jour</a>
+                        <button class="openModal" onclick="$('#myModalDessert.modal').css('display','block')">En savoir plus</button>
                         <button onclick="addtocart({{dessert.id}})">Add to cart</button>
+                        <div id="myModalDessert" class="modal">
+
+                            <!-- Modal content -->
+                            <div class="modal-content">
+                                <span class="close"></span>
+                                <div><h4> Ingrédients :  </h4>
+                                <span> {{ dessert.ingredients }}</span></div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -58,7 +80,6 @@
                     <h2 class="title">{{ drink.name }}</h2>
                     <p class="description">{{ drink.description }}</p>
                     <div class="actions">
-                        <a href="#">Astuce du jour</a>
                         <button onclick="addtocart({{drink.id}})">Add to cart</button>
                     </div>
                 </div>
@@ -78,8 +99,18 @@
                     <h2 class="title">{{ extra.name }}</h2>
                     <p class="description">{{ extra.description }}</p>
                     <div class="actions">
-                        <a href="#">Astuce du jour</a>
+                        <button class="openModal">En savoir plus</button>
                         <button onclick="addtocart({{extra.id}})">Add to cart</button>
+                        <div id="myModalExtra" class="modal ">
+
+                            <!-- Modal content -->
+                            <div class="modal-content ">
+                                <span class="close" onclick="$('.modal').css('display','none');"></span>
+                                <p>Some text in the Modal..</p>
+                            </div>
+
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
