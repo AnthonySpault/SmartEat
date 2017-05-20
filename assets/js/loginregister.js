@@ -5,7 +5,7 @@
     }
     function nameValidation(name) {
 
-        var nameRegExp = /^[a-zA-Z]*$/;
+        var nameRegExp = /^[a-zA-ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]+$/;
         return nameRegExp.test(name);
     }
     function phoneValidation(phone) {

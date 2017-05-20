@@ -1,0 +1,22 @@
+<div class="partners">
+    <h2 class="red">Demande de partenariat</h2>
+    <table>
+        <tr class="partnersInfo">
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Email</th>
+            <th width="20%">Téléphone</th>
+            <th width="20%">Supprimer</th>
+        </tr>
+        {% for key in allPartners %}
+            <tr class="contentPartnersInfo">
+                <td class="firstname">{{key.firstname}}</td>
+                <td class="lastname">{{key.lastname}}</td>
+                <td class="email "> {{ key.email }}</td>
+                <td class="phone"> {{ key.phone }}</td>
+                <td><img src="assets/images/garbage.png" alt="Supprimer" onclick="deletePartners({{ key.id }})" ></td>
+            </tr>
+        {% endfor %}
+
+    </table>
+</div>
