@@ -112,26 +112,43 @@ class ContentManager
         $write = $this->UserManager->writeLog('access.log', ' => function : insertPlates || User ' . $id . 'inserted  a product' ."\n");
         return $plates;
     }
-    public function insertPlatesEdition($data)
+    public function insertPlatesEdition($data,$img)
     {
         $id = $_SESSION['user_id'];
         $plates['id'] = $data['idEditing'];
-        $plates['nameEditing'] = $data['nameEditing'];
-        $plates['description'] = $data['description'];
-        $plates['ingredients'] = $data['ingredients'];
-        $plates['allergenes'] = $data['allergenes'];
-        $plates['trick'] = $data['tricks'];
-        $plates['price'] = str_replace(",",".",$data['price']);
-        $plates['category'] = $data['category'];
+        $plateWithId = $this->getOnePlates($plates['id']);
+        if(!empty($img['fileEditing']['name'])){
+            unlink($plateWithId['image']);
+        }
+
+        $plates['nameEditing'] = $data['plateNameEditing'];
+        $plates['description'] = $data['descriptionEditing'];
+        $plates['ingredients'] = $data['ingredientsEditing'];
+        $plates['allergenes'] = $data['allergenesEditing'];
+        $plates['trick'] = $data['tricksEditing'];
+        $plates['price'] = str_replace(",",".",$data['priceEditing']);
+        $plates['category'] = $data['categoryEditing'];
         $query = $this->DBManager->findOneSecure("UPDATE plates SET `name` = :nameEditing, `description` = :description, `ingredients` = :ingredients, `allergenes` = :allergenes, `trick` = :trick, `price` = :price,`category` = :category  WHERE `id` = :id", $plates);
+        $req = $this->getPlatesByName($plates['nameEditing']);
+        $update['image'] = 'uploads/plates_img/' . $req['id'] . strrchr(basename($img['fileEditing']['name']), '.');
+        $update['id'] = $req['id'];
+        $query = $this->DBManager->findOneSecure("UPDATE plates SET `image`= :image  WHERE `id` = :id", $update);
+        move_uploaded_file($img['fileEditing']['tmp_name'], $update['image']);
         $write = $this->UserManager->writeLog('access.log', ' => function : editPlates || User ' . $id . 'edited  a product' ."\n");
         return $plates;
     }
-    public function checkPlatesEdition($data)
+    public function checkPlatesEdition($data,$img)
     {
-        if (empty($data['nameEditing'])  OR empty($data['description']) OR empty($data['allergenes']) OR empty($data['ingredients']) OR empty($data['tricks']) OR empty($data['price']) OR empty($data['category'])) {
+        $extension = ['.jpeg', '.png', '.jpg', '.PNG', '.JPG', '.JPEG'];
+        $extFile = strrchr(basename($img['fileEditing']['name']), '.');
+        if (empty($data['plateNameEditing'])  OR empty($data['descriptionEditing']) OR empty($data['allergenesEditing']) OR empty($data['ingredientsEditing']) OR empty($data['tricksEditing']) OR empty($data['priceEditing']) OR empty($data['categoryEditing'])) {
             return "Des champs obligatoire ne sont pas remplis";
         }
+    if(!empty($img['fileEditing']['name'])){
+        if (!in_array($extFile, $extension)) {
+            return "Seul les images sont autoriséses";
+        }
+    }
 
 
         return true;

@@ -220,10 +220,10 @@ class SecurityController extends BaseController
                     exit(0);
                 }
             }
-            if(isset($_POST['nameEditing'])){
-                $check = $ContentManager->checkPlatesEdition($_POST);
+            if(isset($_POST['plateNameEditing'])){
+                $check = $ContentManager->checkPlatesEdition($_POST,$_FILES);
                 if ($check === true) {
-                    $ContentManager->insertPlatesEdition($_POST);
+                    $ContentManager->insertPlatesEdition($_POST,$_FILES);
                     echo 'true';
                     exit(0);
                 } else {

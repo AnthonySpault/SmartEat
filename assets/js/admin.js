@@ -1,6 +1,18 @@
 /**
  * Created by Dam's on 18/05/2017.
  */
+
+
+var idEditingInput = $('#idEditing');
+var plateNameEditingInput = $('#plateNameEditing');
+var descriptionEditingInput = $('#descriptionEditing');
+var ingredientsEditingInput = $('#ingredientsEditing');
+var categoryEditingInput =  $( '#categoryEditing')
+var allergenesEditingInput = $('#allergenesEditing');
+var tricksEditingInput = $('#tricksEditing');
+var priceEditingInput = $('#priceEditing');
+
+
 // Get the modal
 var modal = $('#myModal');
 var modalEdition = $('#myModalEdition');
@@ -90,16 +102,31 @@ function deletePlates(id){
                 vNotify.error({text: data, title: 'Erreur !'});
             } else {
                 printPlates();
-                vNotify.success({text: 'Votre adresse à bien été supprimé', title: 'Félicitation !'});
+                vNotify.success({text: 'Votre produit à bien été supprimé', title: 'Félicitation !'});
             }
         }
     });
 }
+function addValue(dom,id){
 
-$(function () {
+
+    plateNameEditingInput.val(dom.parent().parent().children('.name').html());
+    descriptionEditingInput.val(dom.parent().parent().children('.description').html());
+    ingredientsEditingInput.val(dom.parent().parent().children('.ingredients').html());
+    allergenesEditingInput.val(dom.parent().parent().children('.allergenes').html());
+    tricksEditingInput.val(dom.parent().parent().children('.tricks').html());
+    priceEditingInput.val(dom.parent().parent().children('.price').html());
+    idEditingInput.val(id);
+    console.log(idEditingInput);
+    var category = dom.parent().parent().children('.category').html();
+    categoryEditingInput .val(category).trigger('change');
+
+}
+function status() {
+
     var check = $('.plates input[name=plate]');
     check.change(function () {
-    var $this = $(this);
+        var $this = $(this);
 
         if ($this.prop('checked')) {
             $.ajax({
@@ -117,7 +144,7 @@ $(function () {
                     }
                 }
             });
-        } else  {
+        } else {
             $.ajax({
                 url: "?action=admin",
                 type: "post",
@@ -135,28 +162,9 @@ $(function () {
             });
         }
     });
+}
 
-    var plateEditing = $('.plateEditing');
-    var idEditingInput = $('.idEditing');
-    var plateNameEditingInput = $('#plateNameEditing');
-    var descriptionEditingInput = $('#descriptionEditing');
-    var ingredientsEditingInput = $('#ingredientsEditing');
-    var categoryEditingInput =  $( '#categoryEditing')
-    var allergenesEditingInput = $('#allergenesEditing');
-    var tricksEditingInput = $('#tricksEditing');
-    var priceEditingInput = $('#priceEditing');
 
-        plateEditing.click(function(){
-            plateNameEditingInput.val($(this).parent().parent().children('.name').html());
-            descriptionEditingInput.val($(this).parent().parent().children('.description').html());
-            ingredientsEditingInput.val($(this).parent().parent().children('.ingredients').html());
-            allergenesEditingInput.val($(this).parent().parent().children('.allergenes').html());
-            tricksEditingInput.val($(this).parent().parent().children('.tricks').html());
-            priceEditingInput.val($(this).parent().parent().children('.price').html());
-            idEditingInput.val($(this).parent().parent().children('.id').html());
-            var category = $(this).parent().parent().children('.category').html();
-            categoryEditingInput .val(category).trigger('change');
-        });
     var platesFormEditing = $('#platesFormEditing');
     platesFormEditing.submit(function () {
 
@@ -168,7 +176,8 @@ $(function () {
             $allergenes = allergenesEditingInput.val(),
             $name = plateNameEditingInput.val(),
             $price = priceEditingInput.val(),
-            $id = priceEditingInput.val();
+            $id = idEditingInput.val(),
+            $image = $('#fileEditing').val();
 
 
 
@@ -178,28 +187,24 @@ $(function () {
             vNotify.error({text: 'Veuillez rentrer un nom.', title: 'Erreur !'});
         }
 
-        if ($category === '' || $ingredients === '' || $tricks === '' || $price === '' || $description === ''  || $allergenes ==='') {
+        if ($category === '' || $ingredients === '' || $tricks === '' || $price === '' || $description === ''  || $allergenes ==='' || $id ==='' ) {
 
             vNotify.error({text: 'Champ(s) manquant(s).', title: 'Erreur !'});
         }
 
+        var formData = new FormData(this);
+        if($image !== ''){
+            formData.append('image', $image.files);
+        }
 
 
         if (formValid) {
             $.ajax({
                 url: '?action=admin',
                 type: 'post',
-                data: {
-                    idEditing: $id,
-                    nameEditing:$name,
-                    description:$description,
-                    ingredients:$ingredients,
-                    allergenes:$allergenes,
-                    tricks:$tricks,
-                    price:$price,
-                    category : $category
-
-               },
+                contentType: false,
+                processData: false,
+                data: formData,
                 success: function (data) {
                     if (data !== 'true') {
                         vNotify.error({text: data, title: 'Erreur !'});
@@ -217,4 +222,3 @@ $(function () {
 
 
 
-});
