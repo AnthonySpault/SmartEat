@@ -15,7 +15,7 @@ var priceEditingInput = $('#priceEditing');
 
 // Get the modal
 var modal = $('#myModal');
-var modalEdition = $('#myModalEdition');
+
 
 
 // Get the <span> element that closes the modal
@@ -26,9 +26,7 @@ var span2 = document.getElementsByClassName("closeEdition")[0];
 span.onclick = function() {
     modal.css('display', 'none');
 }
-span2.onclick = function() {
-    modalEdition.css('display', 'none');
-}
+
 
 
 
@@ -165,60 +163,61 @@ function status() {
 }
 
 
-    var platesFormEditing = $('#platesFormEditing');
-    platesFormEditing.submit(function () {
+var platesFormEditing = $('#platesFormEditing');
+platesFormEditing.submit(function () {
 
-        var formValid = true;
-        var $category =  categoryEditingInput.val(),
-            $ingredients = ingredientsEditingInput.val(),
-            $description = descriptionEditingInput.val(),
-            $tricks = tricksEditingInput.val(),
-            $allergenes = allergenesEditingInput.val(),
-            $name = plateNameEditingInput.val(),
-            $price = priceEditingInput.val(),
-            $id = idEditingInput.val(),
-            $image = $('#fileEditing').val();
-
-
+    var formValid = true;
+    var $category =  categoryEditingInput.val(),
+        $ingredients = ingredientsEditingInput.val(),
+        $description = descriptionEditingInput.val(),
+        $tricks = tricksEditingInput.val(),
+        $allergenes = allergenesEditingInput.val(),
+        $name = plateNameEditingInput.val(),
+        $price = priceEditingInput.val(),
+        $id = idEditingInput.val(),
+        $image = $('#fileEditing').val();
 
 
-        if ($name === '') {
-            formValid = false;
-            vNotify.error({text: 'Veuillez rentrer un nom.', title: 'Erreur !'});
-        }
-
-        if ($category === '' || $ingredients === '' || $tricks === '' || $price === '' || $description === ''  || $allergenes ==='' || $id ==='' ) {
-
-            vNotify.error({text: 'Champ(s) manquant(s).', title: 'Erreur !'});
-        }
-
-        var formData = new FormData(this);
-        if($image !== ''){
-            formData.append('image', $image.files);
-        }
 
 
-        if (formValid) {
-            $.ajax({
-                url: '?action=admin',
-                type: 'post',
-                contentType: false,
-                processData: false,
-                data: formData,
-                success: function (data) {
-                    if (data !== 'true') {
-                        vNotify.error({text: data, title: 'Erreur !'});
-                    } else {
-                        printPlates();
-                        vNotify.success({text: 'Votre produit à bien été éditer', title: 'Félicitation !'});
-                        modalEdition.css('display','none');
+    if ($name === '') {
+        formValid = false;
+        vNotify.error({text: 'Veuillez rentrer un nom.', title: 'Erreur !'});
+    }
 
-                    }
+    if ($category === '' || $ingredients === '' || $tricks === '' || $price === '' || $description === ''  || $allergenes ==='' || $id ==='' ) {
+
+        vNotify.error({text: 'Champ(s) manquant(s).', title: 'Erreur !'});
+    }
+
+    var formData = new FormData(this);
+
+        formData.append('image', $image.files);
+
+
+
+    if (formValid) {
+        $.ajax({
+            url: '?action=admin',
+            type: 'post',
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                if (data !== 'true') {
+                    vNotify.error({text: data, title: 'Erreur !'});
+                } else {
+                    printPlates();
+                    vNotify.success({text: 'Votre produit à bien été éditer', title: 'Félicitation !'});
+                    $('#myModalEdition.modal').css('display','none');
+
+
                 }
-            });
-        }
-        return false;
-    });
+            }
+        });
+    }
+    return false;
+});
 
 
 function printPartners(){
