@@ -37,6 +37,25 @@
             <a href="?action=cart" class="basket"><img src="assets/images/basket.png" alt="Logo ajouter au pannier"></a>
         </header>
 
+        <header id="desktop-header">
+            <a href="?action=home"><img src="assets/images/logo.png" alt="Logo Smart Eat" class="logo"></a>
+            <div class="nav">
+                <a href="?action=home">Accueil</a>
+                <a href="?action=concept">Concept</a>
+                <a href="?action=partners">Partenaires</a>
+                {% if SessionEmail is defined and user.role == 'admin'  %}
+                <a href="?action=admin">Admin</a>
+                {% endif %}
+                {% if SessionEmail is defined  %}
+                <a href="?action=logout">Deconnexion</a>
+                {% endif %}
+            </div>
+            <div class="profilecart">
+                <a href="?action=profile"><img src="assets/images/profile.png" alt="Logo profil"></a>
+                <a href="?action=cart"><img src="assets/images/basket.png" alt="Logo ajouter au pannier"></a>
+            </div>
+        </header>
+
         {% block content %}{% endblock %}
 
         <footer id="mobile-footer">
@@ -54,6 +73,36 @@
             <div class="right">
                 <p>Vos mots doux à :<br /><a class="mail" href="mailto:motsdoux@smarteat.fr">motsdoux@smarteat.fr</a></p>
                 <p><a href="#">Mentions légales</a> | <a href="#">Contact</a> | <a href="#">CGV</a></p>
+            </div>
+        </footer>
+
+        <footer id="desktop-footer">
+            <div class="appstores">
+                <a href="#"><img src="assets/images/android.png" alt="Play Store"></a>
+                <a href="#"><img src="assets/images/apple.png" alt="App Store"></a>
+            </div>
+            <div class="social">
+                <div>
+                    <a href="#"><img src="assets/images/facebook.png" alt="Facebook"></a>
+                    <a href="#"><img src="assets/images/twitter.png" alt="Twitter"></a>
+                    <a href="#"><img src="assets/images/instagram.png" alt="Instagram"></a>
+                </div>
+                <p>Vos mots doux à :<br /><a class="mail" href="mailto:motsdoux@smarteat.fr">motsdoux@smarteat.fr</a></p>
+            </div>
+            <div class="column">
+                <a href="?action=concept">Concept</a>
+                <a href="?action=partners">Partenaires</a>
+                <a href="?action=profile">Mon Compte</a>
+            </div>
+            <div class="column">
+                <a href="#">Qui sommes nous ?</a>
+                <a href="#">Rejoignez-nous !</a>
+                <a href="#">FAQ</a>
+            </div>
+            <div class="column">
+                <a href="#">Mentions légales</a>
+                <a href="#">Contact</a>
+                <a href="#">CGV</a>
             </div>
         </footer>
 
