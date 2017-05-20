@@ -847,14 +847,182 @@ body {
     text-align: center;
 }
 
-.cart button {
+.cart a.button {
     margin: 20px auto;
     width: 175px;
-    height: 50px;
+    text-align: center;
+    line-height: 50px;
     border: 2px solid #157063;
     border-radius: 10px;
     background-color: white;
     color: #157063;
     font-size: 20px;
     text-transform: uppercase;
+    text-decoration: none;
+}
+
+/* ORDER PAGE */
+
+#steps {
+  width: 90%;
+  margin: 70px auto 30px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.step {
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  display: inline-block;
+  border: 4px solid;
+  border-color: transparent;
+  border-radius: 50%;
+  color: #cdd0da;
+  font-weight: 600;
+  text-align: center;
+  line-height: 35px;
+}
+
+.step:first-child {
+  line-height: 40px;
+}
+
+.step:nth-child(n+2):before {
+  width: 75px;
+  height: 3px;
+  display: block;
+  background-color: #bebebe;
+  transform: translate(-95px, 21px);
+  content: '';
+}
+
+.step:after {
+  width: 150px;
+  display: block;
+  transform: translate(-55px, 3px);
+  color: #818698;
+  content: attr(data-desc);
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.step:first-child:after {
+  transform: translate(-55px, -1px);
+}
+
+.step.active {
+  border-color: #73b5e8;
+  color: #73b5e8;
+}
+
+.step.active:before {
+  background: linear-gradient(to right, #58bb58 0%, #73b5e8 100%);
+}
+
+.step.active:after {
+  color: #73b5e8;
+}
+
+.step.done {
+  background-color: #58bb58;
+  border-color: #58bb58;
+  color: white;
+}
+
+.step.done:before {
+  background-color: #58bb58;
+}
+
+.orderpage {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.orderpage h2 {
+    margin: 20px 0;
+}
+
+.orderpage table {
+    width: 100%;
+    font-size: 13px;
+}
+
+.orderpage table td:nth-child(2) {
+    font-weight: bold;
+}
+
+.orderpage table + h3 + span {
+    align-self: flex-start;
+    margin: 10px 0;
+}
+
+.orderpage button {
+    margin: 20px auto;
+    width: 250px;
+    text-align: center;
+    line-height: 50px;
+    border: 2px solid #157063;
+    border-radius: 10px;
+    background-color: white;
+    color: #157063;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.orderaddresses {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.orderaddresses input {
+    height: 30px;
+    border: 1px solid #d0d0d0;
+    background: white;
+    border-radius: 0px;
+    padding: 0 2.5%;
+}
+
+.orderaddresses .billingaddress, .orderaddresses .shippingaddress {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 250px;
+}
+
+.orderaddresses .billingaddress input, .orderaddresses .shippingaddress input {
+    width: 95%;
+}
+
+.orderaddresses .billingaddress div, .orderaddresses .shippingaddress div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.orderaddresses .billingaddress div input, .orderaddresses .shippingaddress div input{
+    width: 42.5%;
+}
+
+.orderaddresses select {
+  color: black;
+  width: 47.5%;
+  cursor: pointer;
+  background: white;
+  border: 1px solid black;
+  font-size: 50%;
+  line-height: 20px;
+  padding: 0.5em;
+  padding-right: 2em;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }

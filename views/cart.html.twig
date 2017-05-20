@@ -31,11 +31,9 @@
 
     {% if CartElements is defined and CartElements is not empty %}
         <h3 class="green">Total : {{ Total }} €</h3>
-        <button type="button">Valider</button>
     {% else %}
         <h3 class="green">Aucun article dans le panier.</h3>
-        <button type="button" disabled>Valider</button>
     {% endif %}
+    <a href="?action=order" class="button">Valider</a>
 </div>
-
 {% endblock %}

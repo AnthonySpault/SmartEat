@@ -1,0 +1,58 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+<div class="orderpage">
+    <div id="steps">
+        <div class="step" id="step1" data-desc="Coordonnées">1</div>
+        <div class="step active" id="step2" data-desc="Paiement">2</div>
+        <div class="step" id="step3" data-desc="Validation">3</div>
+    </div>
+
+    <h2 class="green">Votre commande</h2>
+
+    <table class="ordercontent">
+        {% for element in CartElements %}
+        <tr>
+            <td>{{ element.quantity }}x {{ element.name }}</td>
+            <td>{{ element.price * element.quantity }} €</td>
+        </tr>
+        {% endfor %}
+        {% for reduction in MealReductions %}
+        <tr>
+            <td>Reduction grace au menu</td>
+            <td>-{{ reduction }} €</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h3 class="red">Sous Total : {{ Total }} €</h3>
+
+    <span>Frais de port : 2 €</span>
+
+    <h3 class="red">Total : {{ Total + 2 }} €</h3>
+
+    <h2 class="green">Paiment</h2>
+
+    <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+        <input type='hidden' value="{{ Total }}" name="amount" />
+        <input name="currency_code" type="hidden" value="EUR" />
+        <input name="shipping" type="hidden" value="2.00" />
+        <input name="tax" type="hidden" value="0.00" />
+        <input name="return" type="hidden" value="http://smarteat.spault.fr/?action=orderValid" />
+        <input name="cancel_return" type="hidden" value="http://smarteat.spault.fr/?action=cart" />
+        <input name="notify_url" type="hidden" value="http://smarteat.spault.fr/?action=paypalNotify" />
+        <input name="cmd" type="hidden" value="_xclick" />
+        <input name="business" type="hidden" value="admin@smarteat.fr" />
+        <input name="item_name" type="hidden" value="Commande SmartEat" />
+        <input name="no_note" type="hidden" value="1" />
+        <input name="lc" type="hidden" value="FR" />
+        <input name="bn" type="hidden" value="PP-BuyNowBF" />
+        <input name="custom" type="hidden" value="ID_ACHETEUR" />
+        <input alt="Effectuez vos paiements via PayPal : une solution rapide, gratuite et sécurisée" name="submit" src="https://www.paypal.com/fr_FR/FR/i/btn/btn_buynow_LG.gif" type="image" /><img src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" border="0" alt="" width="1" height="1" />
+    </form>
+</div>
+
+<script src="assets/js/order.js"></script>
+
+{% endblock %}
