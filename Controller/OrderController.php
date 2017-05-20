@@ -10,14 +10,6 @@ class OrderController extends BaseController
 {
     public function orderAction() {
         if (isset($_SESSION['user_id'])) {
-            if ($_GET['step'] == 1) {
-                $_SESSION['order']['step'] = 1;
-            } elseif ($_GET['step'] == 2) {
-                if (isset($_SESSION['order']['data']['billing']))
-                    $_SESSION['order']['step'] = 2;
-                else
-                    $_SESSION['order']['step'] = 1;
-            }
             $CartManager = CartManager::getInstance();
             $UserManager = UserManager::getInstance();
             $total = $CartManager->totalCart();
@@ -41,6 +33,14 @@ class OrderController extends BaseController
                     echo 'true';
                     exit(0);
                 }
+            }
+            if ($_GET['step'] == 1) {
+                $_SESSION['order']['step'] = 1;
+            } elseif ($_GET['step'] == 2) {
+                if (isset($_SESSION['order']['data']['billing']))
+                    $_SESSION['order']['step'] = 2;
+                else
+                    $_SESSION['order']['step'] = 1;
             }
             if (!isset($_SESSION['order']) || $_SESSION['order']['step'] == 1) {
                 $_SESSION['order']['step'] = 1;
