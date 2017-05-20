@@ -21,6 +21,16 @@ class OrderManager
     {
         $this->DBManager = DBManager::getInstance();
     }
+    public function getOrderByUserId($id){
+        $data = $this->DBManager->findAllSecure("SELECT * FROM orders WHERE userid = :id",
+            ['id' => $id]);
+        return $data;
+    }
+    public function getShippingByOrderId($id){
+        $data = $this->DBManager->findOneSecure("SELECT * FROM addresses WHERE id = :id",
+            ['id' => $id]);
+        return $data;
+    }
 
     public function checkAddresses($data) {
         if (!is_numeric($data['billing']) || !is_numeric($data['shipping']))
