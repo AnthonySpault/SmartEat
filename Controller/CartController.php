@@ -3,12 +3,17 @@
 namespace Controller;
 
 use Model\CartManager;
+use Model\UserManager;
 
 class CartController extends BaseController
 {
     public function editcartAction() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $manager = CartManager::getInstance();
+            $UserManager = UserManager::getInstance();
+            if (isset($_SESSION['user_id'])){
+                $user = $UserManager->getUserById($_SESSION['user_id']);
+            }
             if ($_POST["kind"] == "add") {
                 if (is_numeric($_POST['productId'])) {
                     $manager->addProduct($_POST['productId']);
@@ -22,6 +27,7 @@ class CartController extends BaseController
                 if (isset($_SESSION['email'])) {
                     echo $this->renderView('cartAJAX.html.twig', [
                         'SessionEmail' => $_SESSION['email'],
+                        'user'=>$user,
                         'CartElements' => $_SESSION['cart'],
                         'MealReductions' => $_SESSION['cartmealreduc'],
                         'Total' => $total,
@@ -46,6 +52,7 @@ class CartController extends BaseController
                 if (isset($_SESSION['email'])) {
                     echo $this->renderView('cartAJAX.html.twig', [
                         'SessionEmail' => $_SESSION['email'],
+                        'user'=>$user,
                         'CartElements' => $_SESSION['cart'],
                         'MealReductions' => $_SESSION['cartmealreduc'],
                         'Total' => $total,
@@ -67,6 +74,7 @@ class CartController extends BaseController
                 if (isset($_SESSION['email'])) {
                     echo $this->renderView('cartAJAX.html.twig', [
                         'SessionEmail' => $_SESSION['email'],
+                        'user'=>$user,
                         'CartElements' => $_SESSION['cart'],
                         'MealReductions' => $_SESSION['cartmealreduc'],
                         'Total' => $total,
@@ -86,9 +94,14 @@ class CartController extends BaseController
     public function viewcartAction() {
         $manager = CartManager::getInstance();
         $total = $manager->totalCart();
+        $UserManager = UserManager::getInstance();
+        if (isset($_SESSION['user_id'])){
+            $user = $UserManager->getUserById($_SESSION['user_id']);
+        }
         if (isset($_SESSION['email'])) {
             echo $this->renderView('cart.html.twig', [
                 'SessionEmail' => $_SESSION['email'],
+                'user'=>$user,
                 'CartElements' => $_SESSION['cart'],
                 'MealReductions' => $_SESSION['cartmealreduc'],
                 'Total' => $total,
