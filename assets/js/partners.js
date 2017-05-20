@@ -57,6 +57,8 @@ partnersForm.submit(function() {
                 }
                 else{
                         vNotify.success({text:'Votre demande à bien été envoyé aux serveur', title: 'Féliciation !'});
+                      partnersForm[0].reset();
+
                 }
             }
         });

@@ -4,6 +4,7 @@ namespace Controller;
 
 use Model\ContentManager;
 use Model\UserManager;
+use Model\OrderManager;
 
 
 class SecurityController extends BaseController
@@ -67,7 +68,9 @@ class SecurityController extends BaseController
         if (isset($_SESSION['user_id'])) {
             $userManager = UserManager::getInstance();
             $ContentManager = ContentManager::getInstance();
+            $OrderManager = OrderManager::getInstance();
             $user = $userManager->getUserById($_SESSION['user_id']);
+            $orders = $OrderManager->getOrderByUserId($_SESSION['user_id']);
             $allAddress = $userManager->getAddressByUserId($_SESSION['user_id']);
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($_POST['action'] == "editProfile") {
@@ -160,6 +163,7 @@ class SecurityController extends BaseController
                 'SessionEmail' => $_SESSION['email'],
                 'user' => $user,
                 'allAddress' => $allAddress,
+                'orders' => $orders
             ]);
 
         } else {

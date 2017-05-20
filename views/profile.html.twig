@@ -65,27 +65,29 @@
     </p>
 </div>
 
-<div class="orders">
-    <h2 class="red">Historique de commande</h2>
+    <div class="orders">
+        <h2 class="red">Historique de commande</h2>
 
-    <table>
-        {% for order in orders %}
-        <tr>
-            <td>
-                <h3>Commande n° {{ order.id }}</h3>
-                <p>
-                    Date et heure de la commande :<br />
-                    {{ order.date }}<br />
-                    Envoyé à :<br>
-                    <!-- ADRESSE -->
-                </p>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
+        <table>
+            {% for order in orders %}
+                <tr>
+                    <td>
+                        <h3>	Commande n° {{ order.id }}</h3>
+                        <p>
+                            Date et heure de la commande :<br />
+                            {{ order.orderdate}}<br />
+                            Contenu:<br>
+                            {{ order.products }}<br>
+                            Prix :
+                            {{ order.total}}
+                        </p>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 
-<div id="myModal" class="modal">
+    <div id="myModal" class="modal">
     <div class="modal-content">
         <div class="head">
             <h3 class="red">Ajouter une adresse</h3>
