@@ -83,23 +83,21 @@ class OrderManager
         if ($payment_status == "Completed") {
             if (checkTransactionId($txn_id)) {
                 if ("admin@smarteat.fr" == $receiver_email) {
-                    $CartManager = CartManager::getInstance();
-                    if ($payment_amount == (totalCart() + 2)) {
-                        $paymentInsert['txn_id'] = $txn_id;
-                        $paymentInsert['amount'] = $payment_amount;
-                        $this->DBManager->insert('payments', $paymentInsert);
-                        $orderInsert['userid'] = $_SESSION['user_id'];
-                        $orderInsert['products'] = '';
-                        foreach ($_SESSION['cart'] as $key => $value) {
-                            $orderInsert['products'] .= $key.','
-                        }
-                        $orderInsert['total'] = $payment_amount;
-                        $orderInsert['billing'] = $_SESSION['order']['data']['billing'];
-                        $orderInsert['shipping'] = $_SESSION['order']['data']['shipping'];
-                        $this->DBManager->insert('orders', $orderInsert);
+
+                    $paymentInsert['txn_id'] = $txn_id;
+                    $paymentInsert['amount'] = $payment_amount;
+                    $this->DBManager->insert('payments', $paymentInsert);
+                    $orderInsert['userid'] = $_SESSION['user_id'];
+                    $orderInsert['products'] = '';
+                    foreach ($_SESSION['cart'] as $key => $value) {
+                        $orderInsert['products'] .= $key.',';
                     }
+                    $orderInsert['total'] = $payment_amount;
+                    $orderInsert['billing'] = $_SESSION['order']['data']['billing'];
+                    $orderInsert['shipping'] = $_SESSION['order']['data']['shipping'];
+                    $this->DBManager->insert('orders', $orderInsert);
                 }
+            }
+        }
     }
 }
-
-?>
