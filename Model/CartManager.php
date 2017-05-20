@@ -25,15 +25,15 @@ class CartManager
     public function addProduct($id) {
         $manager = ContentManager::getInstance();
         $product = $manager->getOnePlates($id);
-        if (isset($_SESSION['cart'][$product['id']])) {
+        /*if (isset($_SESSION['cart'][$product['id']])) {
             $_SESSION['cart'][$product['id']]['quantity']++;
-            exit(0);
-        }
-        $_SESSION['cart'][$product['id']]['name'] = $product['name'];
-        $_SESSION['cart'][$product['id']]['category'] = $product['category'];
-        $_SESSION['cart'][$product['id']]['price'] = $product['price'];
-        $_SESSION['cart'][$product['id']]['img'] = $product['image'];
-        $_SESSION['cart'][$product['id']]['quantity'] = 1;
+        } else {*/
+            $_SESSION['cart'][$product['id']]['name'] = $product['name'];
+            $_SESSION['cart'][$product['id']]['category'] = $product['category'];
+            $_SESSION['cart'][$product['id']]['price'] = $product['price'];
+            $_SESSION['cart'][$product['id']]['img'] = $product['image'];
+            $_SESSION['cart'][$product['id']]['quantity']++;
+        //}
     }
 
     public function removeProduct($id) {
@@ -51,13 +51,13 @@ class CartManager
                 $price = $_SESSION['cart'][$key]['quantity'] * $_SESSION['cart'][$key]['price'];
                 $total += $price;
                 if ($_SESSION['cart'][$key]['category'] == "dish") {
-                    $dish .= $_SESSION['cart'][$key]['quantity'];
+                    $dish += $_SESSION['cart'][$key]['quantity'];
                 }
                 if ($_SESSION['cart'][$key]['category'] == "dessert") {
-                    $dessert .= $_SESSION['cart'][$key]['quantity'];
+                    $dessert += $_SESSION['cart'][$key]['quantity'];
                 }
                 if ($_SESSION['cart'][$key]['category'] == "drink") {
-                    $drink .= $_SESSION['cart'][$key]['quantity'];
+                    $drink += $_SESSION['cart'][$key]['quantity'];
                 }
             }
             $reduc = min($dish, $dessert, $drink);
@@ -74,13 +74,13 @@ class CartManager
 
     public function checkMeal($data){
 
-        if(!is_int($data['dish'])){
+        if(!is_numeric($data['dish'])){
             return "Plat non valide";
         }
-        if(!is_int($data['dessert'])){
+        if(!is_numeric($data['dessert'])){
             return "Dessert non valide";
         }
-        if(!is_int($data['drinks'])){
+        if(!is_numeric($data['drinks'])){
             return "Boisson non valide";
         }
         return true;

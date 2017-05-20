@@ -56,6 +56,7 @@ $(function() {
             vNotify.error({text:'Vous devez choisir une boisson dans votre menu', title:'Erreur !'});
             return false;
         }
+        console.log(dish, drinks, dessert);
         $.ajax({
             type: 'post',
             url: '?action=customize',
@@ -65,7 +66,7 @@ $(function() {
                 dessert:dessert
             },
             success:function(response) {
-                if (response !== "true") {
+                if (response != "true") {
                     vNotify.error({text:response, title:'Erreur !'});
                 }
                 else {
