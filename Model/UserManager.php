@@ -89,6 +89,7 @@ class UserManager
     {
         $id = $data['id'];
         $data = $this->DBManager->doRequestSecure('DELETE   FROM `addresses` WHERE `id` = :id', ['id' => $id]);
+        $write = $this->writeLog('access.log', ' => function : deleteAddress || User ' . $_SESSION['user_id'] . ' deleted an address.' . "\n");
         return $data;
     }
 
@@ -147,6 +148,7 @@ class UserManager
         $insert['phone'] = $data['phone'];
         $this->DBManager->insert('addresses', $insert);
         $write = $this->writeLog('access.log', ' => function : userInsertAdress || User ' . $user['id'] . ' add an address' . "\n");
+
         return $insert;
     }
 
@@ -193,6 +195,7 @@ class UserManager
             return false;
         $_SESSION['user_id'] = $data['id'];
         $_SESSION['email'] = $data['email'];
+        $write = $this->writeLog('access.log', ' => function : userLogin|| User ' . $data['id']. ' just loggin in.' . "\n");
         return true;
     }
 
@@ -237,11 +240,13 @@ class UserManager
         $query = $this->DBManager->doRequestSecure('UPDATE addresses SET `defaultAddress`= "false" WHERE `userid` = :user_id AND `defaultAddress` = "true"', $update);
         $update['id'] = $id;
         $query = $this->DBManager->doRequestSecure('UPDATE addresses SET `defaultAddress`= "true" WHERE `userid` = :user_id AND `id` = :id', $update);
+        $write = $this->writeLog('access.log', ' => function : changeDefaultAddress || User ' . $update['user_id'] . 'changed  his default address' ."\n");
     }
 
     public function newDefaultAddress() {
         $update['user_id'] = $_SESSION['user_id'];
         $query = $this->DBManager->doRequestSecure('UPDATE addresses SET `defaultAddress`= "false" WHERE `userid` = :user_id AND `defaultAddress` = "true"', $update);
+        $write = $this->writeLog('access.log', ' => function : addDefaultAddress || User ' . $update['user_id'] . 'added a default address' ."\n");
     }
 
     public function userCheckFirstname($firstname)

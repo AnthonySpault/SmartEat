@@ -5,6 +5,7 @@ namespace Model;
 class ContentManager
 {
     private $DBManager;
+    private $UserManager;
 
     private static $instance = null;
 
@@ -18,6 +19,7 @@ class ContentManager
     private function __construct()
     {
         $this->DBManager = DBManager::getInstance();
+        $this->UserManager = UserManager::getInstance();
     }
 
     public function getAllPlates()
@@ -60,9 +62,11 @@ class ContentManager
 
     public function deletePlates($data)
     {
+        $id = $_SESSION['user_id'];
         $id = $data['id'];
         $plate = $this->getOnePlates($data['id']);
         $data = $this->DBManager->doRequestSecure('DELETE   FROM `plates` WHERE `id` = :id', ['id' => $id]);
+        $write = $this->UserManager->writeLog('access.log', ' => function : deleteProduct || User ' . $id . 'deleted a product' ."\n");
         unlink($plate['image']);
         return $data;
     }
@@ -88,6 +92,7 @@ class ContentManager
 
     public function insertPlates($data, $img)
     {
+        $id = $_SESSION['user_id'];
         $filepath = "uploads/plates_img/" . $data['plateName'] . strrchr(basename($img['file']['name']), '.');
         $plates['name'] = $data['plateName'];
         $plates['description'] = $data['description'];
@@ -104,10 +109,12 @@ class ContentManager
         $update['id'] = $req['id'];
         $query = $this->DBManager->findOneSecure("UPDATE plates SET `image`= :image  WHERE `id` = :id", $update);
         move_uploaded_file($img['file']['tmp_name'], $update['image']);
+        $write = $this->UserManager->writeLog('access.log', ' => function : insertPlates || User ' . $id . 'inserted  a product' ."\n");
         return $plates;
     }
     public function insertPlatesEdition($data)
     {
+        $id = $_SESSION['user_id'];
         $plates['id'] = $data['idEditing'];
         $plates['nameEditing'] = $data['nameEditing'];
         $plates['description'] = $data['description'];
@@ -117,6 +124,7 @@ class ContentManager
         $plates['price'] = str_replace(",",".",$data['price']);
         $plates['category'] = $data['category'];
         $query = $this->DBManager->findOneSecure("UPDATE plates SET `name` = :nameEditing, `description` = :description, `ingredients` = :ingredients, `allergenes` = :allergenes, `trick` = :trick, `price` = :price,`category` = :category  WHERE `id` = :id", $plates);
+        $write = $this->UserManager->writeLog('access.log', ' => function : editPlates || User ' . $id . 'edited  a product' ."\n");
         return $plates;
     }
     public function checkPlatesEdition($data)
@@ -138,8 +146,10 @@ class ContentManager
     }
 
     public function updateStatus($data){
+        $id = $_SESSION['user_id'];
         $update['id'] = $data['idStatus'];
         $update['status'] = $data['status'];
         $query = $this->DBManager->doRequestSecure("UPDATE plates SET `status`= :status WHERE `id` = :id", $update);
+        $write = $this->UserManager->writeLog('access.log', ' => function : insertPlates || User ' . $id . 'updated a status' ."\n");
     }
 }
