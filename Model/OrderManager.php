@@ -90,7 +90,7 @@ class OrderManager
                     $orderInsert['userid'] = $_SESSION['user_id'];
                     $orderInsert['products'] = '';
                     foreach ($_SESSION['cart'] as $key => $value) {
-                        $orderInsert['products'] .= $key.','
+                        $orderInsert['products'] .= $key.',';
                     }
                     $orderInsert['total'] = $payment_amount;
                     $orderInsert['billing'] = $_SESSION['order']['data']['billing'];
