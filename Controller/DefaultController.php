@@ -111,48 +111,48 @@ class DefaultController extends BaseController
             $check = $CartManager->checkMeal($_POST);
             if ($check === true) {
                 $CartManager->addMeal($_POST);
-                echo 'true';
+                echo "true";
                 exit(0);
             } else {
                 echo $check;
                 exit(0);
             }
         }
-        $ContentManager = ContentManager::getInstance();
-        $allPlates = $ContentManager->getCurrentPlates();
-        $dishes = [];
-        $desserts = [];
-        $drinks = [];
-        foreach ($allPlates as $key => $value) {
-            if ($value['category'] == "dish") {
-                $dishes[] = $value;
+        else {
+            $ContentManager = ContentManager::getInstance();
+            $allPlates = $ContentManager->getCurrentPlates();
+            $dishes = [];
+            $desserts = [];
+            $drinks = [];
+            foreach ($allPlates as $key => $value) {
+                if ($value['category'] == "dish") {
+                    $dishes[] = $value;
+                }
+                if ($value['category'] == "dessert") {
+                    $desserts[] = $value;
+                }
+                if ($value['category'] == "drink") {
+                    $drinks[] = $value;
+                }
             }
-            if ($value['category'] == "dessert") {
-                $desserts[] = $value;
+            if (isset($_SESSION['user_id'])){
+                $user = $UserManager->getUserById($_SESSION['user_id']);
             }
-            if ($value['category'] == "drink") {
-                $drinks[] = $value;
+            if (isset($_SESSION['email'])) {
+                echo $this->renderView('customize.html.twig', [
+                    'SessionEmail' => $_SESSION['email'],
+                    'user'=>$user,
+                    'dishes' => $dishes,
+                    'desserts' => $desserts,
+                    'drinks' => $drinks,
+                ]);
+            } else {
+                echo $this->renderView('customize.html.twig', [
+                    'dishes' => $dishes,
+                    'desserts' => $desserts,
+                    'drinks' => $drinks,
+                ]);
             }
         }
-        if (isset($_SESSION['user_id'])){
-            $user = $UserManager->getUserById($_SESSION['user_id']);
-        }
-        if (isset($_SESSION['email'])) {
-            echo $this->renderView('customize.html.twig', [
-                'SessionEmail' => $_SESSION['email'],
-                'user'=>$user,
-                'dishes' => $dishes,
-                'desserts' => $desserts,
-                'drinks' => $drinks,
-            ]);
-        } else {
-            echo $this->renderView('customize.html.twig', [
-                'dishes' => $dishes,
-                'desserts' => $desserts,
-                'drinks' => $drinks,
-            ]);
-        }
-
-
     }
 }
