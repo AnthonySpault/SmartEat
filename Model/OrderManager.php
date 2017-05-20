@@ -97,7 +97,7 @@ class OrderManager
                     $orderInsert['shipping'] = $_SESSION['order']['data']['shipping'];
                     $this->DBManager->insert('orders', $orderInsert);
                 }
+            }
+        }
     }
 }
-
-?>
