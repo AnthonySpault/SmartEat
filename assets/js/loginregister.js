@@ -175,9 +175,8 @@ $('form[name=registerform]').submit(function() {
                     if (response != "true") {
                         vNotify.error({text: response, title: 'Erreur !'});
                     }
-
                     else{
-                        window.location.href='?action=profile';
+                        location.reload();
                     }
                 }
             });

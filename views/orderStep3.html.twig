@@ -1,0 +1,60 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+<div class="orderpage">
+    <div id="steps">
+        <div class="step" id="step1" data-desc="Coordonnées">1</div>
+        <div class="step" id="step2" data-desc="Paiement">2</div>
+        <div class="step" id="step3" data-desc="Validation">3</div>
+    </div>
+
+    <h2 class="green">Votre commande est confirmée</h2>
+
+    <p>
+        <b>Bonjour {{ user.firstname }},</b><br />
+        Nous avons bien enregistré votre commande et nous vous en remerçions. Elle sera traitée rapidement.
+    </p>
+
+    <div class="order">
+        <h3 class="red">Votre commande</h3>
+
+        <h4 class="green">Vos coordonnées :</h4>
+
+        <div class="flex">
+            <p>
+                Facturation :<br>
+                {{ billing.firstname }} {{ billing.lastname }},<br>
+                {{ billing.streetNumber }} {{ billing.street }},<br>
+                {{ billing.zipcode }} {{ billing.city }}
+            </p>
+            <p>
+                Livraison :<br>
+                {{ shipping.firstname }} {{ shipping.lastname }},<br>
+                {{ shipping.streetNumber }} {{ shipping.street }},<br>
+                {{ shipping.zipcode }} {{ shipping.city }}<br>
+                {{ shipping.phone }}
+            </p>
+        </div>
+
+        <h4 class="green">Détails :</h4>
+
+        <p>
+            {% for element in CartElements %}
+                {{ element.quantity }}x {{ element.name }}<br>
+            {% endfor %}
+        </p>
+
+        <h4>Total : {{ Total + 2 }} €</h4>
+    </div>
+
+    <p>
+        Pour toute information supplémentaire, modification ou annulation de commande, veuillez contacter le restaurant au 01 10 20 30 40.<br>
+        Nous vous remerçions d’avoir choisi <span class="red">SmartEat</span>.<br>
+        Venez nous rejoindre sur les <a href="#">facebook</a>, <a href="#">twitter</a> et <a href="#">instagram</a>.
+    </p>
+</div>
+
+<script src="assets/js/order.js"></script>
+
+{% endblock %}

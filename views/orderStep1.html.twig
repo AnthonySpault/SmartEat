@@ -1,0 +1,94 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+<div class="orderpage">
+    <div id="steps">
+        <div class="step active" id="step1" data-desc="Coordonnées">1</div>
+        <div class="step" id="step2" data-desc="Paiement">2</div>
+        <div class="step" id="step3" data-desc="Validation">3</div>
+    </div>
+
+    <h2 class="green">Votre commande</h2>
+
+    <table class="ordercontent">
+        {% for element in CartElements %}
+        <tr>
+            <td>{{ element.quantity }}x {{ element.name }}</td>
+            <td>{{ element.price * element.quantity }} €</td>
+        </tr>
+        {% endfor %}
+        {% for reduction in MealReductions %}
+        <tr>
+            <td>Reduction grace au menu</td>
+            <td>-{{ reduction }} €</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h3 class="red">Sous Total : {{ Total }} €</h3>
+
+    <span>Frais de port : 2€</span>
+
+    <h3 class="red">Total : {{ Total + 2 }} €</h3>
+
+    <h2 class="green">Vos coordonnées personnelles</h2>
+
+    <div class="orderaddresses">
+        <div class="billingaddress">
+            <h3 class="red">Adresse de facturation :</h3>
+            <div>
+                <span>Choisir une adresse : </span>
+                <select id="billingaddress" onchange="updateInput('billing')">
+                    {% for address in addresses %}
+                        {% if address.defaultAddress == "true" %}
+                            <option value="{{ address.id }}" data-firstname="{{ address.firstname }}" data-lastname="{{ address.lastname }}" data-phone="{{ address.phone }}" data-street="{{ address.streetNumber }} {{ address.street }}" data-zip="{{ address.zipcode }}" data-city="{{ address.city }}" selected>{{ address.streetNumber }} {{ address.street }}, {{ address.zipcode }} {{ address.city }}</option>
+                        {% else %}
+                            <option value="{{ address.id }}" data-firstname="{{ address.firstname }}" data-lastname="{{ address.lastname }}" data-phone="{{ address.phone }}" data-street="{{ address.streetNumber }} {{ address.street }}" data-zip="{{ address.zipcode }}" data-city="{{ address.city }}">{{ address.streetNumber }} {{ address.street }}, {{ address.zipcode }} {{ address.city }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <input type="disabled" name="billingfirstname">
+                <input type="disabled" name="billinglastname">
+            </div>
+            <input type="disabled" name="billingphone">
+            <input type="disabled" name="billingstreet">
+            <div>
+                <input type="disabled" name="billingzip">
+                <input type="disabled" name="billingcity">
+            </div>
+        </div>
+        <div class="shippingaddress">
+            <h3 class="red">Adresse de livraison :</h3>
+            <div>
+                <span>Choisir une adresse : </span>
+                <select id="shippingaddress" onchange="updateInput('shipping')">
+                    {% for address in addresses %}
+                        {% if address.defaultAddress == "true" %}
+                            <option value="{{ address.id }}" data-firstname="{{ address.firstname }}" data-lastname="{{ address.lastname }}" data-phone="{{ address.phone }}" data-street="{{ address.streetNumber }} {{ address.street }}" data-zip="{{ address.zipcode }}" data-city="{{ address.city }}" selected>{{ address.streetNumber }} {{ address.street }}, {{ address.zipcode }} {{ address.city }}</option>
+                        {% else %}
+                            <option value="{{ address.id }}" data-firstname="{{ address.firstname }}" data-lastname="{{ address.lastname }}" data-phone="{{ address.phone }}" data-street="{{ address.streetNumber }} {{ address.street }}" data-zip="{{ address.zipcode }}" data-city="{{ address.city }}">{{ address.streetNumber }} {{ address.street }}, {{ address.zipcode }} {{ address.city }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <input type="disabled" name="shippingfirstname">
+                <input type="disabled" name="shippinglastname">
+            </div>
+            <input type="disabled" name="shippingphone">
+            <input type="disabled" name="shippingstreet">
+            <div>
+                <input type="disabled" name="shippingzip">
+                <input type="disabled" name="shippingcity">
+            </div>
+        </div>
+    </div>
+    <button type="button" onclick="validateStep1()">Aller au paiement</button>
+</div>
+
+<script src="assets/js/order.js"></script>
+
+{% endblock %}
