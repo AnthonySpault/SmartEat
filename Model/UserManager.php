@@ -85,6 +85,10 @@ class UserManager
         $data = $this->DBManager->findAllSecure("SELECT * FROM partners ORDER BY `date` DESC");
         return $data;
     }
+    public function getLatestOrderByUserId($id) {
+        $data = $this->DBManager->findOneSecure("SELECT * FROM orders WHERE userid = :id AND orderdate = (SELECT max(orderdate) FROM orders WHERE userid = :id)", ['id' => $id]);
+        return $data;
+    }
 
     public function checkDeleteAddress($data,$id)
     {

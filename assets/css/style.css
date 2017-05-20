@@ -1036,6 +1036,23 @@ body {
   appearance: none;
 }
 
+.orderpage .order {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #d7d7d7;
+    width: 90%;
+    padding: 5%;
+    font-size: 15px;
+    height: 350px;
+}
+
+.orderpage .order .flex {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
 /* ADMIN PAGE */
 
 .plates {
@@ -1067,7 +1084,6 @@ body {
     width: 30px;
 }
 
-
 .partners {
     width: 100%;
     display: flex;
@@ -1096,4 +1112,3 @@ body {
 .partners img {
     width: 30px;
 }
-

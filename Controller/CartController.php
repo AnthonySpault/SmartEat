@@ -18,6 +18,22 @@ class CartController extends BaseController
                 if (is_numeric($_POST['productId'])) {
                     $manager->removeProduct($_POST['productId']);
                 }
+                $total = $manager->totalCart();
+                if (isset($_SESSION['email'])) {
+                    echo $this->renderView('cartAJAX.html.twig', [
+                        'SessionEmail' => $_SESSION['email'],
+                        'CartElements' => $_SESSION['cart'],
+                        'MealReductions' => $_SESSION['cartmealreduc'],
+                        'Total' => $total,
+                    ]);
+                }
+                else {
+                    echo $this->renderView('cartAJAX.html.twig', [
+                        'CartElements' => $_SESSION['cart'],
+                        'MealReductions' => $_SESSION['cartmealreduc'],
+                        'Total' => $total,
+                    ]);
+                }
             }
             elseif ($_POST["kind"] == "removeone") {
                 if (is_numeric($_POST['productId'])) {
@@ -26,36 +42,48 @@ class CartController extends BaseController
                         $manager->removeProduct($_POST['productId']);
                     }
                 }
+                $total = $manager->totalCart();
+                if (isset($_SESSION['email'])) {
+                    echo $this->renderView('cartAJAX.html.twig', [
+                        'SessionEmail' => $_SESSION['email'],
+                        'CartElements' => $_SESSION['cart'],
+                        'MealReductions' => $_SESSION['cartmealreduc'],
+                        'Total' => $total,
+                    ]);
+                }
+                else {
+                    echo $this->renderView('cartAJAX.html.twig', [
+                        'CartElements' => $_SESSION['cart'],
+                        'MealReductions' => $_SESSION['cartmealreduc'],
+                        'Total' => $total,
+                    ]);
+                }
             }
             elseif ($_POST["kind"] == "addone") {
                 if (is_numeric($_POST['productId'])) {
                     $_SESSION['cart'][$_POST['productId']]['quantity']++;
+                }
+                $total = $manager->totalCart();
+                if (isset($_SESSION['email'])) {
+                    echo $this->renderView('cartAJAX.html.twig', [
+                        'SessionEmail' => $_SESSION['email'],
+                        'CartElements' => $_SESSION['cart'],
+                        'MealReductions' => $_SESSION['cartmealreduc'],
+                        'Total' => $total,
+                    ]);
+                }
+                else {
+                    echo $this->renderView('cartAJAX.html.twig', [
+                        'CartElements' => $_SESSION['cart'],
+                        'MealReductions' => $_SESSION['cartmealreduc'],
+                        'Total' => $total,
+                    ]);
                 }
             }
         }
     }
 
     public function viewcartAction() {
-        $manager = CartManager::getInstance();
-        $total = $manager->totalCart();
-        if (isset($_SESSION['email'])) {
-            echo $this->renderView('cart.html.twig', [
-                'SessionEmail' => $_SESSION['email'],
-                'CartElements' => $_SESSION['cart'],
-                'MealReductions' => $_SESSION['cartmealreduc'],
-                'Total' => $total,
-            ]);
-        }
-        else {
-            echo $this->renderView('cart.html.twig', [
-                'CartElements' => $_SESSION['cart'],
-                'MealReductions' => $_SESSION['cartmealreduc'],
-                'Total' => $total,
-            ]);
-        }
-    }
-
-    public function refreshcartAction() {
         $manager = CartManager::getInstance();
         $total = $manager->totalCart();
         if (isset($_SESSION['email'])) {
