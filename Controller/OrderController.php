@@ -74,8 +74,5 @@ class OrderController extends BaseController
             $OrderManager = OrderManager::getInstance();
             $OrderManager->validatePayment();
         }
-        else {
-            $this->redirect('home');
-        }
     }
 }

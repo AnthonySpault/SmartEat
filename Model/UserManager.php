@@ -2,8 +2,6 @@
 
 namespace Model;
 
-use Model\ContentManager;
-
 class UserManager
 {
     private $DBManager;
@@ -20,7 +18,6 @@ class UserManager
     private function __construct()
     {
         $this->DBManager = DBManager::getInstance();
-        $this->ContentManager = ContentManager::getInstance();
     }
 
     public function getUserById($id)

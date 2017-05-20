@@ -20,7 +20,6 @@ class CartManager
     private function __construct()
     {
         $this->DBManager = DBManager::getInstance();
-        $this->ContentManager = ContentManager::getInstance();
     }
 
     public function addProduct($id) {
