@@ -180,11 +180,11 @@ class SecurityController extends BaseController
 
     public function adminAction()
     {
-        $manager = UserManager::getInstance();
-        $user = $manager->getUserById($_SESSION['user_id']);
+        $UserManager = UserManager::getInstance();
+        $user = $UserManager->getUserById($_SESSION['user_id']);
         $ContentManager = ContentManager::getInstance();
         $allPlates = $ContentManager->getAllPlates();
-
+        $allPartners = $UserManager->getAllPartners();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['plateName'])) {
@@ -202,6 +202,17 @@ class SecurityController extends BaseController
                 $check = $ContentManager->checkDeletePlates($_POST,$_SESSION['user_id']);
                 if ($check === true) {
                     $ContentManager->deletePlates($_POST);
+                    echo 'true';
+                    exit(0);
+                } else {
+                    echo $check;
+                    exit(0);
+                }
+            }
+            if(isset($_POST['idPartners'])){
+                $check = $UserManager->checkDeletePartners($_POST,$_SESSION['user_id']);
+                if ($check === true) {
+                    $UserManager->deletePartners($_POST,$_SESSION['user_id']);
                     echo 'true';
                     exit(0);
                 } else {
@@ -241,7 +252,8 @@ class SecurityController extends BaseController
             echo $this->renderView('admin.html.twig',[
                 'SessionEmail' => $_SESSION['email'],
                 'user'=>$user,
-                'allPlates' => $allPlates
+                'allPlates' => $allPlates,
+                'allPartners' => $allPartners
             ]);
         }
 
@@ -252,7 +264,14 @@ class SecurityController extends BaseController
         $ContentManager = ContentManager::getInstance();
         $allPlates = $ContentManager->getAllPlates();
         echo $this->renderView('adminAJAX.html.twig', [
-            'allPlates'=> $allPlates
+            'allPlates'=> $allPlates,
+        ]);
+    }
+    public function printpartnersAction(){
+        $UserManager = UserManager::getInstance();
+        $allPartners = $UserManager->getAllPartners();
+        echo $this->renderView('adminPartners.html.twig', [
+            'allPartners'=> $allPartners
         ]);
     }
 

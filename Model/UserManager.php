@@ -67,6 +67,25 @@ class UserManager
         return $data;
     }
 
+    public function getPartnersByEmail($email)
+    {
+        $data = $this->DBManager->findOneSecure("SELECT * FROM partners WHERE email = :email",
+            ['email' => $email]);
+        return $data;
+    }
+
+    public function getPartnersByPhone($phone)
+    {
+        $data = $this->DBManager->findOneSecure("SELECT * FROM partners WHERE phone = :phone",
+            ['phone' => $phone]);
+        return $data;
+    }
+    public function getAllPartners()
+    {
+        $data = $this->DBManager->findAllSecure("SELECT * FROM partners ORDER BY `date` DESC");
+        return $data;
+    }
+
     public function checkDeleteAddress($data,$id)
     {
         if(empty($data['id'])){
@@ -329,5 +348,60 @@ class UserManager
         fwrite($file_log, $log_info);
         fclose($file_log);
         return true;
+    }
+    public function checkInsertPartners($data){
+        if (empty($data['firstname']) OR empty($data['lastname']) OR empty($data['email']) OR empty($data['phone']))
+            return "Des champs obligatoire ne sont pas remplis";
+        $emailRegExp = '/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
+        if (!preg_match($emailRegExp, $data['email']))
+            return "Votre email ne semble pas valide.";
+        $phoneRegExp = '/(0|(\+33)|(0033))[1-9][0-9]{8}/';
+        if (!preg_match($phoneRegExp, $data['phone']))
+            return "Votre numéro de téléphone ne semble pas valide.";
+        $check = $this->getPartnersByEmail($data['email']);
+        if ($check !== false)
+            return "Votre demande est en cours de traitement, nous reviendrons vers vous";
+        $check = $this->getPartnersByPhone($data['phone']);
+        if ($check !== false)
+            return "Votre demande est en cours de traitement, nous reviendrons vers vous";
+        return true;
+    }
+
+
+
+    public function insertPartners($data)
+    {
+
+        $partners['firstname'] = $data['firstname'];
+        $partners['lastname'] = $data['lastname'];
+        $partners['email'] = $data['email'];
+        $partners['phone'] = $data['phone'];
+        $partners['date'] = $this->giveDate();
+        $this->DBManager->insert('partners', $partners);
+        $write = $this->writeLog('access.log', ' => function : receivePartners || a a request has been sent'. "\n");
+        return true;
+    }
+
+    public function checkDeletePartners($data,$id)
+    {
+        $user = $this->getUserById($id);
+        if($user['role'] !=='admin')
+            return 'Vous devez êtres admin pour pouvoir supprimé';
+        if(empty($data['idPartners'])){
+            return 'Ce plat n\'existe pas';
+        }
+
+
+        return true;
+    }
+
+    public function deletePartners($data,$user_id)
+    {
+
+        $id = $data['idPartners'];
+
+        $data = $this->DBManager->doRequestSecure('DELETE   FROM `partners` WHERE `id` = :id', ['id' => $id]);
+        $write = $this->writeLog('access.log', ' => function : deleteProduct || User ' . $user_id . 'deleted a product' ."\n");
+        return $data;
     }
 }

@@ -15,14 +15,17 @@
         <p>Restos du Cœur : Association Caritative dans la lutte contre la faim, nous donnons les plats invendus de la journée aux Restos du Cœur, toujours pour lutter contre le gaspillage alimentaire mais aussi parce que nous croyons que chaque être humain mérite de manger à sa faim. Si vous avez envie de vous investir, vous retrouverez plus amples informations sur leur site : <a href="https://www.restosducoeur.org/">www.restosducoeur.org</a></p>
     </div>
 
-    <form class="partnerform">
+    <form class="partnerform" id="partnersForm" name="partnersForm" action="?action=partners" method="post">
         <h2>Devenir partenaire</h2>
         <div>
-            <input type="text" name="lastname" placeholder="Nom"><input type="text" name="firstname" placeholder="Prénom">
+            <input type="text" name="lastname" id="lastname" placeholder="Nom"><input type="text" name="firstname" id="firstname"placeholder="Prénom">
         </div>
-        <input type="email" name="email" placeholder="Adresse email">
-        <input type="tel" name="phone" placeholder="Téléphone">
+        <input type="email" name="email" id="email" placeholder="Adresse email">
+        <input type="tel" name="phone" id="phone" placeholder="Téléphone">
         <p>Nous vous recontacterons bientôt pour discuter d'un partenariat éventuel.</p>
         <input type="submit" class="btn" value="Envoyer">
     </form>
+
+    <script src="assets/js/partners"></script>
+
 {% endblock %}

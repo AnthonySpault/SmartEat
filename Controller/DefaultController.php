@@ -80,6 +80,18 @@ class DefaultController extends BaseController
         if (isset($_SESSION['user_id'])){
             $user = $UserManager->getUserById($_SESSION['user_id']);
         }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $UserManager = UserManager::getInstance();
+            $check = $UserManager->checkInsertPartners($_POST);
+            if ($check === true) {
+                $UserManager->insertPartners($_POST);
+                echo 'true';
+                exit(0);
+            } else {
+                echo $check;
+                exit(0);
+            }
+        }
         if (isset($_SESSION['email'])) {
             echo $this->renderView('partners.html.twig', [
                 'SessionEmail' => $_SESSION['email'],
@@ -97,7 +109,7 @@ class DefaultController extends BaseController
         $CartManager = CartManager::getInstance();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $check = $CartManager->checkMeal($_POST);
-            if ($check) {
+            if ($check === true) {
                 $CartManager->addMeal($_POST);
                 echo 'true';
                 exit(0);

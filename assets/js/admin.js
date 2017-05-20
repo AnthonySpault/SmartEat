@@ -221,4 +221,30 @@ function status() {
     });
 
 
+function printPartners(){
+    $.ajax({
+        type: 'post',
+        url: '?action=printpartners',
+        success:function(response) {
+            $(".partners").html(response);
+        }
+    });
+}
 
+function deletePartners(id){
+    $.ajax({
+        url: "?action=admin",
+        type: "post",
+        data: {
+            idPartners:id
+        },
+        success: function (data) {
+            if (data !== 'true') {
+                vNotify.error({text: data, title: 'Erreur !'});
+            } else {
+                printPartners();
+                vNotify.success({text: 'La demande  à bien été supprimé', title: 'Félicitation !'});
+            }
+        }
+    });
+}

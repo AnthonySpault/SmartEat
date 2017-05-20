@@ -52,6 +52,9 @@ class ContentManager
         if(empty($data['id'])){
             return 'Ce plat n\'existe pas';
         }
+        $user = $this->UserManager->getUserById($id);
+        if($user['role'] !=='admin')
+            return 'Vous devez êtres admin pour pouvoir supprimé';
         $plate = $this->getOnePlates($data['id']);
         if($plate['status'] === 'active'){
             return 'Vous ne pouvez pas supprimer un plat actif sur notre site';
