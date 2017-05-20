@@ -45,7 +45,25 @@ function validateStep1() {
                 vNotify.error({text: response, title: 'Erreur !'});
             }
             else {
-                location.reload();
+                location.href = '?action=order&step=2';
+            }
+        }
+    });
+}
+
+function validateStep2() {
+    $.ajax({
+        type: 'post',
+        url: '?action=order',
+        data: {
+            kind:"step2"
+        },
+        success:function(response) {
+            if (response != "true") {
+                vNotify.error({text: response, title: 'Erreur !'});
+            }
+            else {
+                location.href = '?action=order&step=3';
             }
         }
     });

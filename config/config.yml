@@ -6,7 +6,6 @@ routes:
     profile: 'Security:profile'
     cart: 'Cart:viewcart'
     order: 'Order:order'
-    orderValid: 'Order:valid'
     login: 'Security:login'
     logout: 'Security:logout'
     register: 'Security:register'
@@ -14,7 +13,6 @@ routes:
     editcart: 'Cart:editcart'
     refreshcart: 'Cart:refreshcart'
     printaddress: 'Security:printaddress'
-    paypalNotify: 'Order:paypalNotify'
     admin: 'Security:admin'
     printplates : 'Security:printplates'
 
