@@ -25,15 +25,15 @@ class CartManager
     public function addProduct($id) {
         $manager = ContentManager::getInstance();
         $product = $manager->getOnePlates($id);
-        /*if (isset($_SESSION['cart'][$product['id']])) {
+        if (isset($_SESSION['cart'][$product['id']])) {
             $_SESSION['cart'][$product['id']]['quantity']++;
-        } else {*/
+        }else{
             $_SESSION['cart'][$product['id']]['name'] = $product['name'];
             $_SESSION['cart'][$product['id']]['category'] = $product['category'];
             $_SESSION['cart'][$product['id']]['price'] = $product['price'];
             $_SESSION['cart'][$product['id']]['img'] = $product['image'];
             $_SESSION['cart'][$product['id']]['quantity']++;
-        //}
+        }
     }
 
     public function removeProduct($id) {

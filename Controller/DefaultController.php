@@ -83,8 +83,8 @@ class DefaultController extends BaseController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $UserManager = UserManager::getInstance();
             $check = $UserManager->checkInsertPartners($_POST);
-            if ($check) {
-                $UserManager->inertPartners($_POST);
+            if ($check ===true) {
+                $UserManager->insertPartners($_POST);
                 echo 'true';
                 exit(0);
             } else {
