@@ -5,8 +5,9 @@
             <th>Nom</th>
             <th>Prénom</th>
             <th>Email</th>
-            <th width="20%">Téléphone</th>
-            <th width="20%">Supprimer</th>
+            <th>Téléphone</th>
+            <th>Date d'envoi</th>
+            <th>Supprimer</th>
         </tr>
         {% for key in allPartners %}
             <tr class="contentPartnersInfo">
@@ -14,6 +15,7 @@
                 <td class="lastname">{{key.lastname}}</td>
                 <td class="email "> {{ key.email }}</td>
                 <td class="phone"> {{ key.phone }}</td>
+                <td class="date"> {{ key.date }}</td>
                 <td><img src="assets/images/garbage.png" alt="Supprimer" onclick="deletePartners({{ key.id }})" ></td>
             </tr>
         {% endfor %}
