@@ -3,11 +3,20 @@
 {% block content %}
 
 <div class="orderpage">
-    <div id="steps">
-        <div class="step" id="step1" onclick="location.href='?action=order&step=1';" data-desc="Coordonnées">1</div>
-        <div class="step active" id="step2" data-desc="Paiement">2</div>
-        <div class="step" id="step3" data-desc="Validation">3</div>
-    </div>
+    <ol class="progress">
+        <li class="is-complete" data-step="1">
+            Panier
+        </li>
+        <li class="is-complete" data-step="2">
+            Coordonnées
+        </li>
+        <li class="is-active" data-step="3">
+            Paiement
+        </li>
+        <li data-step="4" class="progress__last">
+            Validation
+        </li>
+    </ol>
 
     <h2 class="green">Votre commande</h2>
 

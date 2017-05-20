@@ -1,6 +1,21 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
+<ol class="progress">
+    <li class="is-active" data-step="1">
+        Panier
+    </li>
+    <li data-step="2">
+        Coordonnées
+    </li>
+    <li data-step="3">
+        Paiement
+    </li>
+    <li data-step="4" class="progress__last">
+        Validation
+    </li>
+</ol>
+
 <div class="cart">
     <h2 class="red">Panier</h2>
 

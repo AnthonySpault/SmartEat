@@ -343,7 +343,7 @@ body {
 }
 
 .extra, #extra {
-    background-color: green;
+    background-color: #F7a437;
 }
 
 .itemnavmobile {
@@ -411,7 +411,8 @@ body {
 }
 
 .items .item .content {
-    width: 100%;
+    width: 95%;
+    margin: 0 2.5%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -489,16 +490,15 @@ body {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    height: 600px;
-    width: 80%;
-    padding: 10px;
+    width: 90%;
+    padding: 2.5%;
     margin: 5%;
+    box-sizing: border-box;
     border: 10px solid #157063;
 }
 
 .partnerblock img {
     width: 70%;
-    height: auto;
 }
 
 .partnerblock .separator {
@@ -546,7 +546,7 @@ body {
 
 .partnerform .btn {
     width: 30%;
-    height: 30px;
+    height: 40px;
     background-color: #a02427;
     color: white;
     border: 0;
@@ -804,7 +804,7 @@ body {
 /* CART PAGE */
 
 .cart h2 {
-    margin: 70px 0 20px 0;
+    margin: 20px 0;
     text-align: center;
 }
 
@@ -881,76 +881,79 @@ body {
 
 /* ORDER PAGE */
 
-#steps {
-  width: 90%;
-  margin: 70px auto 30px auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.progress {
+    list-style: none;
+    margin: 70px 0 0 0;
+    padding: 0;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    color: #849397;
 }
 
-.step {
-  width: 40px;
-  height: 40px;
-  background-color: white;
-  display: inline-block;
-  border: 4px solid;
-  border-color: transparent;
-  border-radius: 50%;
-  color: #cdd0da;
-  font-weight: 600;
-  text-align: center;
-  line-height: 35px;
+.progress > li {
+    position: relative;
+    display: table-cell;
+    text-align: center;
+    font-size: 0.8em;
 }
 
-.step:first-child {
-  line-height: 40px;
+.progress > li:before {
+    content: attr(data-step);
+    display: block;
+    margin: 0 auto;
+    background: #DFE3E4;
+    width: 3em;
+    height: 3em;
+    text-align: center;
+    margin-bottom: 0.25em;
+    line-height: 3em;
+    border-radius: 100%;
+    position: relative;
+    z-index: 5;
 }
 
-.step:nth-child(n+2):before {
-  width: 75px;
-  height: 3px;
-  display: block;
-  background-color: #bebebe;
-  transform: translate(-95px, 21px);
-  content: '';
+.progress > li:after {
+    content: '';
+    position: absolute;
+    display: block;
+    background: #DFE3E4;
+    width: 100%;
+    height: 0.5em;
+    top: 1.25em;
+    left: 50%;
+    margin-left: 1.5em\9;
+    z-index: -1;
 }
 
-.step:after {
-  width: 150px;
-  display: block;
-  transform: translate(-55px, 3px);
-  color: #818698;
-  content: attr(data-desc);
-  font-weight: 400;
-  font-size: 13px;
+.progress > li:last-child:after {
+    display: none;
 }
 
-.step:first-child:after {
-  transform: translate(-55px, -1px);
+.progress > li.is-complete {
+    color: #2ECC71;
 }
 
-.step.active {
-  border-color: #73b5e8;
-  color: #73b5e8;
+.progress > li.is-complete:before, .progress > li.is-complete:after {
+    color: #FFF;
+    background: #2ECC71;
 }
 
-.step.active:before {
-  background: linear-gradient(to right, #58bb58 0%, #73b5e8 100%);
+.progress > li.is-active {
+    color: #3498DB;
 }
 
-.step.active:after {
-  color: #73b5e8;
+.progress > li.is-active:before {
+    color: #FFF;
+    background: #3498DB;
 }
 
-.step.done {
-  background-color: #58bb58;
-  border-color: #58bb58;
-  color: white;
+.progress--medium {
+  font-size: 1.5em;
 }
 
-.step.done:before {
-  background-color: #58bb58;
+.progress--large {
+  font-size: 2em;
 }
 
 .orderpage {
@@ -1122,7 +1125,54 @@ body {
 }
 
 @media screen and (min-width:768px) {
+    html {
+        font-size: 130%;
+    }
 
+    /* FOOTER */
+
+    #mobile-footer {
+        font-size: 17px;
+    }
+
+    #mobile-footer .left {
+        width: 450px;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    #mobile-footer img {
+        height: 40px;
+    }
+
+    /* HOME */
+
+    .items {
+        width: 600px;
+    }
+
+    /* CONCEPT */
+
+    .conceptblock {
+        margin: 10px 2%;
+        font-size: 20px;
+    }
+
+    .conceptblock h2 {
+        font-size: 30px;
+    }
+
+    /* PARTNERS */
+
+    .partnerblock img {
+        width: 50%;
+    }
+    
+    /* ORDER */
+
+    .orderpage .order .flex {
+        justify-content: space-around;
+    }
 
 }
 
