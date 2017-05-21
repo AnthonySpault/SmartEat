@@ -125,7 +125,6 @@ function status() {
     var check = $('.plates input[name=plate]');
     check.change(function () {
         var $this = $(this);
-
         if ($this.prop('checked')) {
             $.ajax({
                 url: "?action=admin",

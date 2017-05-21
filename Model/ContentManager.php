@@ -110,7 +110,6 @@ class ContentManager
         $req = $this->getPlatesByName($data['plateName']);
         $update['image'] = 'uploads/plates_img/' . $req['id'] . strrchr(basename($img['file']['name']), '.');
         $update['id'] = $req['id'];
-        var_dump($update);
         $query = $this->DBManager->findOneSecure("UPDATE plates SET `image`= :image  WHERE `id` = :id", $update);
         move_uploaded_file($img['file']['tmp_name'], $update['image']);
         $write = $this->UserManager->writeLog('access.log', ' => function : insertPlates || User ' . $id . 'inserted  a product' ."\n");
