@@ -70,7 +70,6 @@ class SecurityController extends BaseController
             $ContentManager = ContentManager::getInstance();
             $OrderManager = OrderManager::getInstance();
             $user = $userManager->getUserById($_SESSION['user_id']);
-            $allUser= $userManager->getAllUsers();
             $orders = $OrderManager->getOrderByUserId($_SESSION['user_id']);
             $allAddress = $userManager->getAddressByUserId($_SESSION['user_id']);
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {

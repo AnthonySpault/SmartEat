@@ -1,4 +1,3 @@
-#<p style='color:#1b907f'>SmartEat</p>
 
 ![Logo](assets/images/logo_smartEat.png)
 
