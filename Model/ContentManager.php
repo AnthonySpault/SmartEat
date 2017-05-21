@@ -110,6 +110,7 @@ class ContentManager
         $req = $this->getPlatesByName($data['plateName']);
         $update['image'] = 'uploads/plates_img/' . $req['id'] . strrchr(basename($img['file']['name']), '.');
         $update['id'] = $req['id'];
+        var_dump($update);
         $query = $this->DBManager->findOneSecure("UPDATE plates SET `image`= :image  WHERE `id` = :id", $update);
         move_uploaded_file($img['file']['tmp_name'], $update['image']);
         $write = $this->UserManager->writeLog('access.log', ' => function : insertPlates || User ' . $id . 'inserted  a product' ."\n");
@@ -132,10 +133,12 @@ class ContentManager
         $plates['category'] = $data['categoryEditing'];
         $query = $this->DBManager->findOneSecure("UPDATE plates SET `name` = :nameEditing, `description` = :description, `ingredients` = :ingredients, `allergenes` = :allergenes, `trick` = :trick, `price` = :price,`category` = :category  WHERE `id` = :id", $plates);
         $req = $this->getPlatesByName($plates['nameEditing']);
-        $update['image'] = 'uploads/plates_img/' . $req['id'] . strrchr(basename($img['fileEditing']['name']), '.');
-        $update['id'] = $req['id'];
-        $query = $this->DBManager->findOneSecure("UPDATE plates SET `image`= :image  WHERE `id` = :id", $update);
-        move_uploaded_file($img['fileEditing']['tmp_name'], $update['image']);
+        if(!empty($img['fileEditing']['name'])) {
+            $update['image'] = 'uploads/plates_img/' . $req['id'] . strrchr(basename($img['fileEditing']['name']), '.');
+            $update['id'] = $req['id'];
+            $query = $this->DBManager->findOneSecure("UPDATE plates SET `image`= :image  WHERE `id` = :id", $update);
+            move_uploaded_file($img['fileEditing']['tmp_name'], $update['image']);
+        }
         $write = $this->UserManager->writeLog('access.log', ' => function : editPlates || User ' . $id . 'edited  a product' ."\n");
         return $plates;
     }
