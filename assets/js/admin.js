@@ -253,5 +253,8 @@ function deletePartners(id){
 }
 
 $(function() {
-    setInterval(printOrders, 15000);
+    setInterval(function() {
+        printOrders();
+        printPartners();
+    }, 15000);
 });
