@@ -50,6 +50,12 @@ class OrderManager
     }
 
     public function validatePayment($total) {
+        $UserManager = UserManager::getInstance();
+        $user = $UserManager->getUserById($_SESSION['user_id']);
+        $userInsert['id'] = $_SESSION['user_id'];
+        $userInsert['points'] = $user['points'];
+        $userInsert['points'] += floor($total);
+        $this->DBManager->doRequestSecure("UPDATE users SET points = :points WHERE id = :id", $userInsert);
         $orderInsert['userid'] = $_SESSION['user_id'];
         $orderInsert['products'] = '';
         foreach ($_SESSION['cart'] as $key => $value) {

@@ -1249,7 +1249,7 @@ body {
     #desktop-header .nav {
         display: flex;
         justify-content: center;
-        width: 40%;
+        width: 75%;
     }
 
     #desktop-header .nav a {
