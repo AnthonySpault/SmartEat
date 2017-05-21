@@ -55,39 +55,45 @@
     <h2 class="red">Points de fidélité</h2>
     <h3 class="green">Vos points : {{ user.points }}</h3>
     <!-- PROGRESS BAR A FAIRE -->
-    <h3 class="green">Comment ça marche ?</h3>
-    <p>
-        1€ = 1 point
-    </p>
-    <h3 class="green">Récompenses :</h3>
-    <p>
-        A venir...
-    </p>
+    <div class="tricks">
+        <div>
+            <h3 class="green">Comment ça marche ?</h3>
+            <p>
+                1€ = 1 point
+            </p>
+        </div>
+        <div>
+            <h3 class="green">Récompenses :</h3>
+            <p>
+                A venir...
+            </p>
+        </div>
+    </div>
 </div>
 
-    <div class="orders">
-        <h2 class="red">Historique de commande</h2>
-            {% for order in orders %}
-                <div class="order">
-                    <h3 class="green">Commande n° {{ order.id }}</h3>
-                    <p>
-                        {{ order.orderdate }}
-                    </p>
-                    <p>
-                        {% set products = order.products|split(';') %}
-                        {% for product in products %}
-                        {{ product }}<br>
-                        {% endfor %}
-                    </p>
-                    <p>
-                        Total :
-                        {{ order.total}} €
-                    </p>
-                </div>
-            {% endfor %}
-    </div>
+<div class="orders">
+    <h2 class="red">Historique de commande</h2>
+    {% for order in orders %}
+        <div class="order">
+            <h3 class="green">Commande n° {{ order.id }}</h3>
+            <p>
+                {{ order.orderdate }}
+            </p>
+            <p>
+                {% set products = order.products|split(';') %}
+                {% for product in products %}
+                {{ product }}<br>
+                {% endfor %}
+            </p>
+            <p>
+                Total :
+                {{ order.total}} €
+            </p>
+        </div>
+    {% endfor %}
+</div>
 
-    <div id="myModal" class="modal">
+<div id="myModal" class="modal">
     <div class="modal-content">
         <div class="head">
             <h3 class="red">Ajouter une adresse</h3>

@@ -5,13 +5,18 @@
 
 html {
     font-size: 100%;
+    height: 100%;
 }
 
 body {
+    position: relative;
+    padding-bottom: 120px;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     display: flex;
     flex-direction: column;
+    min-height: 100%;
+    box-sizing: border-box;
 }
 
 .red {
@@ -249,6 +254,10 @@ body {
 }
 
 #mobile-footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
     width: 100%;
     height: 100px;
     display: flex;
@@ -483,6 +492,11 @@ body {
 
 .partnersheader {
     width: 100%;
+    background: url('../images/partners.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 250px;
 }
 
 .partnerblock {
@@ -587,10 +601,18 @@ body {
 
 .loginregister .btn {
     width: 100%;
-    height: 25px;
-    background-color: #157063;
+    height: 40px;
+    box-sizing: border-box;
+    background: white;
+    border: 2px solid #157063;
+    color: #157063;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.loginregister .btn:hover {
+    background: #157063;
     color: white;
-    border: 0;
 }
 
 /* PROFILE PAGE */
@@ -1184,6 +1206,14 @@ body {
 }
 
 @media screen and (min-width:1024px) {
+    html {
+        font-size: 100%;
+    }
+
+    body {
+        padding-bottom: 15%;
+    }
+
     /* HEADER */
 
     #mobile-header {
@@ -1234,6 +1264,10 @@ body {
     }
 
     #desktop-footer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -1273,7 +1307,7 @@ body {
 
     #desktop-footer .social div {
         display: flex;
-        width: 100%;
+        width: 80%;
         justify-content: space-between;
     }
 
@@ -1285,5 +1319,175 @@ body {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+    }
+
+    /* HOME */
+
+    .itemnavmobile {
+        display: none;
+    }
+
+    .items {
+        display: flex;
+        width: 90%;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .items .item {
+        width: 28%;
+    }
+
+    /* CONCEPT */
+
+    .conceptblock {
+        font-size: 16px;
+    }
+
+    .conceptblock p {
+        width: 50%;
+        text-align: justify;
+    }
+
+    .conceptblock:nth-child(even) {
+        align-items: flex-start;
+    }
+
+    .conceptblock:nth-child(odd) {
+        align-items: flex-end;
+    }
+
+    .conceptblock.first {
+        margin-top: 10px;
+        background: url(../images/concept1Desktop.png);
+        background-position: center;
+        background-size: 100% auto;
+    }
+
+    .conceptblock.second {
+        background: url(../images/concept2Desktop.png);
+        background-position: center;
+        background-size: 100% auto;
+    }
+
+    .conceptblock.third {
+        background: url(../images/concept3Desktop.png);
+        background-position: center;
+        background-size: 100% auto;
+    }
+
+    .conceptblock.fourth {
+        background: url(../images/concept4Desktop.png);
+        background-position: center;
+        background-size: 100% auto;
+    }
+
+    /* PARTNERS */
+
+    .partnerblock {
+        width: 45%;
+    }
+
+    .partnerblock .monop {
+        width: 90%;
+    }
+
+    .partnerblocks {
+        display: flex;
+        width: 90%;
+        justify-content: space-between;
+        margin: 0 5%;
+    }
+
+    .partnersnew {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+        margin: 0 5%;
+    }
+
+    .partnersnew img {
+        display: block;
+        height: 350px;
+    }
+
+    .partnersnew form {
+        margin: 0;
+        width: 45%;
+    }
+
+    /* LOGIN REGISTER */
+
+    .forms {
+        display: flex;
+        width: 90%;
+        margin: 0 5%;
+        justify-content: space-between;
+    }
+
+    .forms form {
+        width: 45%
+    }
+
+    /* PROFILE PAGE */
+
+    .editblock {
+        margin-top: 0;
+    }
+
+    .editblock h2, .addresses h2, .pointblock h2, .orders h2 {
+        text-align: left;
+    }
+
+    .editblock table {
+        width: 60%;
+    }
+
+    .pointblock .tricks {
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .pointblock .tricks div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 45%;
+    }
+
+    .orders {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .orders h2 {
+        margin: 0 auto;
+    }
+
+    /* ORDER */
+
+    .orderpage table {
+        width: 45%;
+        font-size: 15px;
+    }
+
+    .orderpage table + h3 + span {
+        align-self: center;
+    }
+
+    .orderaddresses {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .orderaddresses .billingaddress, .orderaddresses .shippingaddress {
+        width: 45%;
+    }
+
+    .orderpage .order .flex {
+        justify-content: space-between;
+        width: 50%;
     }
 }

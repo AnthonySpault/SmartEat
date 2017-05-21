@@ -1,30 +1,38 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    <img src="assets/images/partners.jpg" alt="Partners image" class="partnersheader">
+    <div class="partnersheader">
 
-    <div class="partnerblock">
-        <img src="assets/images/monoprix.png" alt="Monoprix">
-        <div class="separator"></div>
-        <p>Monoprix : Grande enseigne du commerce et de la distribution, Monoprix a décidé de nous rejoindre dans la lutte anti-gaspillage en nous fournissant leurs produits proches de leur DLC (Date limite de consommation) ou avec des défauts d’emballages. Un comportement écoresponsable, Monoprix sait se mettre en avant par rapport à ses concurrents en prenant les bonnes décisions pour demain. Si nous vous remplissons l’estomac avec des repas succulents, c’est en partie grâce à eux ! Pour en savoir plus sur Monoprix : <a href="https://www.monoprix.fr/">www.monoprix.fr/</a></p>
     </div>
 
-    <div class="partnerblock">
-        <img src="assets/images/restos.png" alt="Restaurant du coeur">
-        <div class="separator"></div>
-        <p>Restos du Cœur : Association Caritative dans la lutte contre la faim, nous donnons les plats invendus de la journée aux Restos du Cœur, toujours pour lutter contre le gaspillage alimentaire mais aussi parce que nous croyons que chaque être humain mérite de manger à sa faim. Si vous avez envie de vous investir, vous retrouverez plus amples informations sur leur site : <a href="https://www.restosducoeur.org/">www.restosducoeur.org</a></p>
-    </div>
-
-    <form class="partnerform" id="partnersForm" name="partnersForm" action="?action=partners" method="post">
-        <h2>Devenir partenaire</h2>
-        <div>
-            <input type="text" name="lastname" id="lastname" placeholder="Nom"><input type="text" name="firstname" id="firstname"placeholder="Prénom">
+    <div class="partnerblocks">
+        <div class="partnerblock">
+            <img src="assets/images/monoprix.png" alt="Monoprix" class="monop">
+            <div class="separator"></div>
+            <p>Monoprix : Grande enseigne du commerce et de la distribution, Monoprix a décidé de nous rejoindre dans la lutte anti-gaspillage en nous fournissant leurs produits proches de leur DLC (Date limite de consommation) ou avec des défauts d’emballages. Un comportement écoresponsable, Monoprix sait se mettre en avant par rapport à ses concurrents en prenant les bonnes décisions pour demain. Si nous vous remplissons l’estomac avec des repas succulents, c’est en partie grâce à eux ! Pour en savoir plus sur Monoprix : <a href="https://www.monoprix.fr/">www.monoprix.fr/</a></p>
         </div>
-        <input type="email" name="email" id="email" placeholder="Adresse email">
-        <input type="tel" name="phone" id="phone" placeholder="Téléphone">
-        <p>Nous vous recontacterons bientôt pour discuter d'un partenariat éventuel.</p>
-        <input type="submit" class="btn" value="Envoyer">
-    </form>
+
+        <div class="partnerblock">
+            <img src="assets/images/restos.png" alt="Restaurant du coeur">
+            <div class="separator"></div>
+            <p>Restos du Cœur : Association Caritative dans la lutte contre la faim, nous donnons les plats invendus de la journée aux Restos du Cœur, toujours pour lutter contre le gaspillage alimentaire mais aussi parce que nous croyons que chaque être humain mérite de manger à sa faim. Si vous avez envie de vous investir, vous retrouverez plus amples informations sur leur site : <a href="https://www.restosducoeur.org/">www.restosducoeur.org</a></p>
+        </div>
+    </div>
+
+    <div class="partnersnew">
+        <img src="assets/images/logoselected.png" alt="Logo" class="none">
+        <form class="partnerform" id="partnersForm" name="partnersForm" action="?action=partners" method="post">
+            <h2>Devenir partenaire</h2>
+            <div>
+                <input type="text" name="lastname" id="lastname" placeholder="Nom"><input type="text" name="firstname" id="firstname"placeholder="Prénom">
+            </div>
+            <input type="email" name="email" id="email" placeholder="Adresse email">
+            <input type="tel" name="phone" id="phone" placeholder="Téléphone">
+            <p>Nous vous recontacterons bientôt pour discuter d'un partenariat éventuel.</p>
+            <input type="submit" class="btn" value="Envoyer">
+        </form>
+    </div>
+
 
     <script src="assets/js/partners.js"></script>
 
