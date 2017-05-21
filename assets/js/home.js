@@ -1,3 +1,10 @@
+function openModal(element) {
+    $('#myModal').css('display','block');
+    $('#ingrédients').html(element.dataset.ingredients);
+    $('#allergènes').html(element.dataset.allergenes);
+    $('#trick').html(element.dataset.trick);
+}
+
 $(function() {
     $(".rslides").responsiveSlides({
         random: true,          // Boolean: Randomize the order of the slides, true or false

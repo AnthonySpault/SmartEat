@@ -95,6 +95,7 @@ body {
 .modal .close {
     background: url('../images/close.png') no-repeat;
     background-position: center;
+    align-self: flex-end;
     width: 32px;
     height: 32px;
 }
@@ -339,6 +340,10 @@ body {
     border: 0;
 }
 
+.infobar {
+    display: none;
+}
+
 .dish, #dish {
     background-color: #157063;
 }
@@ -438,8 +443,23 @@ body {
 .items .item .content .actions {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
+    align-items: center;
+
 }
+
+.items .item .content .actions span {
+    margin-right: 10px;
+}
+
+.items .item .content .actions input {
+    height: 40px;
+}
+
+.items .item .content .actions .more {
+    margin-right: auto;
+}
+
 
 /* CONCEPT */
 
@@ -1345,6 +1365,29 @@ body {
 
     .itemnavmobile {
         display: none;
+    }
+
+    .infobar {
+        display: flex;
+        background-color: #157063;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+        padding: 0 5%;
+        line-height: 40px;
+        color: white;
+        text-transform: uppercase;
+        font-weight: 300;
+    }
+
+    .infobar .element {
+        display: flex;
+        align-items: center;
+    }
+
+    .infobar .element img {
+        height: 30px;
+        margin-right: 10px;
     }
 
     .items {

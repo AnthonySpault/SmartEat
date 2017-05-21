@@ -15,6 +15,14 @@ $twig = new Twig_Environment($loader, array(
     'cache' => false,
 ));
 
+$filename = './logs/access.log';
+
+if (!file_exists($filename)) {
+    mkdir("logs");
+    fopen($filename, "w");
+    fclose($filename);
+}
+
 $router = new Router($config['routes'], $twig);
 if (!empty($_GET['action']))
     $router->callAction($_GET['action']);

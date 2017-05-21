@@ -6,6 +6,21 @@
         <li><a href="?action=customize"><img src="assets/images/homehead1.png" alt="Personnalise ton menu"></a></li>
     </ul>
 
+    <div class="infobar">
+        <div class="element">
+            <img src="assets/images/clock.png" alt="Horloge">
+            <span>Livré en 20 minutes</span>
+        </div>
+        <div class="element">
+            <img src="assets/images/chef.png" alt="Horloge">
+            <span>Fait par notre equipe de chef</span>
+        </div>
+        <div class="element">
+            <img src="assets/images/cloche.png" alt="Horloge">
+            <span>A faire rechauffer en 2 minutes</span>
+        </div>
+    </div>
+
     <div class="itemnavmobile">
         <a href="#dish" class="dish">Plats</a>
         <a href="#dessert" class="dessert">Desserts</a>
@@ -22,24 +37,9 @@
                     <h2 class="title">{{ dish.name }}</h2>
                     <p class="description">{{ dish.description }}</p>
                     <div class="actions">
-                        <button class="openModal" onclick="$('#myModalDish.modal').css('display','block');">En savoir plus</button>
-                        <button onclick="addtocart({{dish.id}})">Add to cart</button>
-                        <!-- Trigger/Open The Modal -->
-                        <!-- The Modal -->
-                        <div id="myModalDish" class="modal">
-
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <span class="close" onclick="$('#myModalDish.modal').css('display','none')"> </span>
-                                <h4> Ingrédients :  </h4>
-                                <span> {{ dish.ingredients }}</span>
-                                <h4> Allergènes :  </h4>
-                                <span> {{ dish.allergenes }}</span>
-                                <h4> Astuce du jour :  </h4>
-                                <span> {{ dish.trick }}</span>
-                            </div>
-
-                        </div>
+                        <input class="more" type="image" src="assets/images/more.png" alt="En savoir plus" data-ingredients="{{ dish.ingredients }}" data-allergenes="{{ dish.allergenes }}" data-trick="{{ dish.trick }}" onclick="openModal(this);">
+                        <span>{{dish.price}} €</span>
+                        <input class="addtocart" type="image" src="assets/images/addtocart.png" alt="Ajouter au panier" onclick="addtocart({{dish.id}})">
                     </div>
                 </div>
             </div>
@@ -56,22 +56,9 @@
                     <h2 class="title">{{ dessert.name }}</h2>
                     <p class="description">{{ dessert.description }}</p>
                     <div class="actions">
-                        <button class="openModal" onclick="$('#myModalDessert.modal').css('display','block')">En savoir plus</button>
-                        <button onclick="addtocart({{dessert.id}})">Add to cart</button>
-                        <div id="myModalDessert" class="modal">
-
-                            <!-- Modal content -->
-                            <div class="modal-content">
-                                <span class="close" onclick="$('#myModalDessert.modal').css('display','none')"></span>
-                                <h4> Ingrédients :  </h4>
-                                <span> {{ dessert.ingredients }}</span>
-                                <h4> Allergènes :  </h4>
-                                <span> {{ dessert.allergenes }}</span>
-                                <h4> Astuce du jour :  </h4>
-                                <span> {{ dessert.trick }}</span>
-                            </div>
-
-                        </div>
+                        <input class="more" type="image" src="assets/images/more.png" alt="En savoir plus" data-ingredients="{{ dessert.ingredients }}" data-allergenes="{{ dessert.allergenes }}" data-trick="{{ dessert.trick }}" onclick="openModal(this);">
+                        <span>{{dessert.price}} €</span>
+                        <input class="addtocart" type="image" src="assets/images/addtocart.png" alt="Ajouter au panier" onclick="addtocart({{dessert.id}})">
                     </div>
                 </div>
             </div>
@@ -88,7 +75,8 @@
                     <h2 class="title">{{ drink.name }}</h2>
                     <p class="description">{{ drink.description }}</p>
                     <div class="actions">
-                        <button onclick="addtocart({{drink.id}})">Add to cart</button>
+                        <span>{{drink.price}} €</span>
+                        <input class="addtocart" type="image" src="assets/images/addtocart.png" alt="Ajouter au panier" onclick="addtocart({{drink.id}})">
                     </div>
                 </div>
             </div>
@@ -107,23 +95,9 @@
                     <h2 class="title">{{ extra.name }}</h2>
                     <p class="description">{{ extra.description }}</p>
                     <div class="actions">
-                        <button class="openModal" onclick="$('#myModalExtra.modal').css('display','block');">En savoir plus</button>
-                        <button onclick="addtocart({{extra.id}})">Add to cart</button>
-                        <div id="myModalExtra" class="modal ">
-
-                            <!-- Modal content -->
-                            <div class="modal-content ">
-                                <span class="close" onclick="$('.modal').css('display','none');"></span>
-                                <h4> Ingrédients :  </h4>
-                                <span> {{ extra.ingredients }}</span>
-                                <h4> Allergènes :  </h4>
-                                <span> {{ extra.allergenes }}</span>
-                                <h4> Astuce du jour :  </h4>
-                                <span> {{ extra.trick }}</span>
-                            </div>
-
-                        </div>
-                    </div>
+                        <input class="more" type="image" src="assets/images/more.png" alt="En savoir plus" data-ingredients="{{ extra.ingredients }}" data-allergenes="{{ extra.allergenes }}" data-trick="{{ extra.trick }}" onclick="openModal(this);">
+                        <span>{{extra.price}} €</span>
+                        <input class="addtocart" type="image" src="assets/images/addtocart.png" alt="Ajouter au panier" onclick="addtocart({{extra.id}})">
                     </div>
                 </div>
             </div>
@@ -131,6 +105,25 @@
     </div>
 
     {% endif %}
+
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="$('.modal').css('display','none');"></span>
+            <h4>Ingrédients :</h4>
+            <p id="ingrédients">
+
+            </p>
+            <h4>Allergènes :</h4>
+            <p id="allergènes">
+
+            </p>
+            <h4>Astuce(s) :</h4>
+            <p id="trick">
+
+            </p>
+        </div>
+    </div>
 
     <script src="assets/js/responsiveslides.min.js"></script>
     <script src="assets/js/home.js"></script>
