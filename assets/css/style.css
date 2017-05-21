@@ -685,7 +685,14 @@ body {
     border-bottom: 1px solid #b3b3b3;
     margin-bottom: 30px;
 }
-/* HISTORIQUE DE COMMANDE A DESIGN */
+
+.orders .order {
+    margin: 10px auto
+}
+
+.orders .order p {
+    margin: 5px 0;
+}
 
 
 /* CUSTOMIZE MENU */
@@ -1167,7 +1174,7 @@ body {
     .partnerblock img {
         width: 50%;
     }
-    
+
     /* ORDER */
 
     .orderpage .order .flex {

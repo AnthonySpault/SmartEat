@@ -30,7 +30,7 @@
     <table>
         <tr class="addressInfo">
             <th>Par défaut</th>
-            <th width="50%">Adresse</th>
+            <th width="60%">Adresse</th>
             <th>Supprimer</th>
         </tr>
     {% for key in allAddress %}
@@ -67,24 +67,24 @@
 
     <div class="orders">
         <h2 class="red">Historique de commande</h2>
-
-        <table>
             {% for order in orders %}
-                <tr>
-                    <td>
-                        <h3>	Commande n° {{ order.id }}</h3>
-                        <p>
-                            Date et heure de la commande :<br />
-                            {{ order.orderdate}}<br />
-                            Contenu:<br>
-                            {{ order.products }}<br>
-                            Prix :
-                            {{ order.total}}
-                        </p>
-                    </td>
-                </tr>
+                <div class="order">
+                    <h3 class="green">Commande n° {{ order.id }}</h3>
+                    <p>
+                        {{ order.orderdate }}
+                    </p>
+                    <p>
+                        {% set products = order.products|split(';') %}
+                        {% for product in products %}
+                        {{ product }}<br>
+                        {% endfor %}
+                    </p>
+                    <p>
+                        Total :
+                        {{ order.total}} €
+                    </p>
+                </div>
             {% endfor %}
-        </table>
     </div>
 
     <div id="myModal" class="modal">
