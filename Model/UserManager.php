@@ -142,7 +142,7 @@ class UserManager
             return "Des champs obligatoire ne sont pas remplis";
         }
 
-        if ($data['city'] !== "Paris") {
+        if (!preg_match('Paris', $data['city'])) {
             return "SmartEat est disponible uniquement sur Paris pour le moment.";
         }
 

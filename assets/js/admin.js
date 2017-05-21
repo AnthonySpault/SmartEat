@@ -1,6 +1,4 @@
-/**
- * Created by Dam's on 18/05/2017.
- */
+
 
 
 var idEditingInput = $('#idEditing');
@@ -44,7 +42,6 @@ platesForm.submit(function () {
         $price = $('#price').val(),
         $image = $('#file').val();
 
-    console.log($image);
     if ($name === '') {
         formValid = false;
         vNotify.error({text: 'Veuillez rentrer un nom.', title: 'Erreur !'});
@@ -56,7 +53,6 @@ platesForm.submit(function () {
 
     var formData = new FormData(this);
     formData.append('image', $image.files);
-    console.log(formData);
     if (formValid) {
         $.ajax({
             url: $this.attr('action'),
@@ -88,6 +84,16 @@ function printPlates(){
     });
 }
 
+function printOrders(){
+    $.ajax({
+        type: 'post',
+        url: '?action=printorders',
+        success:function(response) {
+            $(".allorders").html(response);
+        }
+    });
+}
+
 function deletePlates(id){
     $.ajax({
         url: "?action=admin",
@@ -115,7 +121,6 @@ function addValue(dom,id){
     tricksEditingInput.val(dom.parent().parent().children('.tricks').html());
     priceEditingInput.val(dom.parent().parent().children('.price').html());
     idEditingInput.val(id);
-    console.log(idEditingInput);
     var category = dom.parent().parent().children('.category').html();
     categoryEditingInput .val(category).trigger('change');
 
@@ -246,3 +251,7 @@ function deletePartners(id){
         }
     });
 }
+
+$(function() {
+    setInterval(printOrders, 15000);
+});

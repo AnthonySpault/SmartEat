@@ -114,6 +114,29 @@
         </table>
     </div>
 
+    <div class="allorders">
+        <h2 class="red">Commandes</h2>
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Detail</th>
+                <th>Date</th>
+            </tr>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    {% set products = order.products|split(';') %}
+                    <td>
+                        {% for product in products %}
+                        {{ product }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>{{ order.orderdate }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
     <div class="partners">
         <h2 class="red">Demande de partenariat</h2>
 

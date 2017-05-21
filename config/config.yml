@@ -17,6 +17,7 @@ routes:
     admin: 'Security:admin'
     printplates : 'Security:printplates'
     printpartners : 'Security:printpartners'
+    printorders : 'Security:printorders'
 
 defaut_route: 'home'
 

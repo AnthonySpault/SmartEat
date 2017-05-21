@@ -182,10 +182,6 @@ $(function () {
             vNotify.error({text: 'Veuillez saisir un nom valide.', title: 'Erreur !'});
             return false;
         }
-        if (city != "Paris") {
-            vNotify.error({text: 'Désolé mais Smart Eat est uniquement disponible sur Paris pour le moment.', title: 'Erreur !'});
-            return false;
-        }
         if (!phoneValidation(phone)) {
             vNotify.error({text: 'Veuillez saisir un numéro de téléphone valide.', title: 'Erreur !'});
             return false;
@@ -241,5 +237,3 @@ function deleteAddress(id){
 
 
 }
-
-

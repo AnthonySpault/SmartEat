@@ -80,7 +80,7 @@ class OrderController extends BaseController
             'billing' => $billing,
             'shipping' => $shipping,
             'CartElements' => $products,
-            'Total' => $order['total'],
+            'order' => $order
         ]);
     }
 
