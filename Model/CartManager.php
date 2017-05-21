@@ -66,6 +66,9 @@ class CartManager
                 $_SESSION['cartmealreduc'][$i] = 2;
                 $total -= 2;
             }
+            if(!empty($_SESSION['tips'])) {
+                $total += (float)$_SESSION['tips'];
+            }
             return $total;
         }
         else {

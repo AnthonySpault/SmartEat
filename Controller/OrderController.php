@@ -28,6 +28,7 @@ class OrderController extends BaseController
                     }
                 }
                 if ($_POST['kind'] == 'step2') {
+                    $_SESSION['tips'] = $_POST['tips'];
                     $total = $CartManager->totalCart();
                     $OrderManager->validatePayment($total);
                     echo 'true';

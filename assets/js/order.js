@@ -56,7 +56,8 @@ function validateStep2() {
         type: 'post',
         url: '?action=order',
         data: {
-            kind:"step2"
+            kind:"step2",
+            tips:$('#tips').val()
         },
         success:function(response) {
             if (response != "true") {
@@ -82,4 +83,9 @@ $(document).ready( function() {
     $("#billingaddress").change(updateInput("billing"));
     $("#shippingaddress").change(updateInput("shipping"));
 
+    $('#tips').bind('keyup mouseup', function() {
+        var total = parseFloat($('#total').attr("data-total"));
+        total += 2 + parseFloat($('#tips').val());
+        $('#total').html('Total : ' + total + ' €');
+    });
 });

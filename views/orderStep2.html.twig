@@ -39,7 +39,13 @@
 
     <span>Frais de port : 2 €</span>
 
-    <h3 class="red">Total : {{ Total + 2 }} €</h3>
+    <h2 class="green">Ajouter un tips</h2>
+
+    <div class="tips">
+        <input type="number" id="tips" min="0" value="0"> €
+    </div>
+
+    <h3 class="red" id="total" data-total="{{ Total }}">Total : {{ Total + 2 }} €</h3>
 
 
     <button type="button" onclick="validateStep2()">Payer</button>
