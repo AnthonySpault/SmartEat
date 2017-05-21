@@ -21,11 +21,17 @@ class OrderManager
     {
         $this->DBManager = DBManager::getInstance();
     }
+    public function getAllOrders(){
+        $data = $this->DBManager->findAll("SELECT * FROM orders ORDER BY orderdate DESC");
+        return $data;
+    }
+
     public function getOrderByUserId($id){
         $data = $this->DBManager->findAllSecure("SELECT * FROM orders WHERE userid = :id",
             ['id' => $id]);
         return $data;
     }
+
     public function getShippingByOrderId($id){
         $data = $this->DBManager->findOneSecure("SELECT * FROM addresses WHERE id = :id",
             ['id' => $id]);
@@ -63,11 +69,13 @@ class OrderManager
         }
         $orderInsert['products'] = substr($orderInsert['products'], 0, -1);
         $orderInsert['total'] = $total + 2;
+        $orderInsert['tips'] = $_SESSION['tips'];
         $orderInsert['billingaddress'] = $_SESSION['order']['data']['billing'];
         $orderInsert['shippingaddress'] = $_SESSION['order']['data']['shipping'];
         $this->DBManager->insert('orders', $orderInsert);
         unset($_SESSION['order']);
         unset($_SESSION['cart']);
         unset($_SESSION['cartmealreduc']);
+        unset($_SESSION['tips']);
     }
 }

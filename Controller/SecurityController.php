@@ -251,11 +251,14 @@ class SecurityController extends BaseController
         if($user['role'] !=='admin'){
             $this->redirect('profile');
     }else if (isset($_SESSION['email'])){
+            $OrderManager = OrderManager::getInstance();
+            $orders = $OrderManager->getAllOrders();
             echo $this->renderView('admin.html.twig',[
                 'SessionEmail' => $_SESSION['email'],
-                'user'=>$user,
+                'user' => $user,
                 'allPlates' => $allPlates,
-                'allPartners' => $allPartners
+                'allPartners' => $allPartners,
+                'orders' => $orders,
             ]);
         }
 
@@ -269,6 +272,15 @@ class SecurityController extends BaseController
             'allPlates'=> $allPlates,
         ]);
     }
+
+    public function printordersAction(){
+        $OrderManager = OrderManager::getInstance();
+        $orders = $OrderManager->getAllOrders();
+        echo $this->renderView('adminAJAXOrders.html.twig', [
+            'orders' => $orders,
+        ]);
+    }
+
     public function printpartnersAction(){
         $UserManager = UserManager::getInstance();
         $allPartners = $UserManager->getAllPartners();

@@ -108,10 +108,6 @@ $('form[name=registerform]').submit(function() {
         vNotify.error({text:'Entrez le même mot de passe', title:'Erreur !'});
         return false;
     }
-    if (city != "Paris") {
-        vNotify.error({text: 'Désolé mais Smart Eat est uniquement disponible sur Paris pour le moment.', title: 'Erreur !'});
-        return false;
-    }
 
     $.ajax({
         type: 'post',

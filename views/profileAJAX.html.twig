@@ -1,24 +1,22 @@
-<div class="addresses">
-    <h2 class="red">Adresses</h2>
-    <table>
-        <tr class="addressInfo">
-            <th>Par défaut</th>
-            <th width="50%">Adresse</th>
-            <th>Supprimer</th>
+<h2 class="red">Adresses</h2>
+<table>
+    <tr class="addressInfo">
+        <th>Par défaut</th>
+        <th width="50%">Adresse</th>
+        <th>Supprimer</th>
+    </tr>
+    {% for key in allAddress %}
+        <tr class="contentAddresssInfo">
+            {% if key.defaultAddress == "true" %}
+                <td><input type="radio" name="defaultAddress" checked value="{{ key.id }}"></td>
+            {% else %}
+                <td><input type="radio" name="defaultAddress" value="{{ key.id }}"></td>
+            {% endif %}
+            <td class="contentAddress">{{ key.streetNumber }} {{ key.street }}, {{ key.zipcode }} {{ key.city }}</td>
+            <td><img src="assets/images/garbage.png" alt="Supprimer" onclick="deleteAddress({{ key.id }})"></td>
         </tr>
-        {% for key in allAddress %}
-            <tr class="contentAddresssInfo">
-                {% if key.defaultAddress == "true" %}
-                    <td><input type="radio" name="defaultAddress" checked value="{{ key.id }}"></td>
-                {% else %}
-                    <td><input type="radio" name="defaultAddress" value="{{ key.id }}"></td>
-                {% endif %}
-                <td class="contentAddress">{{ key.streetNumber }} {{ key.street }}, {{ key.zipcode }} {{ key.city }}</td>
-                <td><img src="assets/images/garbage.png" alt="Supprimer" onclick="deleteAddress({{ key.id }})"></td>
-            </tr>
-        {% endfor %}
-        <tr>
-            <td id="addAddress" colspan="3" onclick="$('#myModal').css('display','block');" class="center green">Ajouter une adresse</td>
-        </tr>
-    </table>
-</div>
+    {% endfor %}
+    <tr>
+        <td id="addAddress" colspan="3" onclick="$('#myModal').css('display','block');" class="center green">Ajouter une adresse</td>
+    </tr>
+</table>

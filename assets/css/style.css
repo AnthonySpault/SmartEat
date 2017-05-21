@@ -1193,6 +1193,37 @@ body {
     width: 30px;
 }
 
+.allorders {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.allorders h2 {
+    width: 90%;
+    text-align: center;
+    padding: 30px 0;
+    border-bottom: 1px solid #b3b3b3;
+    margin-bottom: 30px;
+}
+
+.allorders table {
+    width: 90%;
+    text-align: center;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.allorders table tr td, .allorders table tr th {
+    padding: 20px 0;
+    border-bottom: 1px solid #b3b3b3;
+}
+
+.allorders table tr td:nth-child(1) {
+    width: 5%;
+}
+
 @media screen and (min-width:768px) {
     html {
         font-size: 130%;
@@ -1592,5 +1623,27 @@ body {
 
     #formMeal .row2 label {
         width: 15%;
+    }
+
+    /* CART */
+
+    .cartelements .cartelement img {
+        width: 30%;
+    }
+
+    .cartelements .cartelement {
+        flex-direction: row;
+    }
+
+    .cartelements .cartelement .pricequantity {
+        justify-content: space-around;
+        width: 50%;
+    }
+    .cart h3 {
+        width: 45%;
+    }
+
+    .cart .reducelement h3 {
+        width: 100%;
     }
 }
