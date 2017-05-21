@@ -33,26 +33,39 @@
     </div>
 
     <form id="formMeal" method="POST" action="?action=customize">
-        <div class="categorytitle" id="dish">Plats du jour</div>
+        <div class="row">
+            <div class="itemsCustom">
+                <div class="categorytitle" id="dish">Plats du jour</div>
+                <div class="dishes">
+                    {% for dish in dishes %}
+                        <input type="radio" id="{{ dish.id }}" name="dish" value="{{ dish.id }}" class="none">
+                        <label for="{{ dish.id }}"> <img src="{{ dish.image }}" alt="{{ dish.name }}"><h3 class="dish">{{ dish.name }}</h3></label>
+                    {% endfor %}
+                </div>
+            </div>
 
-        {% for dish in dishes %}
-            <input type="radio" id="{{ dish.id }}" name="dish" value="{{ dish.id }}" class="none">
-            <label for="{{ dish.id }}"> <img src="{{ dish.image }}" alt="{{ dish.name }}"><h3 class="dish">{{ dish.name }}</h3></label>
-        {% endfor %}
+            <div class="itemsCustom">
+                <div class="categorytitle" id="dessert">Desserts du jour</div>
+                <div class="desserts">
+                    {% for dessert in desserts %}
+                        <input type="radio"  id="{{ dessert.id }}" name="dessert" value="{{ dessert.id }}" class="none">
+                        <label for="{{ dessert.id }}"><img src="{{ dessert.image }}" alt="{{ dessert.name }}"><h3 class="dessert">{{ dessert.name }}</h3></label>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
-        <div class="categorytitle" id="dessert">Desserts du jour</div>
-
-        {% for dessert in desserts %}
-            <input type="radio"  id="{{ dessert.name }}" name="dessert" value="{{ dessert.id }}" class="none">
-            <label for="{{ dessert.name }}"><img src="{{ dessert.image }}" alt="{{ dessert.name }}"><h3 class="dessert">{{ dessert.name }}</h3></label>
-        {% endfor %}
-
-        <div class="categorytitle" id="drink">Boissons du jour</div>
-
-        {% for drink in drinks %}
-            <input type="radio" id="{{ drink.name }}" name="drinks" value="{{ drink.id }}" class="none">
-            <label for="{{ drink.name }}"> <img src="{{ drink.image }}" alt="{{ drink.name }}"><h3 class="drink">{{ drink.name }}</h3></label>
-        {% endfor %}
+        <div class="row row2">
+            <div class="itemsCustom">
+                <div class="categorytitle" id="drink">Boissons du jour</div>
+                <div class="drinks">
+                    {% for drink in drinks %}
+                        <input type="radio" id="{{ drink.id }}" name="drinks" value="{{ drink.id }}" class="none">
+                        <label for="{{ drink.id }}"> <img src="{{ drink.image }}" alt="{{ drink.name }}"><h3 class="drink">{{ drink.name }}</h3></label>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
         <input type="submit" value="J'ai faim">
 

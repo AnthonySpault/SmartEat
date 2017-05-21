@@ -1,44 +1,42 @@
 {% extends 'layout.html.twig' %}
-    
+
 {% block content %}
-    <br><br><br><br><br><br><br><br>
-    <a id="addPlate"  onclick="$('#myModal').css('display','block');" class="center green">Ajouter un plat</a>
     <div id="myModal" class="modal">
-    <div class="modal-content">
-    <div class="head">
-        <h3 class="red">Ajouter un plat</h3>
-        <div class="close"></div>
-    </div>
+        <div class="modal-content">
+            <div class="head">
+                <h3 class="red">Ajouter un plat</h3>
+                <div class="close"></div>
+            </div>
 
-    <form action="?action=admin" method="POST" enctype="multipart/form-data" id="platesForm">
-        <label for="plateName">  Nom du plat :</label>
-        <input type="text" name="plateName" id="plateName"><br>
-        <label for="description">Description :</label>
-        <textarea name="description" id="description"></textarea><br>
-        <label for="ingredients">Ingrédient:</label>
-        <textarea name="ingredients" id="ingredients"></textarea><br>
-        <label for="allergenes">Allergènes:</label>
-        <textarea name="allergenes" id="allergenes"></textarea><br>
-        <label for="tricks">Astuce:</label>
-        <textarea name="tricks" id="tricks"></textarea><br>
-        <label for="file">  Image :</label>
-        <input type="file" name="file" id="file"><br><br>
-        <label for="price">  Prix :</label>
-        <input type="text" name="price" id="price"><br><br>
-        <label for="category"> Catégorie</label>
-        <select name="category" id="category">
+            <form action="?action=admin" method="POST" enctype="multipart/form-data" id="platesForm">
+                <label for="plateName">  Nom du plat :</label>
+                <input type="text" name="plateName" id="plateName"><br>
+                <label for="description">Description :</label>
+                <textarea name="description" id="description"></textarea><br>
+                <label for="ingredients">Ingrédient:</label>
+                <textarea name="ingredients" id="ingredients"></textarea><br>
+                <label for="allergenes">Allergènes:</label>
+                <textarea name="allergenes" id="allergenes"></textarea><br>
+                <label for="tricks">Astuce:</label>
+                <textarea name="tricks" id="tricks"></textarea><br>
+                <label for="file">  Image :</label>
+                <input type="file" name="file" id="file"><br><br>
+                <label for="price">  Prix :</label>
+                <input type="text" name="price" id="price"><br><br>
+                <label for="category"> Catégorie</label>
+                <select name="category" id="category">
 
-            <option value="dish">Plat</option>
-            <option value="dessert">Dessert</option>
-            <option value="drink">Boisson</option>
-            <option value="extra">Extra</option>
+                    <option value="dish">Plat</option>
+                    <option value="dessert">Dessert</option>
+                    <option value="drink">Boisson</option>
+                    <option value="extra">Extra</option>
 
-        </select><br><br>
+                </select><br><br>
 
-        <input  class="btn" type="submit">
+                <input  class="btn" type="submit">
 
-    </form>
-    </div>
+            </form>
+        </div>
     </div>
 
     <div id="myModalEdition" class="modal">
@@ -84,8 +82,9 @@
     <div class="plates">
         <h2 class="red">Produits</h2>
         <table>
-
-
+            <tr>
+                <td colspan="5"><a id="addPlate"  onclick="$('#myModal').css('display','block');" class="center green">Ajouter un plat</a></td>
+            </tr>
             <tr class="platesInfo">
                 <th>Actif</th>
                 <th>Produits</th>
@@ -117,26 +116,19 @@
 
     <div class="partners">
         <h2 class="red">Demande de partenariat</h2>
+
         <table>
-            <tr class="partnersInfo">
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Email</th>
-                <th>Téléphone</th>
-                <th>Date d'envoi</th>
-                <th>Supprimer</th>
-            </tr>
             {% for key in allPartners %}
-                <tr class="contentPartnersInfo">
-                    <td class="firstname">{{key.firstname}}</td>
-                    <td class="lastname">{{key.lastname}}</td>
-                    <td class="email "> {{ key.email }}</td>
-                    <td class="phone"> {{ key.phone }}</td>
-                    <td class="date"> {{ key.date }}</td>
+                <tr>
+                    <td>
+                        {{ key.firstname }} {{ key.lastname }},<br>
+                        {{ key.email }}<br>
+                        {{ key.phone }}<br>
+                        {{ key.date }}
+                    </td>
                     <td><img src="assets/images/garbage.png" alt="Supprimer" onclick="deletePartners({{ key.id }})" ></td>
                 </tr>
             {% endfor %}
-
         </table>
     </div>
 

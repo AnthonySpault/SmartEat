@@ -208,7 +208,7 @@ platesFormEditing.submit(function () {
                     vNotify.error({text: data, title: 'Erreur !'});
                 } else {
                     printPlates();
-                    vNotify.success({text: 'Votre produit à bien été éditer', title: 'Félicitation !'});
+                    vNotify.success({text: 'Votre produit à bien été édité', title: 'Félicitation !'});
                     $('#myModalEdition.modal').css('display','none');
 
 
