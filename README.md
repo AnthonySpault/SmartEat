@@ -24,5 +24,5 @@ Mot de passe : smarteat
 Compte Client : <br>
 </li>
 Email : john@doe.fr<br>
-Mot de passe : SmartEat
+Mot de passe : smarteat
 </ul>
